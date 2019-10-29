@@ -1,0 +1,9 @@
+{
+    "usingComponents": {
+        "add-button": "/components/add-button/add-button"
+    },
+    "window": {
+      "defaultTitle": "快点餐啊",
+      "titleBarColor": "#323239"
+  }
+}

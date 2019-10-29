@@ -1,0 +1,7 @@
+{
+  "defaultTitle": "添加商品",
+  "transparentTitle": "none",
+  "usingComponents":{
+    "footer": "mini-antui/es/footer/index"
+  }
+}

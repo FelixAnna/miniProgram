@@ -1,0 +1,65 @@
+<!-- API-DEMO page/component/form/form.axml -->
+<view class="page">
+  <view class="user">
+    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
+    <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} 商品选择</view>
+  </view>
+  <form onSubmit="onSubmit" onReset="onReset">
+    <view class="page-section">
+      <view class="form-line" />
+      <view a:if="{{shopId<=0 || shopId === undefined}}" class="form-row">
+        <view class="form-row-label">输入店铺Id</view>
+        <view class="form-row-content">
+          <input name="shopId" onBlur="saveShopId" class="input" type="number" placeholder="输入店铺Id" />
+        </view>
+      </view>
+      <view class="form-row" a:else>
+        <text>已选择商店Id： {{shopId}}</text>
+      </view>
+    </view>
+
+    <view class="page-section">
+      <view class="form-row" a:if="{{productList.length<=0}}">
+        <text>比你的脸都干净，喝西北风去吧！</text>
+      </view>
+      
+      
+      <view a:else>
+        <view  class="form-row">
+          <view class="form-row-column">Name</view>
+          <view class="form-row-column">价格</view>
+          <view class="form-row-column">下单人</view>
+        </view>
+        <block a:for="{{currentPagedList}}" a:for-item="product">
+          <view  class="form-row" data-id="{{product.productId}}" onTap="openDetails">
+            <view class="form-row-column">{{product.name}}</view>
+            <view class="form-row-column">{{product.price}}</view>
+            <view class="form-row-column">{{product.owner}}</view>
+          </view>
+          <view class="form-line" />
+        </block>
+         <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="page-section-demo">
+        <button type="primary" onTap="onTapAppendMore">append</button>
+        <button form-type="submit" type="primary">submit</button>
+        <button form-type="reset">reset</button>
+      </view>
+    </view>
+  </form>
+</view>
+        
+<modal
+		show="{{showModal}}"
+		onModalClick="hiddenModel"
+		onModalClose="hiddenModel"
+		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+	>
+		<view slot="header">{{showProduct.name}}({{showProduct.price}})</view>
+		{{showProduct.remark}}
+    {{showProduct.rice?"加饭":""}} {{showProduct.spice?"加辣":""}}
+    {{showProduct.owner}}
+		<view slot="footer">确定</view>
+	</modal>

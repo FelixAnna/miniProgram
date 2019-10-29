@@ -1,0 +1,4 @@
+<button type="primary" hover-class="add-button-hover" hover-stop-propagation="{{true}}" onTap="onClickMe" class="add-button">
+    <text class="add-icon">+</text>
+    <text class="add-text">{{text}}</text>
+</button>

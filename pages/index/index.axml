@@ -1,0 +1,25 @@
+<!-- API-DEMO page/component/form/form.axml -->
+<view class="page">
+  <view class="user">
+    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
+    <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} 订单选择</view>
+  </view>
+  <form onSubmit="onSubmit" onReset="onReset">
+    <view class="page-section">
+      <view class="page-section-title">必填</view>
+      <view class="form-line" />
+      <view class="form-row">
+        <view class="form-row-label">输入订单Id</view>
+        <view class="form-row-content">
+          <input name="orderId" class="input" type="number" placeholder="请输入订单Id，开始创建/打开订单" />
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="page-section-demo">
+        <button form-type="submit" type="primary">submit</button>
+        <button form-type="reset">reset</button>
+      </view>
+    </view>
+  </form>
+</view>

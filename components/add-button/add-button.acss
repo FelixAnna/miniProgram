@@ -1,0 +1,27 @@
+.add-button {
+  display: inline-block;
+  background: none;
+  color: #23f;
+  box-sizing: border-box;
+  border: 2px solid rgb(14, 255, 214);
+  border-radius: 20rpx;
+}
+
+.add-button-hover{
+  color: red;
+  font-family: 'Times New Roman', Times, serif;
+  box-sizing: border-box;
+  border: 2px solid rgb(214, 55, 14);
+  border-radius: 20rpx;
+}
+
+.add-icon {
+  font-size: 52rpx;
+  margin-right: 10rpx;
+  padding-left: 30rpx;
+}
+
+.add-text {
+  font-size: 52rpx;
+  margin-right: 30rpx;
+}

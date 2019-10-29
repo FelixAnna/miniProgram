@@ -1,0 +1,134 @@
+page {
+  background-color: #F7F7F7;
+  box-sizing: border-box;
+}
+
+.page {
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-size: 24rpx;
+  padding: 32rpx;
+  flex: 1;
+}
+
+.page-description {
+  margin-bottom: 32rpx;
+}
+
+.page-section {
+  background: #fff;
+  margin-bottom: 32rpx;
+}
+
+.page-section-title {
+  padding: 16rpx 32rpx;
+}
+
+.page-section-demo {
+  padding: 32rpx;
+}
+
+.page-section-btns {
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.page-section-btns > view {
+  flex: 1;
+  height: 84rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #49a9ee;
+}
+.page-section-btns > view + view {
+  border-left: 1px solid #ddd;
+}
+
+button {
+  margin-top:20rpx;
+  margin-bottom:20rpx;
+}
+
+.bc_blue {
+  background-color: #49A9EE;
+}
+
+.bc_red {
+  background-color: #F04134;
+}
+
+.bc_yellow {
+  background-color: #FFBF00;
+}
+
+.bc_green {
+  background-color: #00A854;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  height: 88rpx;
+  align-items: center;
+}
+
+.form-row-label {
+  width: 180rpx;
+  font-size: 34rpx;
+  margin-right: 10rpx;
+  text-align: left;
+  color: #000;
+}
+
+.form-row-content {
+  flex: 1;
+  font-size: 34rpx;
+}
+
+.form-row-action{
+  width: 80rpx;
+  font-size: 34rpx;
+  margin-right: 10rpx;
+  text-align: right;
+  color: #000;
+}
+.form-row-column{
+  width: 160rpx;
+  font-size: 28rpx;
+  margin-right: 2rpx;
+  text-align: left;
+  color: #0E7fD6;
+  background-color: aliceblue;
+}
+.form-line {
+  height: 1px;
+  background-color: #ddd;
+  margin-left: 30rpx;
+}
+
+.user {
+  display: flex;
+  flex-shrink: 0;
+  padding: 30px;
+  color: #0E7fD6;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 50%;
+  background-color: #FFF;
+  align-self: center;
+}
+
+.nickname {
+  padding-top: 40rpx;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 100;
+}
