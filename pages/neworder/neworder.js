@@ -17,15 +17,8 @@ Page({
   },
   onLoad(e) {
     const orderId = parseInt(e.orderId);
-    let order=my.getStorageSync({
-      key: 'order-'+orderId, // 缓存数据的key
-    }).data||{
-      orderId,
-      shopId: -1,
-      productList: []
-    };
+    let order=this.getOrder(orderId);
 
-    order.productList=order.productList||[];
     const startIndex=1;
     const pageCount=Math.ceil(order.productList.length/this.data.pageSize);
     this.setData({
@@ -34,9 +27,10 @@ Page({
         shopId: order.shopId,
         productList: order.productList,
         currentPagedList: order.productList.slice(0, this.data.pageSize),
-        pageCount
+        pageCount,
+        state: order.state
       });
-       my.setStorageSync({
+    my.setStorageSync({
       key: 'order-'+this.data.orderId, // 缓存数据的key
       data: order});
   },
@@ -50,7 +44,8 @@ Page({
       data: {
         shopId,
         orderId: this.data.orderId,
-        productList: this.data.productList
+        productList: this.data.productList,
+        state: this.data.state
       }, // 要缓存的数据
     });
   },
@@ -66,12 +61,13 @@ Page({
       currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
       });
   },
+
   openDetails(e){
     const { id } = e.target.dataset;
     this.setData({
       showModal:  true,
       showProduct: this.data.productList.find(function(element) {
-        return element.productId === id;
+        return element.id === id;
       }),
     })
   },
@@ -84,13 +80,41 @@ Page({
   },
 
   onSubmit(e) {
-    const value=e.detail.value;
-    /*my.alert({
-      content: `数据：${JSON.stringify(e.detail.value)}`,
-    });*/
-    console.log(`数据：${JSON.stringify(value)}`);
+    let order=this.getOrder(this.data.orderId);
+
+    if(order.state ===1)
+      order.state=2;
+    else
+      order.state=1;
+
+    my.setStorageSync({
+      key: 'order-'+this.data.orderId, // 缓存数据的key
+      data: order});
+    
+    this.setData({
+      state:  order.state
+    })
+
+    if(order.state ===1)
+      console.log(`订单已锁定.`);
+    else
+      console.log(`订单已解锁.`);
     
   },
   onReset() {
+  },
+
+  getOrder(orderId){
+    let order=my.getStorageSync({
+      key: 'order-'+orderId, // 缓存数据的key
+    }).data||{
+      orderId: orderId,
+      shopId: -1,
+      productList: [],
+      state: 1
+    };
+
+    order.productList=order.productList||[];
+    return order;
   }
 });

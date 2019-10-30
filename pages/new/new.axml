@@ -21,7 +21,8 @@
       <view class="form-row">
         <view class="form-row-label">价格</view>
         <view class="form-row-content">
-          <input name="input_price" class="input" type="digit" placeholder="可选价格： {{selection.prices}}" />
+          <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="digit" placeholder="可选价格： {{selection.prices}}" />
+          <input name="input_price" class="input" type="digit" placeholder="请输入价格" a:else />
         </view>
       </view>
     </view>
@@ -50,6 +51,18 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
+        
+        <tips-dialog
+          show="{{showDialog}}"
+          className="dialog"
+          type="dialog"
+        >
+          <view class="content" slot="content">
+            <view>hello,</view>
+            <view>请输入正确的名称和价格再继续。</view>
+          </view>
+          <view slot="operation" class="opt-button" onTap="onDialogTap">知道了</view> 
+        </tips-dialog>
         <button form-type="submit" type="primary">submit</button>
         <button form-type="reset">reset</button>
       </view>

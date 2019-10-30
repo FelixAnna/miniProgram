@@ -95,14 +95,6 @@ button {
   text-align: right;
   color: #000;
 }
-.form-row-column{
-  width: 160rpx;
-  font-size: 28rpx;
-  margin-right: 2rpx;
-  text-align: left;
-  color: #0E7fD6;
-  background-color: aliceblue;
-}
 .form-line {
   height: 1px;
   background-color: #ddd;

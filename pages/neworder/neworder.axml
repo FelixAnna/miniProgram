@@ -31,7 +31,7 @@
           <view class="form-row-column">下单人</view>
         </view>
         <block a:for="{{currentPagedList}}" a:for-item="product">
-          <view  class="form-row" data-id="{{product.productId}}" onTap="openDetails">
+          <view  class="form-row-higher" data-id="{{product.id}}" onTap="openDetails">
             <view class="form-row-column">{{product.name}}</view>
             <view class="form-row-column">{{product.price}}</view>
             <view class="form-row-column">{{product.owner}}</view>
@@ -43,8 +43,9 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button type="primary" onTap="onTapAppendMore">append</button>
-        <button form-type="submit" type="primary">submit</button>
+        <button type="primary" disabled="{{state!==1}}" onTap="onTapAppendMore">append</button>
+        <button a:if="{{state===1}}" form-type="submit" type="primary">锁定</button>
+        <button form-type="submit" type="primary" a:else>解锁</button>
         <button form-type="reset">reset</button>
       </view>
     </view>
@@ -55,11 +56,18 @@
 		show="{{showModal}}"
 		onModalClick="hiddenModel"
 		onModalClose="hiddenModel"
-		topImage="https://gw.alipayobjects.com/zos/rmsportal/yFeFExbGpDxvDYnKHcrs.png"
+		topImage="{{showProduct.avatar}}"
 	>
-		<view slot="header">{{showProduct.name}}({{showProduct.price}})</view>
-		{{showProduct.remark}}
-    {{showProduct.rice?"加饭":""}} {{showProduct.spice?"加辣":""}}
-    {{showProduct.owner}}
+		<view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
+
+    <view class="flex-container">
+      <flex>
+        <flex-item a:if="{{showProduct.rice}}"><view class="placeholder inline small">加饭</view></flex-item>
+        <flex-item a:if="{{showProduct.spice}}"><view class="placeholder inline small">加辣</view></flex-item>
+      </flex>
+      <view class="form-row">
+         <text a:if="{{showProduct.remark}}">{{showProduct.remark}}</text>
+      </view>
+    </view>
 		<view slot="footer">确定</view>
 	</modal>

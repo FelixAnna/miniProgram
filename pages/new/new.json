@@ -2,6 +2,7 @@
   "defaultTitle": "添加商品",
   "transparentTitle": "none",
   "usingComponents":{
-    "footer": "mini-antui/es/footer/index"
+    "footer": "mini-antui/es/footer/index",
+    "tips-dialog": "mini-antui/es/tips/tips-dialog/index"
   }
 }
