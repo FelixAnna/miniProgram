@@ -14,6 +14,6 @@ Page({
     my.navigateTo( {url: '../index/index'});
   },
   backOrder() {
-    my.navigateTo( {url: '../success/success?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
+    my.navigateTo( {url: '../neworder/neworder?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
   }
 });
