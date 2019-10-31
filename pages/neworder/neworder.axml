@@ -1,4 +1,5 @@
 <!-- API-DEMO page/component/form/form.axml -->
+<notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">已清空订单商品。</notice>
 <view class="page">
   <view class="user">
     <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
@@ -43,10 +44,11 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button type="primary" disabled="{{state!==1}}" onTap="onTapAppendMore">append</button>
-        <button a:if="{{state===1}}" form-type="submit" type="primary">锁定</button>
-        <button form-type="submit" type="primary" a:else>解锁</button>
-        <button form-type="reset">reset</button>
+        <button type="primary" disabled="{{state!==1 && shopId!==-1}}" onTap="onTapAppendMore">添加</button>
+        <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">锁定</button>
+        <button a:if="{{state!==1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">解锁</button>
+        <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" type="warn" onTap="onTapDelete">删除</button>
+        <button open-type="share">分享</button>
       </view>
     </view>
   </form>

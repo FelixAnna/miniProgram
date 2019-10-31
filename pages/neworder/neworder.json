@@ -4,6 +4,7 @@
     "pagination": "mini-antui/es/pagination/index",
     "modal": "mini-antui/es/modal/index",
     "flex": "mini-antui/es/flex/index",
-    "flex-item": "mini-antui/es/flex/flex-item/index"
+    "flex-item": "mini-antui/es/flex/flex-item/index",
+    "notice": "mini-antui/es/notice/index"
   }
 }

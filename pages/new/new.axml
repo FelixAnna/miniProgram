@@ -21,7 +21,7 @@
       <view class="form-row">
         <view class="form-row-label">价格</view>
         <view class="form-row-content">
-          <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="digit" placeholder="可选价格： {{selection.prices}}" />
+          <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="number" placeholder="可选价格： {{selection.prices}}" />
           <input name="input_price" class="input" type="digit" placeholder="请输入价格" a:else />
         </view>
       </view>
