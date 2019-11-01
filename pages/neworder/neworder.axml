@@ -1,5 +1,5 @@
 <!-- API-DEMO page/component/form/form.axml -->
-<notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">已清空订单商品。</notice>
+<notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
   <view class="user">
     <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
@@ -21,7 +21,7 @@
 
     <view class="page-section">
       <view class="form-row" a:if="{{productList.length<=0}}">
-        <text>比你的脸都干净，喝西北风去吧！</text>
+        <text>订单比你的脸都干净，喝西北风去吧！</text>
       </view>
       
       
@@ -48,8 +48,13 @@
         <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">锁定</button>
         <button a:if="{{state!==1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">解锁</button>
         <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" type="warn" onTap="onTapDelete">删除</button>
-        <button open-type="share">分享</button>
+        <button a:if="{{orderId>0 && shopId>0}}" open-type="share">分享</button>
       </view>
+    </view>
+    <view>
+      <footer
+        copyright="© 2019-2020 Alipay.com. All rights reserved."
+        links="{{links}}" />
     </view>
   </form>
 </view>

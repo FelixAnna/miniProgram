@@ -25,8 +25,8 @@ Page({
           orderId,
           shopId,
           links:[
-            { text: '返回订单详情', url: '../neworder/neworder?orderId='+orderId },
-            { text: '返回首页', url: '../index/index' },
+            { text: '首页', url: '../index/index' },
+            { text: '订单详情', url: '../neworder/neworder?orderId='+orderId },
           ]
         });
   },
