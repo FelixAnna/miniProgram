@@ -15,7 +15,7 @@ Page({
     createdAt: null,
 
     pageIndex: 1,
-    pageSize: 3,
+    pageSize: 5,
     currentPagedList: [],
     pageCount: 0,
 
@@ -64,7 +64,13 @@ Page({
       my.navigateTo( {url: '../index/index'});
     },
    },
-
+  tapSkip(e){
+    let shopId=(new Date()).getTime() * -1;
+    this.setData({ shopId});    
+    const order= this.createOrder(this.data.orderId);
+    this.saveOrder(order);
+    this.loadOrder(order);
+  },
   saveShopId(e){
     // 修改全局数据
     const shopId = e.detail.value;
@@ -104,7 +110,7 @@ Page({
   },
 
   onTapAppendMore(e){
-    my.navigateTo( {url: '../new/new?orderId='+this.data.orderId+'&shopId='+this.data.shopId,});
+    my.navigateTo( {url: '../product/add?orderId='+this.data.orderId+'&shopId='+this.data.shopId,});
   },
 
   onSubmit(e) {
@@ -152,7 +158,8 @@ Page({
                 createdAt: null,
 
                 pageIndex: 1,
-                pageSize: 3,
+                pageSize: 5
+                ,
                 currentPagedList: [],
                 pageCount: 0,
 
@@ -181,7 +188,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '共享订单',
-      desc: '请点击进入点菜，完成后一键生成团队订单，并发送给商家。',
+      desc: '请点击进入下单，完成后一键生成团队订单，并发送给商家。',
       path: 'pages/neworder/neworder?orderId='+this.data.orderId,
     };
   },

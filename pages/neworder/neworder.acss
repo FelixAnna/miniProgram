@@ -44,3 +44,40 @@
   height: 20px;
   line-height: 20px
 }
+
+.order {
+  display: flex;
+  flex-shrink: 0;
+  color: #0E7fD6;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order.no {
+  display: inline-block;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+.order.share{
+  display: inline-block;
+  text-align: center;
+  border-radius: 5rpx;
+}
+
+.order.createdby {
+  display: flex;
+  flex-shrink: 0;
+  padding-top: 5rpx;
+  text-align: center;
+  font-size: 18rpx;
+  font-weight: 100;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10rpx;
+}
+
+.form-row-content-right {
+  margin-left: 10%;
+  font-size: 34rpx;
+}

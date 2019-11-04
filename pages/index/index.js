@@ -25,7 +25,7 @@ Page({
       content: `数据：${JSON.stringify(e.detail.value)}`,
     });*/
     console.log(`数据：${JSON.stringify(value)}`);
-    my.navigateTo( {url: '../neworder/neworder?orderId='+value.orderId,});
+    my.navigateTo ( {url: '../neworder/neworder?orderId='+value.orderId,});
   },
   onReset() {
   }

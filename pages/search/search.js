@@ -78,12 +78,15 @@ Page({
   onLoad(e) {
     const orderId = parseInt(e.orderId);
     const shopId = parseInt(e.shopId);
-    if(shopId%2===1){
+    if(shopId===123){
       productList=product1List;
       hotProductList=hotProduct1List;
-    }else{
+    }else if (shopId===1234){
       productList=product2List;
       hotProductList=hotProduct2List;
+    }else{
+      productList=[];
+      hotProductList=[];
     }
 
     this.setData({
@@ -176,7 +179,7 @@ Page({
     const { name, id, prices } = e.target.dataset;
     this.addToHistory(name);
     this.saveSelection({ name, id, prices});
-    my.navigateTo({url: '../new/new?orderId='+this.data.orderId+'&shopId='+this.data.shopId});
+    my.navigateBack({url: '../product/add?orderId='+this.data.orderId+'&shopId='+this.data.shopId});
   },
   saveSelection(value) {
     let selection = my.getStorageSync({ key: 'selection' }).data || {};

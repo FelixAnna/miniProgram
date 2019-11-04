@@ -11,14 +11,14 @@
       <view class="form-row">
         <view class="form-row-label">输入订单Id</view>
         <view class="form-row-content">
-          <input name="orderId" class="input" type="number" placeholder="请输入订单Id，开始创建/打开订单" />
+          <input name="orderId" class="input" type="number" placeholder="请输入订单Id" />
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button form-type="submit" type="primary">submit</button>
-        <button form-type="reset">reset</button>
+        <button form-type="submit" type="primary">进入订单</button>
+        <button form-type="reset">重置</button>
       </view>
     </view>
   </form>

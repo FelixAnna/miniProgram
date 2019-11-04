@@ -11,9 +11,9 @@ Page({
     });
   },
   backHome() {
-    my.navigateTo( {url: '../index/index'});
+    my.redirectTo( {url: '../index/index'});
   },
   backOrder() {
-    my.navigateTo( {url: '../neworder/neworder?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
+    my.redirectTo( {url: '../neworder/neworder?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
   }
 });

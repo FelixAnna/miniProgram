@@ -1,11 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/new/new",
+    "pages/product/add",
     "pages/search/search",
     "pages/todos/todos",
     "pages/add-todo/add-todo",
-    "pages/index/index",
     "pages/neworder/neworder",
     "pages/success/success",
     "pages/failed/failed"

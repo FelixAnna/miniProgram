@@ -46,12 +46,12 @@
     <view class="page-section">
       <view class="page-section-title">备注</view>
       <view class="page-section-demo">
-        <textarea name="remark" auto-height placeholder="Please input something" />
+        <textarea name="remark" auto-height placeholder="请输入您的其它特殊要求" />
       </view>
     </view>
+
     <view class="page-section">
       <view class="page-section-demo">
-        
         <tips-dialog
           show="{{showDialog}}"
           className="dialog"
@@ -67,6 +67,7 @@
         <button form-type="reset">reset</button>
       </view>
     </view>
+
     <view>
       <footer
         copyright="© 2019-2020 Alipay.com. All rights reserved."

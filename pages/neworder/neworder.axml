@@ -1,21 +1,30 @@
 <!-- API-DEMO page/component/form/form.axml -->
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
-  <view class="user">
-    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
-    <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} 商品选择</view>
+  <view class="order">
+    <view class="order no">订单No：{{orderId}} 
+    </view>
+    <view class="order share" ><button a:if="{{orderId>0 && shopId!==-1}}"open-type="share" size="mini">分享</button>
+    </view>
   </view>
+  <view  a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
+  <view  class="order createdby" a:else>还没有创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
-      <view class="form-line" />
-      <view a:if="{{shopId<=0 || shopId === undefined}}" class="form-row">
+      <view a:if="{{shopId===-1 || shopId === undefined}}" class="form-row">
         <view class="form-row-label">输入店铺Id</view>
         <view class="form-row-content">
-          <input name="shopId" onBlur="saveShopId" class="input" type="number" placeholder="输入店铺Id" />
+          <input name="shopId" onBlur="saveShopId" class="input" type="number" placeholder="请输入店铺Id" />
+        </view>
+        <view class="form-row-content-right">
+          <button type="default" size="mini" onTap="tapSkip">跳过</button>
         </view>
       </view>
+      <view a:elif="{{shopId>=0}}" class="form-row">
+        <text>店铺No： {{shopId}}</text>
+      </view>
       <view class="form-row" a:else>
-        <text>已选择商店Id： {{shopId}}</text>
+        <text>不指定店铺</text>
       </view>
     </view>
 
@@ -44,11 +53,10 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button type="primary" disabled="{{state!==1 && shopId!==-1}}" onTap="onTapAppendMore">添加</button>
-        <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">锁定</button>
-        <button a:if="{{state!==1 && createdBy === user.nickName && shopId>0}}" form-type="submit" type="primary">解锁</button>
-        <button a:if="{{state===1 && createdBy === user.nickName && shopId>0}}" type="warn" onTap="onTapDelete">删除</button>
-        <button a:if="{{orderId>0 && shopId>0}}" open-type="share">分享</button>
+        <button type="primary" disabled="{{state!==1 || shopId===-1}}" onTap="onTapAppendMore">添加</button>
+        <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
+        <button a:if="{{state!==1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
+        <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除</button>
       </view>
     </view>
     <view>

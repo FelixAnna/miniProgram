@@ -54,7 +54,7 @@ Page({
       };
       
       if(order.state!=1){
-        my.navigateTo({url: '../failed/failed?shopId='+this.data.shopId+'&orderId='+this.data.orderId});
+        my.redirectTo({url: '../failed/failed?shopId='+this.data.shopId+'&orderId='+this.data.orderId});
         return;
       }
 
@@ -87,7 +87,7 @@ Page({
         key: 'selection', // 缓存数据的key
       });
 
-      my.navigateTo( {url: '../success/success?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
+      my.redirectTo( {url: '../success/success?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
     }else{
       this.setData({
         showDialog: true,
