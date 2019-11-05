@@ -9,3 +9,6 @@
     <view onTap="backOrder">查看订单</view>
   </view>
 </page-result>
+<view class="page-footer">
+</view>
+<footer/>

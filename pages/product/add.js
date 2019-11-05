@@ -74,7 +74,8 @@ Page({
           rice: e.detail.value.sw_rice,
           spice: e.detail.value.sw_spice,
           remark: e.detail.value.remark,
-          owner: this.data.user.nickName,
+          createdBy: app.userInfo.nickName,
+          createdAt: new Date(),
           avatar: this.data.user.avatar
         },
       ]);

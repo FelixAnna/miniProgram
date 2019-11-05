@@ -1,0 +1,6 @@
+<template name="header">
+  <view class="user">
+    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
+    <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} {{title}}</view>
+  </view>
+</template>

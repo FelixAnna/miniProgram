@@ -10,3 +10,6 @@
     onTapSub="gotoList">
   </message>
 </view>
+<view class="page-footer">
+</view>
+<footer/>

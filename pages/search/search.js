@@ -1,8 +1,5 @@
 import debounce from '/util/debounce';
-let productList=[];
-let hotProductList=[];
-
-const product1List= [
+const productList= [
   {
     category: '盖浇饭',
     products: [
@@ -29,43 +26,10 @@ const product1List= [
     ]
   }
 ]
-const hotProduct1List=[
+const hotProductList=[
   { name: '猪脚饭', thumb: '/assets/icon_API.png', prices:[15,18,20,25], id: 10000001},
   { name: '牛肉面', thumb: '/assets/icon_component_HL.png', prices:[15,18,20,25], id: 10000206},
   { name: '牛肉饭', thumb: '/assets/icon_API.png', prices:[15,18,20,25], id: 10000005}
-];
-
-const product2List= [
-  {
-    category: '盖2浇饭',
-    products: [
-      { name: '猪2脚饭', thumb: '/assets/products/icon_API.png', prices:[15,18,20,25], id: 10000001},
-      { name: '珠2尔凡', thumb: '/assets/products/icon_API_HL.png', prices:[15,18,20,25], id: 10000002},
-      { name: '其2他饭', thumb: '/assets/products/icon_API.png', prices:[15,18,20,25], id: 10000003},
-      { name: '蜗2牛饭', thumb: '/assets/products/icon_API_HL.png', prices:[15,18,20,25], id: 10000004},
-      { name: '牛2肉饭', thumb: '/assets/products/icon_API.png', prices:[15,18,20,25], id: 10000005},
-      { name: '番2茄饭', thumb: '/assets/products/icon_API_HL.png', prices:[15,18,20,25], id: 10000006},
-      { name: '大2米饭', thumb: '/assets/products/icon_API.png', prices:[15,18,20,25], id: 10000007},
-      { name: '螃2蟹饭', thumb: '/assets/products/icon_API_HL.png', prices:[15,18,20,25], id: 10000008}
-    ]
-  },
-  {
-    category: '面2条',
-    products: [
-      { name: '番2茄面', thumb: '/assets/products/icon_component.png', prices:[15,18,20,25], id: 10000201},
-      { name: '猪2脚面', thumb: '/assets/products/icon_component_HL.png', prices:[15,18,20,25], id: 10000202},
-      { name: '蜗2牛面', thumb: '/assets/products/icon_component.png', prices:[15,18,20,25], id: 10000203},
-      { name: '大2米面', thumb: '/assets/products/icon_component_HL.png', prices:[15,18,20,25], id: 10000204},
-      { name: '螃2蟹面', thumb: '/assets/products/icon_component.png', prices:[15,18,20,25], id: 10000205},
-      { name: '牛2肉面', thumb: '/assets/products/icon_component_HL.png', prices:[15,18,20,25], id: 10000206},
-      { name: '注2释面', thumb: '/assets/products/icon_component.png', prices:[15,18,20,25], id: 10000207}
-    ]
-  }
-]
-const hotProduct2List=[
-  { name: '猪2脚饭', thumb: '/assets/icon_API.png', prices:[15,18,20,25], id: 10000001},
-  { name: '牛2肉面', thumb: '/assets/icon_component_HL.png', prices:[15,18,20,25], id: 10000206},
-  { name: '牛2肉饭', thumb: '/assets/icon_API.png', prices:[15,18,20,25], id: 10000005}
 ];
 
 Page({
@@ -78,16 +42,9 @@ Page({
   onLoad(e) {
     const orderId = parseInt(e.orderId);
     const shopId = parseInt(e.shopId);
-    if(shopId===123){
-      productList=product1List;
-      hotProductList=hotProduct1List;
-    }else if (shopId===1234){
-      productList=product2List;
-      hotProductList=hotProduct2List;
-    }else{
-      productList=[];
-      hotProductList=[];
-    }
+
+    //productList=productList;
+    //hotProductList=hotProductList;
 
     this.setData({
       history: my.getStorageSync({ key: 'searchHistory' }).data,

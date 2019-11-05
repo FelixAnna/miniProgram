@@ -1,19 +1,19 @@
-
-.form-row-higher {
-  display: flex;
-  align-items: center;
-  padding: 0 30rpx;
-  height: 128rpx;
-  align-items: center;
-}
-
-.form-row-column{
-  width: 33%;
+.form-row-header{
+  width: 100%;
   font-size: 36rpx;
   margin-right: 2rpx;
   text-align: left;
   color: #0E7fD6;
   background-color: aliceblue;
+}
+
+.form-row-column-left{
+  width: 82%;
+  text-align: left;
+}
+.form-row-column-right{
+  width: 18%;
+  text-align: right;
 }
 
 .flex-container {

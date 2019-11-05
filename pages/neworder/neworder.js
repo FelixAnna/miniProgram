@@ -49,13 +49,6 @@ Page({
     }else{
       this.setData({ orderId});
     }
-
-    this.setData({
-      links:[
-        { text: '首页', url: '../index/index' },
-        { text: '历史订单', url: '../history/history' },
-      ]
-    });
   },
 
    events:{
@@ -134,7 +127,34 @@ Page({
       console.log(`订单已解锁.`);
     
   },
+  onTapProductDelete(e){
+     my.confirm({
+      content: '确定删除当前商品吗？',
+      success: (res) => {
+        if (res.confirm) {
+          let order=this.getOrder(this.data.orderId);
+          const selectedId=this.data.showProduct.id;
+          let remainingProductList=[];
+          order.productList.forEach(function(element) {
+            if(element.id !== selectedId){
+              remainingProductList.push(element);
+            }
+          });
+          order.productList=remainingProductList;
 
+          this.saveOrder(order);
+          this.loadOrder(order);
+
+          const startIndex=this.data.pageSize*(this.data.pageIndex-1);
+          this.setData({
+            showProduct: {},
+            showModal: false,
+            currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
+          });
+        }
+      },
+    });
+  },
   onTapDelete(e) {
      my.confirm({
       content: '确定删除当前订单吗？',
@@ -143,7 +163,6 @@ Page({
           my.removeStorage({
             key: 'order-'+this.data.orderId, // 缓存数据的key
             success: function(){
-              
             },
             fail: function(){
               console.log("删除失败！");
@@ -158,8 +177,7 @@ Page({
                 createdAt: null,
 
                 pageIndex: 1,
-                pageSize: 5
-                ,
+                pageSize: 5,
                 currentPagedList: [],
                 pageCount: 0,
 
@@ -187,8 +205,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '共享订单',
-      desc: '请点击进入下单，完成后一键生成团队订单，并发送给商家。',
+      title: '订单分享',
+      desc: '请点击进入购物，完成后一键生成团队订单，并发送给商家。',
       path: 'pages/neworder/neworder?orderId='+this.data.orderId,
     };
   },

@@ -1,9 +1,7 @@
 <!-- API-DEMO page/component/form/form.axml -->
+<import src="/components/header.axml"/>
 <view class="page">
-  <view class="user">
-    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
-    <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} 团队订单</view>
-  </view>
+  <template is="header" data="{{user,title:'添加商品'}}"></template>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
       <view class="page-section-title">必填</view>
@@ -13,7 +11,7 @@
         <view class="form-row-content">
           <input name="input_name" class="input" value="{{selection.name}}" placeholder="请输入名称" />
         </view>
-        <view class="form-row-action" onTap="onStartSearch" >
+        <view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch" >
            <icon type="search" size="35"/>
         </view>
       </view>
@@ -63,8 +61,8 @@
           </view>
           <view slot="operation" class="opt-button" onTap="onDialogTap">知道了</view> 
         </tips-dialog>
-        <button form-type="submit" type="primary">submit</button>
-        <button form-type="reset">reset</button>
+        <button form-type="submit" type="primary">提交</button>
+        <button form-type="reset">重置</button>
       </view>
     </view>
 

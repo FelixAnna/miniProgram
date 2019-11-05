@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "footer": "mini-antui/es/footer/index"
+  }
+}

@@ -19,6 +19,11 @@ page {
   margin-bottom: 32rpx;
 }
 
+.page-footer {
+  background: #fff;
+  margin-bottom: 48rpx;
+}
+
 .page-section-title {
   padding: 16rpx 32rpx;
 }

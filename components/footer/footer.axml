@@ -1,0 +1,6 @@
+
+<view>
+  <footer
+    copyright="© 2019-2020 Alipay.com. All rights reserved."
+    links="{{links}}" />
+</view>
