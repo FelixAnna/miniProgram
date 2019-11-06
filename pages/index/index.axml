@@ -5,6 +5,7 @@
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
       <view class="page-section-title">
+        选择模式
       </view>
       <view class="form-line" />
       <view class="form-line" />
