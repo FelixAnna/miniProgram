@@ -1,9 +1,8 @@
 Page({
   data: {
-
   },
   onLoad(e) {
-    const orderId = parseInt(e.orderId);
+    const orderId = e.orderId;
     const shopId = parseInt(e.shopId);
     this.setData({
       orderId,

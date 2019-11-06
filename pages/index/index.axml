@@ -4,19 +4,28 @@
   <template is="header" data="{{user,title:'订单选择'}}"></template>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
-      <view class="page-section-title">必填</view>
+      <view class="page-section-title">
+      </view>
+      <view class="form-line" />
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">输入订单Id</view>
+        <view class="form-row-label">随机下单</view>
+        <view class="form-row-content" style="text-align: right">
+          <switch onChange="tapCreateRandom" checked="{{enbleRandom}}" />
+        </view>
+      </view>
+      <view a:if="{{enbleRandom===false}}" class="form-row">
+        <view class="form-row-label">打开订单</view>
+        
         <view class="form-row-content">
-          <input name="orderId" class="input" type="number" placeholder="请输入订单Id" />
+          <input name="orderId" class="input" value="{{orderId}}" onBlur="onOrderIdBlur" placeholder="输入订单No打开或新建订单" />
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button form-type="submit" type="primary">进入订单</button>
-        <button form-type="reset">重置</button>
+        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="submit" type="primary">进入订单</button>
+        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="reset">重置</button>
       </view>
     </view>
   </form>

@@ -1,21 +1,21 @@
 // API-DEMO page/component/message/message.js
 Page({
   data: {
-    title: "下单成功",
+    title: "添加成功",
     subTitle: "商品已加入订单列表，请等待管理员统一提交。",
     messageButton: {
       mainButton: {
-        buttonText: "继续下单"
+        buttonText: "继续添加"
       },
       subButton: {
-        buttonText: "返回列表"
+        buttonText: "查看订单"
       }
     },
-    orderId: -1,
+    orderId: "",
     shopId: -1
   },
   onLoad(e) {
-    const orderId = parseInt(e.orderId);
+    const orderId = e.orderId;
     const shopId = parseInt(e.shopId);
     this.setData({
       orderId,

@@ -6,25 +6,34 @@
     </view>
   </view>
   <view  a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
-  <view  class="order createdby" a:else>还没有创建订单</view>
+  <view  class="order createdby" a:else>准备创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
-      <view a:if="{{shopId===-1 || shopId === undefined}}" class="form-row">
-        <view class="form-row-label">输入店铺Id</view>
-        <view class="form-row-content">
-          <input name="shopId" onBlur="saveShopId" class="input" type="number" placeholder="请输入店铺Id" />
+      <block a:if="{{shopId===-1 || shopId === undefined}}">
+        <view class="page-section-title">
+          选择店铺
         </view>
-        <view class="form-row-content-right">
-          <button type="default" size="mini" onTap="tapSkip">不限定店铺</button>
+        <view class="form-line" />
+        <view class="form-row">
+          <view class="form-row-label">不限定店铺</view>
+          <view class="form-row-content" style="text-align: right">
+            <switch onChange="tapSkip" checked="{{enbleRandom}}" />
+          </view>
         </view>
-      </view>
+        <view a:if="{{enbleRandom===false}}" class="form-row">
+          <view class="form-row-label">指定店铺</view>
+          <view class="form-row-content">
+            <input name="shopId" class="input" value="{{shopId}}" onBlur="saveShopId" placeholder="输入店铺No打开" />
+          </view>
+        </view>
+      </block>
       <view  class="form-row" a:else>
         <view class="form-row-column-left">
-          <text a:if="{{shopId>=0}}" >限定店铺No： {{shopId}}</text>
+          <text a:if="{{shopId>0}}" >限定店铺No： {{shopId}}</text>
           <text a:else>不限定店铺</text>
         </view>
         <view class="form-row-column-right">
-            <button a:if="{{orderId>0 && shopId!==-1}}" open-type="share" size="mini">分享</button>
+            <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享</button>
         </view>
       </view>
     </view>

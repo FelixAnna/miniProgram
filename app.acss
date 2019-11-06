@@ -93,6 +93,11 @@ button {
   font-size: 34rpx;
 }
 
+.form-row-content-right {
+  margin-left: 10%;
+  font-size: 34rpx;
+}
+
 .form-row-action{
   width: 80rpx;
   font-size: 34rpx;
@@ -128,4 +133,17 @@ button {
   text-align: center;
   font-size: 40rpx;
   font-weight: 100;
+}
+
+.icon-item {
+  display: inline-flex;
+  width: 33.33333%;
+  height: 80px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon-desc {
+  margin-top: 10px;
 }

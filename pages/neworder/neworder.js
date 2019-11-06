@@ -8,7 +8,7 @@ Page({
 
     //order
     shopId:-1,
-    orderId: -1,
+    orderId: "",
     productList: [],
     state: 1,
     createdBy: null,
@@ -23,9 +23,10 @@ Page({
     showModal: false,
 
     cleanShow: false,
+    enbleRandom: false
   },
   onLoad(e) {
-    const orderId = parseInt(e.orderId);
+    const orderId = e.orderId;
 
     //Ensure user loaded
     if(!app.userInfo){
@@ -67,7 +68,7 @@ Page({
   saveShopId(e){
     // 修改全局数据
     const shopId = e.detail.value;
-    if(shopId==="" || shopId ===undefined){
+    if(shopId==="" || shopId ===undefined || shopId==-1){
       return;
     }
     
@@ -240,7 +241,7 @@ Page({
 
   createOrder(orderId){
     let newOrder = {
-      orderId: orderId,
+      orderId,
       shopId: this.data.shopId,
       productList: this.data.productList,
       state: this.data.state,

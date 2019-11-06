@@ -10,13 +10,11 @@ Page({
       id:-1,
     },
     user: {},
-    orderId: -1,
-    shopId:-1,
     links: [],
     showDialog: false
   },
    onLoad(e) {
-    const orderId = parseInt(e.orderId);
+    const orderId = e.orderId;
     const shopId = parseInt(e.shopId);
 
      this.getCurrentSelection();

@@ -5,6 +5,8 @@ const app = getApp();
 Page({
   data: {
     user: {},
+    orderId: (new Date()).getTime(),
+    enbleRandom: true
   },
    onLoad() {
      app.getUserInfo().then(
@@ -19,14 +21,29 @@ Page({
       }
     );
   },
+  tapCreateRandom(e){
+    if(e.detail.value === true){
+      let orderId=(new Date()).getTime();
+      this.setData({ orderId, enbleRandom: true});    
+    }else{
+      this.setData({ orderId: "", enbleRandom: false});  
+    }
+  },
+  onOrderIdBlur(e){
+    const value=e.detail.value;
+    if(value === undefined || value.length===0 ){
+      this.setData({ orderId: ""});  
+      return;
+    }
+    this.setData({ orderId: value});    
+  },
   onSubmit(e) {
     const value=e.detail.value;
-    /*my.alert({
-      content: `数据：${JSON.stringify(e.detail.value)}`,
-    });*/
-    console.log(`数据：${JSON.stringify(value)}`);
-    my.navigateTo ( {url: '../neworder/neworder?orderId='+value.orderId,});
+    if(this.data.orderId>0 || this.data.orderId.length>0){
+        my.navigateTo ( {url: '../neworder/neworder?orderId='+this.data.orderId,});
+    }
   },
   onReset() {
+    this.setData({ orderId: "", enbleRandom: false});  
   }
 });

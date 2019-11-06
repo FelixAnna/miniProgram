@@ -1,8 +1,8 @@
 <!-- API-DEMO page/component/page-result/page-result.axml -->
 <page-result
   type="error"
-  title="订单已锁定"
-  brief="订单已锁定，暂时不允许修改，请联系管理员解锁后添加。"
+  title="添加失败"
+  brief="订单已锁定，暂时不允许修改，请联系管理员解锁后重新添加。"
 >
   <view class="am-page-result-btns">
     <view onTap="backHome">回到首页</view>
