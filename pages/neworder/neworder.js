@@ -23,7 +23,10 @@ Page({
     showModal: false,
 
     cleanShow: false,
-    enbleRandom: false
+    enbleRandom: false,
+
+    productListText: "",
+    showCopyText:false
   },
   onLoad(e) {
     const orderId = e.orderId;
@@ -127,6 +130,36 @@ Page({
     else
       console.log(`订单已解锁.`);
     
+  },
+  onTapCopy(e){
+    let productListText="";
+    let riceCount=0;
+    let spiceCount=0;
+    let summaryPrice=0;
+    this.data.productList.forEach((item, index)=>{
+      spiceCount+=item.spice?1:0;
+      riceCount+=item.rice?1:0;
+      summaryPrice+=parseFloat(item.price);
+      const productText=`${item.name} ${item.price} ${item.remark?"[备注："+item.remark+"]":""}`;
+      if(index===0){
+        productListText+=`${productText}`;
+      }else{
+        productListText+=`\n${productText}`;
+      }
+    });
+    productListText+=`\n`;
+    productListText+=riceCount>0?`米饭*${riceCount}\t`:"";
+    productListText+=spiceCount>0?`辣椒*${spiceCount}`:"";
+    productListText+=summaryPrice>0?`\n合计：${summaryPrice}元`:"";
+
+    my.setClipboard({
+      text: productListText,
+    });
+
+    this.setData({
+      productListText,
+      showCopyText:!this.data.showCopyText
+    });
   },
   onTapProductDelete(e){
      my.confirm({

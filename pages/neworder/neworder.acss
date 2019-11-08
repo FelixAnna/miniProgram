@@ -75,3 +75,13 @@
   align-items: center;
   padding: 20rpx;
 }
+
+.txtClipboard{
+  text-align: left;
+}
+
+.secondaryButton{
+  margin:0rpx 4%;
+  display:inline-grid;
+  width:42%;
+}

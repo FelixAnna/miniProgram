@@ -21,7 +21,7 @@
           </view>
           <view class="form-row-content" style="text-align: right">
             <checkbox checked="{{enbleRandom}}" onChange="tapSkip"/>
-            <text class="checkbox-text">不限定店铺</text>
+            <text class="checkbox-text">不限定</text>
           </view>
         </view>
       </block>
@@ -61,15 +61,17 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button type="primary" disabled="{{state!==1 || shopId===-1}}" onTap="onTapAppendMore">添加商品</button>
-        <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
-        <button a:if="{{state!==1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
-        <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
+        <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
+        <button class="secondaryButton" a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="default">锁定</button>
+        <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
+        <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
+        <button class="secondaryButton" a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
       </view>
     </view>
-    <footer/>
   </form>
 </view>
+
+<footer/>
         
 <modal
 		show="{{showModal}}"
@@ -89,5 +91,17 @@
     </view>
 		<view slot="footer" a:if="{{state===1 && showProduct.createdBy === user.nickName}}" >
         <button type="warn" size="mini" onTap="onTapProductDelete">删除商品</button>
+    </view>
+	</modal>
+
+<modal
+		show="{{showCopyText}}"
+		onModalClose="onTapCopy"
+	>
+		<view slot="header">全选复制</view>
+    <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
+    <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
+		<view slot="footer" >
+        <button type="primary" size="mini" onTap="onTapCopy">去分享</button>
     </view>
 	</modal>

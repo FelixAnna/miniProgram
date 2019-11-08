@@ -7,7 +7,7 @@
       <view class="page-section-title">必填</view>
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">名称</view>
+        <view class="form-row-label"><text style="color:red">*</text>名称</view>
         <view class="form-row-content">
           <input name="input_name" class="input" value="{{selection.name}}" placeholder="请输入名称" />
         </view>
@@ -17,7 +17,7 @@
       </view>
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">价格</view>
+        <view class="form-row-label"><text style="color:red">*</text>价格</view>
         <view class="form-row-content">
           <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="number" placeholder="可选价格： {{selection.prices}}" />
           <input name="input_price" class="input" type="digit" placeholder="请输入价格" a:else />
@@ -40,9 +40,7 @@
           <switch name="sw_spice" />
         </view>
       </view>
-    </view>
-    <view class="page-section">
-      <view class="page-section-title">备注</view>
+      <view class="form-line" />
       <view class="page-section-demo">
         <textarea name="remark" auto-height placeholder="请输入您的其它特殊要求" />
       </view>
