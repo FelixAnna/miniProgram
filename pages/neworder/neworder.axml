@@ -2,7 +2,7 @@
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
   <view class="order">
-    <view class="order no">订单No：{{orderId}} 
+    <view class="order no">订单No：{{orderId}}{{state===2?" [已锁定]":""}}
     </view>
   </view>
   <view  a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
@@ -14,20 +14,18 @@
           选择店铺
         </view>
         <view class="form-line" />
-        <view class="form-row">
-          <view class="form-row-label">不限定店铺</view>
-          <view class="form-row-content" style="text-align: right">
-            <switch onChange="tapSkip" checked="{{enbleRandom}}" />
-          </view>
-        </view>
         <view a:if="{{enbleRandom===false}}" class="form-row">
           <view class="form-row-label">指定店铺</view>
           <view class="form-row-content">
             <input name="shopId" class="input" value="{{shopId}}" onBlur="saveShopId" placeholder="输入店铺No打开" />
           </view>
+          <view class="form-row-content" style="text-align: right">
+            <checkbox checked="{{enbleRandom}}" onChange="tapSkip"/>
+            <text class="checkbox-text">不限定店铺</text>
+          </view>
         </view>
       </block>
-      <view  class="form-row" a:else>
+      <view class="form-row" a:else>
         <view class="form-row-column-left">
           <text a:if="{{shopId>0}}" >限定店铺No： {{shopId}}</text>
           <text a:else>不限定店铺</text>
@@ -66,7 +64,7 @@
         <button type="primary" disabled="{{state!==1 || shopId===-1}}" onTap="onTapAppendMore">添加商品</button>
         <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
         <button a:if="{{state!==1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
-        <button a:if="{{state===2 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
+        <button a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
       </view>
     </view>
     <footer/>

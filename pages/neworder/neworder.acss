@@ -68,11 +68,10 @@
 .order.createdby {
   display: flex;
   flex-shrink: 0;
-  padding-top: 5rpx;
   text-align: center;
   font-size: 18rpx;
   font-weight: 100;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 10rpx;
+  padding: 20rpx;
 }

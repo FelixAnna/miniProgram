@@ -15,6 +15,8 @@ page {
 }
 
 .page-section {
+  border: solid #8cf 2rpx;
+  border-radius: 8rpx;
   background: #fff;
   margin-bottom: 32rpx;
 }
