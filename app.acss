@@ -110,7 +110,6 @@ button {
 .form-line {
   height: 1px;
   background-color: #ddd;
-  margin-left: 30rpx;
 }
 
 .user {

@@ -10,23 +10,20 @@
       <view class="form-line" />
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">随机下单</view>
+        <view class="form-row-label">{{enbleRandom?"自动生成":"手动输入"}}</view>
         <view class="form-row-content" style="text-align: right">
           <switch onChange="tapCreateRandom" checked="{{enbleRandom}}" />
         </view>
       </view>
       <view a:if="{{enbleRandom===false}}" class="form-row">
-        <view class="form-row-label">打开订单</view>
-        
         <view class="form-row-content">
-          <input name="orderId" class="input" value="{{orderId}}" onBlur="onOrderIdBlur" placeholder="输入订单No打开或新建订单" />
+          <input name="orderId" class="input" value="{{orderId}}" onBlur="onOrderIdBlur" placeholder="请输入订单号" />
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="submit" type="primary">进入订单</button>
-        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="reset">重置</button>
+        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="submit" type="primary">打开订单</button>
       </view>
     </view>
   </form>

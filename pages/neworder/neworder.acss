@@ -2,9 +2,8 @@
   width: 100%;
   font-size: 36rpx;
   margin-right: 2rpx;
-  text-align: left;
+  text-align: center;
   color: #0E7fD6;
-  background-color: aliceblue;
 }
 
 .form-row-column-left{

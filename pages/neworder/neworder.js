@@ -23,7 +23,7 @@ Page({
     showModal: false,
 
     cleanShow: false,
-    enbleRandom: false,
+    enableRandom: false,
 
     productListText: "",
     showCopyText:false
@@ -244,7 +244,6 @@ Page({
       path: 'pages/neworder/neworder?orderId='+this.data.orderId,
     };
   },
-
   onReset() {
   },
 
