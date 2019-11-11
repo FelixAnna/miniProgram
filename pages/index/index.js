@@ -1,3 +1,4 @@
+import {getApiStatus} from '../../util/api_helper';
 // 获取全局 app 实例
 const app = getApp();
 
@@ -8,13 +9,19 @@ Page({
     orderId: (new Date()).getTime(),
     enbleRandom: true
   },
-   onLoad() {
+  onLoad() {
      app.getUserInfo().then(
       user => {
         this.setData({
           user,
         });
-        console.log(user)
+        console.log(user);
+        getApiStatus()
+        .then(data=>{
+          console.log(data);
+        }).catch((res)=>{
+          console.log(res);
+        });
       },
       () => {
         // 获取用户信息失败

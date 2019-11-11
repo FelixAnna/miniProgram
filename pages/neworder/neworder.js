@@ -30,7 +30,10 @@ Page({
   },
   onLoad(e) {
     const orderId = e.orderId;
-
+    my.showLoading({
+          content: '订单加载中...',
+          delay: '0',
+        });
     //Ensure user loaded
     if(!app.userInfo){
       app.getUserInfo().then(
@@ -53,6 +56,8 @@ Page({
     }else{
       this.setData({ orderId});
     }
+
+    my.hideLoading();
   },
 
    events:{
@@ -169,22 +174,41 @@ Page({
           let order=this.getOrder(this.data.orderId);
           const selectedId=this.data.showProduct.id;
           let remainingProductList=[];
+          let can_del=false;
           order.productList.forEach(function(element) {
             if(element.id !== selectedId){
               remainingProductList.push(element);
+            } else {
+              can_del=true;
             }
           });
-          order.productList=remainingProductList;
 
-          this.saveOrder(order);
-          this.loadOrder(order);
+          if(can_del == false){
+            my.showToast({
+              type: 'fail',
+              content: '删除失败！',
+              duration: 1500
+            });
+            return;
+          } else {
+              order.productList=remainingProductList;
 
-          const startIndex=this.data.pageSize*(this.data.pageIndex-1);
-          this.setData({
-            showProduct: {},
-            showModal: false,
-            currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
-          });
+              this.saveOrder(order);
+              this.loadOrder(order);
+
+              const startIndex=this.data.pageSize*(this.data.pageIndex-1);
+              this.setData({
+                showProduct: {},
+                showModal: false,
+                currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
+              });
+
+              my.showToast({
+                type: 'success',
+                content: '删除成功！',
+                duration: 1500
+              });
+          }
         }
       },
     });
