@@ -1,3 +1,5 @@
 node_modules
 .tea
 .DS_Store
+obj
+bin
