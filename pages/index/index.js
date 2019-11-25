@@ -16,12 +16,6 @@ Page({
           user,
         });
         console.log(user);
-        getApiStatus()
-        .then(data=>{
-          console.log(data);
-        }).catch((res)=>{
-          console.log(res);
-        });
       },
       () => {
         // 获取用户信息失败

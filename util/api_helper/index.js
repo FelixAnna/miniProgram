@@ -2,37 +2,37 @@ import {request} from './request';
 
 export const getApiStatus=()=>
 {
-  return request.get({ url: 'api/v1/test/apirunning' });
+  return request.get({ url: 'test/apirunning' });
 };
 
 export const getApiProtectedStatus=()=>
 {
-  return request.get({ url: 'api/v1/test/protected' });
+  return request.get({ url: 'test/protected' });
 };
 
 /*********Login***************/
 export const login = (code)=>{
-  return request.post({ url: `api/v1/auth?code=${code}`});
+  return request.get({ url: `auth/login/alipay?code=${code}`});
 };
 
 /******************order manage *************/
 export const getOrderById = (id)=>{
-  return request.get({ url: `api/v1/orders/${id}` });
+  return request.get({ url: `orders/${id}` });
 };
 
 export const saveOrder = (id, data)=>{
-  return request.post({ url: `api/v1/orders/${id}`, data: data});
+  return request.post({ url: `orders/${id}`, data: data});
 };
 
 export const deleteOrder = (id)=>{
-  return request.delete({ url: `api/v1/orders/${id}`});
+  return request.delete({ url: `orders/${id}`});
 }
 
 /******************order's product manage *************/
 export const addOrderProduce = (id, data)=>{
-  return request.post({ url: `api/v1/orders/${id}/products/add`, data: data});
+  return request.post({ url: `orders/${id}/products/add`, data: data});
 };
 
 export const deleteOrderProduct = (id, productId)=>{
-  return request.delete({ url: `api/v1/orders/${id}/products/${productId}`});
+  return request.delete({ url: `orders/${id}/products/${productId}`});
 }

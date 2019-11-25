@@ -1,11 +1,12 @@
-const baseUrl='https://sl.schroders.com';
+const baseUrl='https://localhost:44334';
 const app = getApp();
 
 export const request = (params) =>
 {
   const {url, method, data, dataType, headers, complete} = params;
   const requestUrl=`${baseUrl}/${url}`;
-  
+  const accesstoken=`Bearer ${encodeURIComponent(localStorage["token"])}`;
+
   return new Promise((resolve, reject) => {
     console.log("TCL: request -> requestUrl ", requestUrl)
     my.request({
@@ -13,7 +14,7 @@ export const request = (params) =>
       method: method || 'GET',
       dataType: dataType || 'json',
       data: data || {},
-      headers: headers||{username: encodeURIComponent(app.userInfo.nickName)},
+      headers: headers||{Authorization: accesstoken},
       success: (res) => {
         if (res.status === 200) {
             const { data } = res;

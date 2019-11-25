@@ -1,3 +1,4 @@
+import {login} from './util/api_helper';
 App({
   todos: [
     ],
@@ -12,7 +13,11 @@ App({
         scopes: ['auth_user'],
         success: authcode => {
           console.info(authcode);
-
+          login(authcode.authCode).then(data=>{
+            console.log(data);
+          }).catch((res)=>{
+            console.log(res);
+          });
           my.getAuthUserInfo({
             success: res => {
               this.userInfo = res;
