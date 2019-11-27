@@ -24,7 +24,7 @@ Page({
   },
   tapCreateRandom(e){
     if(e.detail.value === true){
-      let orderId=(new Date()).getTime();
+      let orderId=(new Date()).getTime()%100000000;
       this.setData({ orderId, enbleRandom: true});    
     }else{
       this.setData({ orderId: "", enbleRandom: false});  

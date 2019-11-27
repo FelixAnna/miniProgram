@@ -1,11 +1,12 @@
-const baseUrl='https://localhost:44334';
+const baseUrl='http://localhost:59422';
 const app = getApp();
 
 export const request = (params) =>
 {
   const {url, method, data, dataType, headers, complete} = params;
   const requestUrl=`${baseUrl}/${url}`;
-  const accesstoken=`Bearer ${encodeURIComponent(localStorage["token"])}`;
+  const tokenInfo=localStorage["tokenInfo"];
+  const accesstoken=`Bearer ${encodeURIComponent(tokenInfo==undefined?"":tokenInfo.token)}`;
 
   return new Promise((resolve, reject) => {
     console.log("TCL: request -> requestUrl ", requestUrl)

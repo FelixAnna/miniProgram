@@ -1,8 +1,5 @@
 import {login} from './util/api_helper';
 App({
-  todos: [
-    ],
-
   userInfo: null,
 
   getUserInfo() {
@@ -14,6 +11,7 @@ App({
         success: authcode => {
           console.info(authcode);
           login(authcode.authCode).then(data=>{
+            this.setStorage("tokenInfo",data);
             console.log(data);
           }).catch((res)=>{
             console.log(res);

@@ -1,3 +1,4 @@
+import {createOrder, getOrderById, removeOrder, lockOrder, unlockOrder, removeOrderItem} from '../../util/api_helper';
 // 获取全局 app 实例
 const app = getApp();
 
@@ -50,14 +51,10 @@ Page({
     }
 
     //load order data if exists
-    let order=this.getOrder(orderId);
-    if(order){
-      this.loadOrder(order);
-    }else{
-      this.setData({ orderId});
-    }
-
-    my.hideLoading();
+    getOrderById(orderId)
+    .then((data)=>this.loadOrder(data))
+    .catch(res=>this.setData({ orderId}))
+    .finally(()=>my.hideLoading());
   },
 
    events:{
@@ -67,11 +64,9 @@ Page({
     },
    },
   tapSkip(e){
-    let shopId=(new Date()).getTime() * -1;
+    let shopId=(new Date()).getTime() * -1%100000000;
     this.setData({ shopId});    
-    const order= this.createOrder(this.data.orderId);
-    this.saveOrder(order);
-    this.loadOrder(order);
+    this.createOrder(this.data.orderId, shopId);
   },
   saveShopId(e){
     // 修改全局数据
@@ -81,9 +76,7 @@ Page({
     }
     
     this.setData({ shopId});
-    const order= this.createOrder(this.data.orderId);
-    this.saveOrder(order);
-    this.loadOrder(order);
+    this.createOrder(this.data.orderId, shopId);
   },
   
   onTabPage(index){
@@ -116,16 +109,11 @@ Page({
   },
 
   onSubmit(e) {
-    let order=this.getOrder(this.data.orderId) || this.createOrder(this.data.orderId);
-
-    if(order.state ===1)
-      order.state=2;
+    if(this.data.state === 1)
+      lockOrder(this.data.orderId);
     else
-      order.state=1;
+      unlockOrder(this.data.orderId);
 
-    //update order state in cache
-    this.saveOrder(order);
-    
     this.setData({
       state:  order.state
     })
@@ -171,44 +159,27 @@ Page({
       content: '确定删除当前商品吗？',
       success: (res) => {
         if (res.confirm) {
-          let order=this.getOrder(this.data.orderId);
-          const selectedId=this.data.showProduct.id;
-          let remainingProductList=[];
-          let can_del=false;
-          order.productList.forEach(function(element) {
-            if(element.id !== selectedId){
-              remainingProductList.push(element);
-            } else {
-              can_del=true;
-            }
-          });
-
-          if(can_del == false){
-            my.showToast({
-              type: 'fail',
-              content: '删除失败！',
-              duration: 1500
-            });
-            return;
-          } else {
-              order.productList=remainingProductList;
-
-              this.saveOrder(order);
-              this.loadOrder(order);
-
-              const startIndex=this.data.pageSize*(this.data.pageIndex-1);
+          removeOrderItem(this.data.showProduct.id)
+          .then((data)=>{
+            this.getOrder(this.data.orderId);
+            const startIndex=this.data.pageSize*(this.data.pageIndex-1);
               this.setData({
                 showProduct: {},
                 showModal: false,
                 currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
               });
-
-              my.showToast({
+             my.showToast({
                 type: 'success',
                 content: '删除成功！',
                 duration: 1500
               });
-          }
+          })
+          .catch((res)=>my.showToast({
+              type: 'fail',
+              content: '删除失败！',
+              duration: 1500
+            }))
+
         }
       },
     });
@@ -218,14 +189,9 @@ Page({
       content: '确定删除当前订单吗？',
       success: (res) => {
         if (res.confirm) {
-          my.removeStorage({
-            key: 'order-'+this.data.orderId, // 缓存数据的key
-            success: function(){
-            },
-            fail: function(){
-              console.log("删除失败！");
-            }
-          });
+          removeOrder(this.data.orderId)
+          .then((data)=> console.log("删除成功！"))
+          .catch((res)=>console.log("删除失败！"));
 
           this.setData({
                 shopId: -1,
@@ -288,30 +254,27 @@ Page({
   },
 
   getOrder(orderId){
-    let order=my.getStorageSync({
-      key: 'order-'+orderId, // 缓存数据的key
-    }).data;
-
-    return order;
+    getOrderById(orderId).then(data=>{
+            this.loadOrder(data);
+          }).catch((res)=>{
+             my.showToast({
+              type: 'fail',
+              content: res,
+              duration: 1500
+            });;
+          });
   },
 
   createOrder(orderId){
-    let newOrder = {
-      orderId,
-      shopId: this.data.shopId,
-      productList: this.data.productList,
-      state: this.data.state,
-      createdBy: app.userInfo.nickName,
-      createdAt: new Date()
-    };
-
-    newOrder.productList=newOrder.productList||[];
-    return newOrder;
-  },
-
-  saveOrder(order){
-    my.setStorageSync({
-      key: 'order-'+order.orderId, // 缓存数据的key
-      data: order});
+    createOrder(orderId, this.data.shopId).then(data=>{
+            data.productList=data.productList||[];
+            this.loadOrder(data);
+          }).catch((res)=>{
+            my.showToast({
+              type: 'fail',
+              content: res,
+              duration: 1500
+            });;
+          });
   }
 });

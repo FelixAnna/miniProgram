@@ -39,12 +39,12 @@ export const removeOrder = (id)=>{
 
 export const lockOrder = (id)=>{
   //as not support delete for now
-  return request.post({ url: `orders/lock?orderId=${id}`});
+  return request.post({ url: `orders/${id}/lock`});
 }
 
 export const unlockOrder = (id)=>{
   //as not support delete for now
-  return request.post({ url: `orders/unlock?orderId=${id}`});
+  return request.post({ url: `orders/${id}/unlock`});
 }
 export const getOrders = (id, page, size)=>{
   //as not support delete for now
