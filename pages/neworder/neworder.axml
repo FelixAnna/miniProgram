@@ -20,7 +20,7 @@
             <input name="shopId" class="input" value="{{shopId}}" onBlur="saveShopId" placeholder="输入店铺No打开" />
           </view>
           <view class="form-row-content" style="text-align: right" onTap="tapSkip">
-            <checkbox checked="{{enableRandom}}" onChange="tapSkip"/>
+            <checkbox checked="{{enableRandom}}"/>
             <text class="checkbox-text">不指定</text>
           </view>
         </view>
@@ -60,10 +60,10 @@
         <view class="form-line" />
         <view class="page-section-demo">
           <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
-          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.nickName && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
+          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
           <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.nickName && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
         </view>
       </view>
       <view class="form-row" a:else>

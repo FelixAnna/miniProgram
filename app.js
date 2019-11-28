@@ -10,15 +10,24 @@ App({
         scopes: ['auth_user'],
         success: authcode => {
           console.info(authcode);
-          login(authcode.authCode).then(data=>{
-            this.setStorage("tokenInfo",data);
-            console.log(data);
-          }).catch((res)=>{
-            console.log(res);
-          });
+          const tokenInfo=my.getStorageSync({
+            key: 'tokenInfo', // 缓存数据的key
+          }).data;
+
+          if(tokenInfo===null){
+            login(authcode.authCode).then(data=>{
+              my.setStorageSync({
+                key: "tokenInfo",
+                data: data, // 要缓存的数据
+              });
+            }).catch((res)=>{
+              console.log(res);
+            });
+          }
+
           my.getAuthUserInfo({
             success: res => {
-              this.userInfo = res;
+              this.userInfo = {...res, userId: tokenInfo.userId};
               resolve(this.userInfo);
             },
             fail: () => {

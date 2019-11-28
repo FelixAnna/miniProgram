@@ -53,7 +53,15 @@ Page({
     //load order data if exists
     getOrderById(orderId)
     .then((data)=>this.loadOrder(data))
-    .catch(res=>this.setData({ orderId}))
+    .catch(res=> {
+      if(res.status === 404){ //enable auto create if not exists
+        let shopId=(new Date()).getTime() * -1%100000000;
+        this.setData({ orderId, shopId});    
+        this.createOrder(orderId);
+      }else{
+        this.setData({ orderId});
+      }
+    })
     .finally(()=>my.hideLoading());
   },
 
@@ -110,19 +118,21 @@ Page({
 
   onSubmit(e) {
     if(this.data.state === 1)
-      lockOrder(this.data.orderId);
+      lockOrder(this.data.orderId).then(res=>
+      {
+        this.setData({
+          state:  2
+        });
+        console.log(`订单已锁定.`);
+      });
     else
-      unlockOrder(this.data.orderId);
-
-    this.setData({
-      state:  order.state
-    })
-
-    if(order.state === 2)
-      console.log(`订单已锁定.`);
-    else
-      console.log(`订单已解锁.`);
-    
+      unlockOrder(this.data.orderId).then(res=>
+      {
+        this.setData({
+          state:  1
+        });
+        console.log(`订单已解锁.`);
+      });
   },
   onTapCopy(e){
     let productListText="";
