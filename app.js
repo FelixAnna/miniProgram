@@ -1,4 +1,4 @@
-import {login} from './util/api_helper';
+import {login, updateUserInfo} from './util/api_helper';
 App({
   userInfo: null,
 
@@ -14,20 +14,29 @@ App({
             key: 'tokenInfo', // 缓存数据的key
           }).data;
 
-          if(tokenInfo===null){
+          if(tokenInfo===null) {
             login(authcode.authCode).then(data=>{
               my.setStorageSync({
                 key: "tokenInfo",
                 data: data, // 要缓存的数据
               });
             }).catch((res)=>{
-              console.log(res);
+              reject({});
             });
           }
 
           my.getAuthUserInfo({
             success: res => {
               this.userInfo = {...res, userId: tokenInfo.userId};
+
+              //Update nickName & avatar when not match
+              if(res.nickName !== tokenInfo.nickName || res.avatar !== tokenInfo.avatar ){
+                updateUserInfo(res.nickName, res.avatar).then(res=> {
+                  console.log("username & avatar updated.");
+                }).catch(res=>{
+                  console.log(error);
+                });
+              }
               resolve(this.userInfo);
             },
             fail: () => {
