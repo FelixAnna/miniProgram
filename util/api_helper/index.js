@@ -12,7 +12,7 @@ export const login = (code)=>{
 };
 
 export const updateUserInfo = (nickName, photo)=>{
-  return request.post({url: `users/alipay?name=${nickName}&photo=${photo}`})
+  return request.post({url: `users/alipay?name=${encodeURIComponent(nickName)}&photo=${encodeURIComponent(photo)}`})
 }
 export const getUserInfo = (code)=>{
   return request.get({ url: `users/alipay/info`});

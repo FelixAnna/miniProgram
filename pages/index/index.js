@@ -10,17 +10,19 @@ Page({
     enbleRandom: true
   },
   onLoad() {
-     app.getUserInfo().then(
-      user => {
-        this.setData({
-          user,
-        });
-        console.log(user);
-      },
-      () => {
-        // 获取用户信息失败
-      }
-    );
+    if(!app.userInfo){
+      app.getUserInfo().then(
+        user => {
+          this.setData({
+            user,
+          });
+          console.log(user);
+        },
+        () => {
+          // 获取用户信息失败
+        }
+      );
+    }
   },
   tapCreateRandom(e){
     if(e.detail.value === true){

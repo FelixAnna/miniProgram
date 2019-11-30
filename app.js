@@ -10,30 +10,28 @@ App({
         scopes: ['auth_user'],
         success: authcode => {
           console.info(authcode);
+         
+          /*******Ensure userInfo got***** */
           const tokenInfo=my.getStorageSync({
-            key: 'tokenInfo', // 缓存数据的key
+            key: 'tokenInfo', 
           }).data;
 
-          if(tokenInfo===null) {
-            login(authcode.authCode).then(data=>{
-              my.setStorageSync({
-                key: "tokenInfo",
-                data: data, // 要缓存的数据
-              });
-            }).catch((res)=>{
-              reject({});
+          login(authcode.authCode).then(data=>{
+            my.setStorageSync({
+              key: "tokenInfo",
+              data: data,
             });
-          }
-
+          }).catch((res)=>{
+            reject({});
+          });
+          
           my.getAuthUserInfo({
             success: res => {
               this.userInfo = {...res, userId: tokenInfo.userId};
-
-              //Update nickName & avatar when not match
-              if(res.nickName !== tokenInfo.nickName || res.avatar !== tokenInfo.avatar ){
-                updateUserInfo(res.nickName, res.avatar).then(res=> {
+               if(this.userInfo.nickName !== tokenInfo.nickName || this.userInfo.avatar !== tokenInfo.avatar ){
+                updateUserInfo(this.userInfo.nickName, this.userInfo.avatar).then(res=> {
                   console.log("username & avatar updated.");
-                }).catch(res=>{
+                }).catch(error=>{
                   console.log(error);
                 });
               }
