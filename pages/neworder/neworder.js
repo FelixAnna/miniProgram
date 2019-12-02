@@ -100,7 +100,7 @@ Page({
     this.setData({
       showModal:  true,
       showProduct: this.data.productList.find(function(element) {
-        return element.id === id;
+        return element.orderItemId === id;
       }),
     })
   },
@@ -136,12 +136,26 @@ Page({
   },
   onTapCopy(e){
     let productListText="";
+    let options=[];
+
     let riceCount=0;
     let spiceCount=0;
+
     let summaryPrice=0;
     this.data.productList.forEach((item, index)=>{
+      item.options.forEach((op, idx)=>{
+        if(!op.value){
+          return;
+        }
+        if(options[op.name]===undefined){
+          options[op.name]=1;
+        } else {
+          options[op.name]+=1;
+        }
+      });
       spiceCount+=item.spice?1:0;
       riceCount+=item.rice?1:0;
+
       summaryPrice+=parseFloat(item.price);
       const productText=`${item.name} ${item.price} ${item.remark?"[备注："+item.remark+"]":""}`;
       if(index===0){
@@ -151,8 +165,13 @@ Page({
       }
     });
     productListText+=`\n`;
-    productListText+=riceCount>0?`米饭*${riceCount}\t`:"";
-    productListText+=spiceCount>0?`辣椒*${spiceCount}`:"";
+    options.forEach((op, idx)=>{
+      productListText+=options[op]>0?`${op}*${options[op]}\t`:"";
+    })
+    var sortKeys = Object.keys(options).sort();
+    for( var key in sortKeys ){
+      productListText+=options[sortKeys[key]]>0?`${sortKeys[key]}*${options[sortKeys[key]]}\t`:"";
+    }
     productListText+=summaryPrice>0?`\n合计：${summaryPrice}元`:"";
 
     my.setClipboard({
@@ -169,7 +188,7 @@ Page({
       content: '确定删除当前商品吗？',
       success: (res) => {
         if (res.confirm) {
-          removeOrderItem(this.data.showProduct.id)
+          removeOrderItem(this.data.showProduct.orderItemId)
           .then((data)=>{
             this.getOrder(this.data.orderId);
             const startIndex=this.data.pageSize*(this.data.pageIndex-1);

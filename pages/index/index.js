@@ -1,4 +1,5 @@
 import {getApiStatus} from '../../util/api_helper';
+import {getShortcode, getRandomShortcode} from '../../util/shortcode';
 // 获取全局 app 实例
 const app = getApp();
 
@@ -6,7 +7,7 @@ const app = getApp();
 Page({
   data: {
     user: {},
-    orderId: (new Date()).getTime(),
+    orderId: undefined,
     enbleRandom: true
   },
   onLoad() {
@@ -15,6 +16,7 @@ Page({
         user => {
           this.setData({
             user,
+            orderId: getShortcode(user.userId)+"@"+getRandomShortcode()
           });
           console.log(user);
         },
@@ -22,11 +24,15 @@ Page({
           // 获取用户信息失败
         }
       );
+    }else{
+      this.setData({
+        orderId: getShortcode(this.data.user.userId)+"@"+getRandomShortcode()
+      });
     }
   },
   tapCreateRandom(e){
     if(e.detail.value === true){
-      let orderId=(new Date()).getTime()%100000000;
+      let orderId=getShortcode(this.data.user.userId)+"@"+getRandomShortcode();
       this.setData({ orderId, enbleRandom: true});    
     }else{
       this.setData({ orderId: "", enbleRandom: false});  

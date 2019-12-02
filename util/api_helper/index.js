@@ -52,21 +52,9 @@ export const getOrders = (id, page, size)=>{
 }
 
 /******************order's product managenent *************/
-export const addOrderItem = (id, data)=>{
+export const addOrderItem = ( data)=>{
   return request.post({ url: `orders/items`, 
-  data: {
-    "orderId": "string",
-    "productId": 0,
-    "name": "string",
-    "price": 0,
-    "remark": "string",
-    "options": [
-      {
-        "name": "string",
-        "value": true
-      }
-    ]
-  }
+  data: data
 });
 };
 

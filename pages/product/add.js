@@ -1,3 +1,5 @@
+import { getOrderById, addOrderItem} from '../../util/api_helper';
+
 // 获取全局 app 实例
 const app = getApp();
 
@@ -40,53 +42,36 @@ Page({
   },
   onSubmit(e) {
     if(e.detail.value.input_name !== undefined && e.detail.value.input_name.length>0
-    && e.detail.value.input_price !== undefined && e.detail.value.input_price>0){
-      const orderKey='order-'+ this.data.orderId; // 缓存数据的key
-      let order=my.getStorageSync({
-        key: orderKey
-      }).data||{
-        orderId,
-        shopId: -1,
-        productList: [],
-        state: 1
-      };
-      
-      if(order.state!=1){
+    && e.detail.value.input_price !== undefined && e.detail.value.input_price>0) {
+      const newOrderItem= {
+        orderId: this.data.orderId,
+        productId: this.data.selection.id,
+        name: e.detail.value.input_name,
+        price: e.detail.value.input_price,
+        remark: e.detail.value.remark,
+        options: [
+          {
+            name: "加饭",
+            value: e.detail.value.sw_rice
+          },
+          {
+            name: "加辣",
+            value: e.detail.value.sw_spice
+          }
+        ]
+      }
+
+      addOrderItem(newOrderItem).then(res=>{
+        my.removeStorageSync({
+          key: 'selection', // 缓存数据的key
+        });
+
+        my.redirectTo( {url: '../success/success?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
+      }).catch(error=>{
         my.redirectTo({url: '../failed/failed?shopId='+this.data.shopId+'&orderId='+this.data.orderId});
-        return;
-      }
+      })
 
-      let maxId = 0;
-      if(order.productList.length>0){
-          maxId = order.productList.reduce(
-                    (max, character) => (character.id > max ? character.id : max),
-                    order.productList[0].id
-                  );
-      }
-      order.productList=order.productList.concat([
-        {
-          id: maxId+1,
-          productId: this.data.selection.id,
-          name: e.detail.value.input_name,
-          price: e.detail.value.input_price,
-          rice: e.detail.value.sw_rice,
-          spice: e.detail.value.sw_spice,
-          remark: e.detail.value.remark,
-          createdBy: app.userInfo.nickName,
-          createdAt: new Date(),
-          avatar: this.data.user.avatar
-        },
-      ]);
-
-      my.setStorageSync({
-        key: orderKey,
-        data: order, // 要缓存的数据
-      });
-      my.removeStorageSync({
-        key: 'selection', // 缓存数据的key
-      });
-
-      my.redirectTo( {url: '../success/success?shopId='+this.data.shopId+'&orderId='+this.data.orderId,});
+      
     }else{
       this.setData({
         showDialog: true,
