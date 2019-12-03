@@ -27,7 +27,9 @@ Page({
     enableRandom: false,
 
     productListText: "",
-    showCopyText:false
+    showCopyText:false,
+
+    testop: (op)=>this.test(op)
   },
   onLoad(e) {
     const orderId = e.orderId;
@@ -91,7 +93,7 @@ Page({
     const startIndex=this.data.pageSize*(index-1);
     this.setData({
       pageIndex:index,
-      currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
+      currentPagedList: formatOrderItem(this.data.productList.slice(startIndex, startIndex+this.data.pageSize))
       });
   },
 
@@ -195,7 +197,7 @@ Page({
               this.setData({
                 showProduct: {},
                 showModal: false,
-                currentPagedList: this.data.productList.slice(startIndex, startIndex+this.data.pageSize)
+                currentPagedList: this.formatOrderItem(this.data.productList.slice(startIndex, startIndex+this.data.pageSize))
               });
              my.showToast({
                 type: 'success',
@@ -277,7 +279,7 @@ Page({
         createdBy: order.createdBy,
         createdAt: order.createdAt,
 
-        currentPagedList: order.productList.slice(0, this.data.pageSize),
+        currentPagedList: this.formatOrderItem(order.productList.slice(0, this.data.pageSize)),
         pageCount: Math.ceil(order.productList.length/this.data.pageSize)
       });
   },
@@ -305,5 +307,21 @@ Page({
               duration: 1500
             });;
           });
-  }
+  },
+  formatOrderItem(productList){
+    productList.forEach((item)=>{
+          let validOptions = item.options
+                                  .filter(op=>op.value)
+                                  .map(op=>op.name)
+                                  .reduce((op, current)=>`${current} ${op}`);
+          if(item.remark){
+            validOptions+=`\t备注：${item.remark}`;
+          }
+          console.log(validOptions);
+          item.validOptions=validOptions;
+          return item;
+    });
+
+    return productList;
+  },
 });
