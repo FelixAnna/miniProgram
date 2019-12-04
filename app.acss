@@ -82,6 +82,20 @@ button {
   align-items: center;
 }
 
+
+.form-row-grey{
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0rpx 0rpx;
+  height: 28rpx;
+  align-items: center;
+  color: gray;
+  font-size: 18rpx;
+}
+.am-modal-footer
+{
+  margin-top: 0rpx !important;
+}
 .form-row-label {
   width: 180rpx;
   font-size: 34rpx;

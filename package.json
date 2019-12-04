@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mini-antui": "^0.4.34"
+    "mini-antui": "^0.4.34",
+    "moment": "^2.24.0"
   }
 }

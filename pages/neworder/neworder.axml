@@ -71,7 +71,7 @@
   </form>
 </view>
 <footer/>
-<modal show="{{showModal}}" onModalClose="hiddenModel" topImage="{{showProduct.avatar}}">
+<modal show="{{showModal}}" onModalClose="hiddenModel" topImage="{{showProduct.ownerAvatar}}">
   <view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
   <view class="flex-container">
     <flex>
@@ -80,8 +80,13 @@
           <view class="placeholder inline small">{{option.name}}</view></flex-item>
       </block>
     </flex>
+    <view class="form-line" />
     <view a:if="{{showProduct.remark}}" class="form-row">
-      <text >{{showProduct.remark}}</text>
+      <text style="color:blueviolet;">{{showProduct.remark}}</text>
+    </view>
+    <view class="form-line" />
+    <view class="form-row-grey">
+      <text >{{showProduct.ownerName}} @ {{showProduct.formattedCreatedDate}}</text>
     </view>
   </view>
   <view slot="footer" a:if="{{state===1 && showProduct.ownerId === user.userId}}">

@@ -45,7 +45,7 @@
   align-items: center;
   border-top: 0px solid rgb(238, 238, 238);
   padding: 10px 0px;
-  font-size: 14px;
+  font-size: 10px;
   line-height: 20px;
   color: rgb(153, 153, 153);
 }

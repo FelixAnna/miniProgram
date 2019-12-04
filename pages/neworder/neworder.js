@@ -6,6 +6,7 @@ import {
   unlockOrder,
   removeOrderItem
 } from "../../util/api_helper";
+import moment from "moment";
 // 获取全局 app 实例
 const app = getApp();
 
@@ -101,7 +102,7 @@ Page({
     const startIndex = this.data.pageSize * (index - 1);
     this.setData({
       pageIndex: index,
-      currentPagedList: formatOrderItem(
+      currentPagedList: this.formatOrderItem(
         this.data.productList.slice(startIndex, startIndex + this.data.pageSize)
       )
     });
@@ -109,11 +110,14 @@ Page({
 
   openDetails(e) {
     const { id } = e.target.dataset;
+    let currentOrderItem = this.data.productList.find(function(element) {
+        return element.orderItemId === id;
+      });
+    moment.locale('zh-CN');
+    currentOrderItem.formattedCreatedDate=moment(currentOrderItem.createdAt).format("LLLL");
     this.setData({
       showModal: true,
-      showProduct: this.data.productList.find(function(element) {
-        return element.orderItemId === id;
-      })
+      showProduct: currentOrderItem
     });
   },
 
@@ -341,7 +345,7 @@ Page({
       let validOptions = item.options
         .filter(op => op.value)
         .map(op => op.name)
-        .reduce((op, current) => `${current} ${op}`);
+        .reduce((op, current) => `${current} ${op}`,'');
       if (item.remark) {
         validOptions += `\t备注：${item.remark}`;
       }

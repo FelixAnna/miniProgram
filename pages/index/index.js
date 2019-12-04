@@ -49,7 +49,15 @@ Page({
     this.setData({ orderId: value });
   },
   onSubmit(e) {
-    const value = e.detail.value;
+    const value = e.detail.value.orderId;
+    if(value !==undefined && value !== this.data.orderId)
+    {
+      my.navigateTo({
+        url: "../neworder/neworder?orderId=" + value
+      });
+      return;
+    }
+
     if (this.data.orderId > 0 || this.data.orderId.length > 0) {
       my.navigateTo({
         url: "../neworder/neworder?orderId=" + this.data.orderId
