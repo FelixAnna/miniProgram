@@ -1,64 +1,68 @@
-import {request} from './request';
+import { request } from "./request";
 
 /**************Test Api************** */
-export const getApiStatus=()=>
-{
-  return request.get({ url: 'test/running' });
+export const getApiStatus = () => {
+  return request.get({ url: "test/running" });
 };
 
 /*********Login & user mangenent***************/
-export const login = (code)=>{
-  return request.get({ url: `auth/login/alipay?code=${code}`});
+export const login = code => {
+  return request.get({ url: `auth/login/alipay?code=${code}` });
 };
 
-export const updateUserInfo = (nickName, photo)=>{
-  return request.post({url: `users/alipay?name=${encodeURIComponent(nickName)}&photo=${encodeURIComponent(photo)}`})
-}
-export const getUserInfo = (code)=>{
-  return request.get({ url: `users/alipay/info`});
+export const updateUserInfo = (nickName, photo) => {
+  return request.post({
+    url: `users/alipay?name=${encodeURIComponent(
+      nickName
+    )}&photo=${encodeURIComponent(photo)}`
+  });
+};
+export const getUserInfo = code => {
+  return request.get({ url: `users/alipay/info` });
 };
 
 /******************order managenent *************/
-export const getOrderById = (id)=>{
+export const getOrderById = id => {
   return request.get({ url: `orders?orderId=${id}` });
 };
 
-export const createOrder = (id, shopId)=>{
-  return request.post({ url: `orders`, 
-  data: {
-    orderId: id,
-    shopId: shopId
-  }
-});
+export const createOrder = (id, shopId) => {
+  return request.post({
+    url: `orders`,
+    data: {
+      orderId: id,
+      shopId: shopId
+    }
+  });
 };
 
-export const removeOrder = (id)=>{
+export const removeOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/remove?orderId=${id}`});
-}
+  return request.post({ url: `orders/remove?orderId=${id}` });
+};
 
-export const lockOrder = (id)=>{
+export const lockOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/${id}/lock`});
-}
+  return request.post({ url: `orders/${id}/lock` });
+};
 
-export const unlockOrder = (id)=>{
+export const unlockOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/${id}/unlock`});
-}
-export const getOrders = (id, page, size)=>{
+  return request.post({ url: `orders/${id}/unlock` });
+};
+export const getOrders = (id, page, size) => {
   //as not support delete for now
-  return request.get({ url: `orders/list?orderId=${id}&page=${page}&size=${size}`});
-}
+  return request.get({
+    url: `orders/list?orderId=${id}&page=${page}&size=${size}`
+  });
+};
 
 /******************order's product managenent *************/
-export const addOrderItem = ( data)=>{
-  return request.post({ url: `orders/items`, 
-  data: data
-});
+export const addOrderItem = data => {
+  return request.post({ url: `orders/items`, data: data });
 };
 
-export const removeOrderItem = (id)=>{
+export const removeOrderItem = id => {
   //as not support delete for now
-  return request.post({ url: `orders/items/remove?orderItemId=${id}`});
-}
+  return request.post({ url: `orders/items/remove?orderItemId=${id}` });
+};

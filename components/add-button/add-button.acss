@@ -7,9 +7,9 @@
   border-radius: 20rpx;
 }
 
-.add-button-hover{
+.add-button-hover {
   color: red;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   box-sizing: border-box;
   border: 2px solid rgb(214, 55, 14);
   border-radius: 20rpx;

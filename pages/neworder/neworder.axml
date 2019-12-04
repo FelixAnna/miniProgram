@@ -5,8 +5,8 @@
     <view class="order no">订单No：{{orderId}}{{state===2?" [已锁定]":""}}
     </view>
   </view>
-  <view  a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
-  <view  class="order createdby" a:else>准备创建订单</view>
+  <view a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
+  <view class="order createdby" a:else>准备创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
       <block a:if="{{shopId===-1 || shopId === undefined}}">
@@ -27,18 +27,19 @@
       </block>
       <view class="form-row" a:else>
         <view class="form-row-column-left">
-          <text a:if="{{shopId>0}}" ><text style="color:red">*</text>已指定店铺No： {{shopId}}</text>
-          <text a:else><text style="color:red">*</text>已选择不指定店铺，添加商品时可以随意输入</text>
+          <text a:if="{{shopId>0}}">
+            <text style="color:red">*</text>已指定店铺No： {{shopId}}</text>
+          <text a:else>
+            <text style="color:red">*</text>已选择不指定店铺，添加商品时可以随意输入</text>
         </view>
         <view class="form-row-column-right">
-            <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享</button>
+          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享</button>
         </view>
       </view>
     </view>
-
     <view class="page-section">
       <view a:if="{{createdBy!==null}}">
-        <view  class="form-row">
+        <view class="form-row">
           <view class="form-row-header">商品列表</view>
         </view>
         <view class="form-line" />
@@ -48,12 +49,7 @@
         <block a:else>
           <block a:for="{{currentPagedList}}" a:for-item="product">
             <view data-id="{{product.orderItemId}}" onTap="openDetails">
-              <card
-                thumb="{{product.ownerAvatar}}"
-                title="{{product.name}}*{{product.price}}元*1份"
-                subTitle="{{product.ownerName}} "
-                footer="{{product.validOptions}}"
-              />
+              <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
             </view>
             <view class="form-line" />
           </block>
@@ -69,44 +65,34 @@
         </view>
       </view>
       <view class="form-row" a:else>
-          <text>请选择店铺以创建订单！</text>
+        <text>请选择店铺以创建订单！</text>
       </view>
     </view>
   </form>
 </view>
-
 <footer/>
-        
-<modal
-		show="{{showModal}}"
-		onModalClose="hiddenModel"
-		topImage="{{showProduct.avatar}}"
-	>
-		<view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
-
-    <view class="flex-container">
-      <flex>
-        <block a:for="{{showProduct.options}}" a:for-item="option">
-          <flex-item a:if="{{option.value}}"><view class="placeholder inline small">{{option.name}}</view></flex-item>
-        </block>
-      </flex>
-      <view a:if="{{showProduct.remark}}" class="form-row">
-         <text >{{showProduct.remark}}</text>
-      </view>
+<modal show="{{showModal}}" onModalClose="hiddenModel" topImage="{{showProduct.avatar}}">
+  <view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
+  <view class="flex-container">
+    <flex>
+      <block a:for="{{showProduct.options}}" a:for-item="option">
+        <flex-item a:if="{{option.value}}">
+          <view class="placeholder inline small">{{option.name}}</view></flex-item>
+      </block>
+    </flex>
+    <view a:if="{{showProduct.remark}}" class="form-row">
+      <text >{{showProduct.remark}}</text>
     </view>
-		<view slot="footer" a:if="{{state===1 && showProduct.ownerId === user.userId}}" >
-        <button type="warn" size="mini" onTap="onTapProductDelete">删除商品</button>
-    </view>
-	</modal>
-
-<modal
-		show="{{showCopyText}}"
-		onModalClose="onTapCopy"
-	>
-		<view slot="header">全选复制</view>
-    <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
-    <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
-		<view slot="footer" >
-        <button type="primary" size="mini" onTap="onTapCopy">去分享</button>
-    </view>
-	</modal>
+  </view>
+  <view slot="footer" a:if="{{state===1 && showProduct.ownerId === user.userId}}">
+    <button type="warn" size="mini" onTap="onTapProductDelete">删除商品</button>
+  </view>
+</modal>
+<modal show="{{showCopyText}}" onModalClose="onTapCopy">
+  <view slot="header">全选复制</view>
+  <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
+  <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
+  <view slot="footer">
+    <button type="primary" size="mini" onTap="onTapCopy">去分享</button>
+  </view>
+</modal>

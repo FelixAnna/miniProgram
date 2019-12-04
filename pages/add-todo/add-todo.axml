@@ -1,30 +1,18 @@
-
-  <view class="page-add-todo">
+<view class="page-add-todo">
   <view class="user">
     <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
     <view class="nickname">{{user.nickName && user.nickName || 'My'}}</view>
   </view>
   <view class="add-todo">
-    <input 
-      class="add-todo-input"
-      placeholder="请输入名称"
-      focus="true"
-      onBlur="saveName"
-      value="{{inputName}}"
-    />
+    <input class="add-todo-input" placeholder="请输入名称" focus="true" onBlur="saveName" value="{{inputName}}" />
   </view>
   <view class="add-todo">
-    <input placeholder="请输入价格" 
-    value="{{inputPrice}}" 
-    type="digit" 
-    onBlur="savePrice" 
-    class="add-todo-input" />
+    <input placeholder="请输入价格" value="{{inputPrice}}" type="digit" onBlur="savePrice" class="add-todo-input" />
   </view>
-
   <view class="item">
     <icon type="success" size="45"/>
-          <text>{{item}}</text>
-    <add-button text="点好了" onClickMe="add" ></add-button>
+    <text>{{item}}</text>
+    <add-button text="点好了" onClickMe="add"></add-button>
   </view>
   <view class="todo-footer">
     <navigator open-type="navigate" url="../todos/todos" hover-class="navigator-hover">统计信息</navigator>

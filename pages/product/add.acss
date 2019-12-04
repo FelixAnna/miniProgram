@@ -19,5 +19,5 @@ button + button {
   align-items: center;
   color: #fff;
   font-size: 12px;
-  border: #68BAF7 solid 1rpx;
+  border: #68baf7 solid 1rpx;
 }

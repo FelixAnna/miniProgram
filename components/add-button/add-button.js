@@ -1,12 +1,12 @@
 Component({
   props: {
-    text: 'Button',
-    onClickMe: () => {},
+    text: "Button",
+    onClickMe: () => {}
   },
 
   methods: {
     onClickMe() {
       this.props.onClickMe();
-    },
-  },
+    }
+  }
 });

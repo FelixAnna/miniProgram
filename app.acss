@@ -1,10 +1,10 @@
 page {
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
   box-sizing: border-box;
 }
 
 .page {
-  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+  font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
   font-size: 24rpx;
   padding: 32rpx;
   flex: 1;
@@ -54,24 +54,24 @@ page {
 }
 
 button {
-  margin-top:20rpx;
-  margin-bottom:20rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .bc_blue {
-  background-color: #49A9EE;
+  background-color: #49a9ee;
 }
 
 .bc_red {
-  background-color: #F04134;
+  background-color: #f04134;
 }
 
 .bc_yellow {
-  background-color: #FFBF00;
+  background-color: #ffbf00;
 }
 
 .bc_green {
-  background-color: #00A854;
+  background-color: #00a854;
 }
 
 .form-row {
@@ -100,7 +100,7 @@ button {
   font-size: 34rpx;
 }
 
-.form-row-action{
+.form-row-action {
   width: 80rpx;
   font-size: 34rpx;
   margin-right: 10rpx;
@@ -116,7 +116,7 @@ button {
   display: flex;
   flex-shrink: 0;
   padding: 30px;
-  color: #0E7fD6;
+  color: #0e7fd6;
   flex-direction: column;
   align-items: center;
 }
@@ -125,7 +125,7 @@ button {
   width: 130rpx;
   height: 130rpx;
   border-radius: 50%;
-  background-color: #FFF;
+  background-color: #fff;
   align-self: center;
 }
 

@@ -1,11 +1,8 @@
-
 <view class="page-todos">
-
   <view class="user">
     <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
     <view class="nickname">{{user.nickName && user.nickName + '\'s' || 'My'}} 团队订单</view>
   </view>
-
   <view class="todo-items">
     <view>
       <text a:if="{{todos.length<=0}}">比你的脸都干净，喝西北风去吧！</text>
@@ -16,12 +13,9 @@
         <text class="todo-item-text">{{item.userId}} {{item.name}} {{item.price}}</text>
       </label>
     </checkbox-group>
-
   </view>
-
   <view class="todo-footer">
-    <add-button text="加餐" onClickMe="addTodo" ></add-button>
+    <add-button text="加餐" onClickMe="addTodo"></add-button>
     <button open-type="share" type="primary">Share</button>
   </view>
-
 </view>

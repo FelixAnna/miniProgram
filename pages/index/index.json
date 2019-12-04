@@ -1,7 +1,7 @@
 {
   "defaultTitle": "选择订单",
   "transparentTitle": "none",
-  "usingComponents":{
-     "am-icon": "mini-antui/es/am-icon/index"
+  "usingComponents": {
+    "am-icon": "mini-antui/es/am-icon/index"
   }
 }

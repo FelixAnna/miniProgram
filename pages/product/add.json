@@ -1,7 +1,7 @@
 {
   "defaultTitle": "添加商品",
   "transparentTitle": "none",
-  "usingComponents":{
+  "usingComponents": {
     "footer": "mini-antui/es/footer/index",
     "tips-dialog": "mini-antui/es/tips/tips-dialog/index"
   }
