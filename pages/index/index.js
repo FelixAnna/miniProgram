@@ -1,4 +1,4 @@
-import { getApiStatus } from "../../util/api_helper";
+import { getApiStatus, unlockOrder } from "../../util/api_helper";
 import { getShortcode, getRandomShortcode } from "../../util/shortcode";
 // 获取全局 app 实例
 const app = getApp();
@@ -32,7 +32,7 @@ Page({
     }
   },
   tapCreateRandom(e) {
-    if (e.detail.value === true) {
+    if (e.detail.value === true && this.data.user.userId!=undefined) {
       let orderId =
         getShortcode(this.data.user.userId) + "@" + getRandomShortcode();
       this.setData({ orderId, enbleRandom: true });

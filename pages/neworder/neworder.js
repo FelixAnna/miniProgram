@@ -35,9 +35,7 @@ Page({
     enableRandom: false,
 
     productListText: "",
-    showCopyText: false,
-
-    testop: op => this.test(op)
+    showCopyText: false
   },
   onLoad(e) {
     const orderId = e.orderId;
@@ -70,6 +68,23 @@ Page({
           this.setData({ orderId, shopId });
           this.createOrder(orderId);
         } else {
+          my.confirm({
+              title: '抱歉',
+              content: '数据加载失败！',
+              confirmButtonText: '重新加载',
+              cancelButtonText: '返回首页',
+              success: (result) => {
+                if(result.confirm){
+                  my.reLaunch({
+                    url: "../neworder/neworder?orderId=" + orderId
+                  })
+                }else{
+                  my.redirectTo({
+                  url: "../index/index"
+                })
+                }
+              }
+          });
           this.setData({ orderId });
         }
       })
@@ -79,7 +94,7 @@ Page({
   events: {
     onBack() {
       // 页面返回时触发
-      my.navigateTo({ url: "../index/index" });
+      my.redirectTo({ url: "../index/index" });
     }
   },
   tapSkip(e) {
