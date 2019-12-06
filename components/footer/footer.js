@@ -2,8 +2,8 @@ Component({
   mixins: [],
   data: {
     links: [
-      { text: "首页", url: "../index/index" },
-      { text: "历史订单", url: "../history/history" }
+      { text: "首页", url: "/pages/index/index" },
+      { text: "历史记录", url: "/pages/orders/history/history" }
     ]
   },
   props: {},

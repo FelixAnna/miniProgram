@@ -1,0 +1,8 @@
+<!-- API-DEMO page/component/message/message.axml -->
+<view>
+  <message title="{{title}}" subTitle="{{subTitle}}" type="success" mainButton="{{messageButton.mainButton}}" subButton="{{messageButton.subButton}}" onTapMain="backHome" onTapSub="gotoList">
+  </message>
+</view>
+<view class="page-footer">
+</view>
+<footer/>

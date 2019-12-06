@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="search-bar">
+    <search-bar focus="{{true}}" value="{{value}}" placeholder="搜索" onInput="onInput" onCancel="onCancel" onClear="onClear" onSubmit="onSubmit" showCancelButton="{{false}}" />
+  </view>
+  <view class="search-container" a:if="{{suggestions.length === 0}}">
+    <view a:if="{{value.length === 0}}">
+      <view a:if="{{ history.length > 0 }}" style="border-bottom: 1rpx solid #F5F5F5; margin-bottom: 16px;">
+        <view class="history">历史
+          <view class="clear" onTap="clear"></view></view>
+        <block-list listData="{{history}}" class="history-list" onItemTap="onItemTap" />
+      </view>
+      <view>
+        <view class="hot">热门</view>
+        <block-list listData="{{hot}}" class="history-list" onItemTap="onItemTap" />
+      </view>
+    </view>
+    <view class="no-search-result" a:else>
+      <image src="/assets/no_search_result.png" />
+      <text>未找到搜索结果</text>
+    </view>
+  </view>
+  <view class="search-results" a:else>
+    <block a:for="{{suggestions}}" a:for-item="categoryItem">
+      <view a:if="{{categoryItem.products.length > 0}}" class="component">
+        <list>
+          <view slot="header" class="list-header">{{categoryItem.category}}</view>
+          <block a:for="{{categoryItem.products}}" a:for-item="product">
+            <list-item arrow="{{true}}" multipleLine="{{false}}" key="items-{{product.name}}" last="{{index === categoryItem.products.length - 1}}">
+              <view onTap="onListItemTap" data-id="{{product.id}}" data-prices="{{product.prices}}" data-name="{{product.name}}" style="display: flex; align-items: center">
+                <image src="{{product.thumb}}" class="thumb" />
+                <text class="component-name">{{product.name}}</text>
+              </view>
+            </list-item>
+          </block>
+        </list>
+      </view>
+    </block>
+  </view>
+</view>

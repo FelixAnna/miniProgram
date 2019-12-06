@@ -1,0 +1,12 @@
+{
+  "defaultTitle": "搜索商品",
+  "transparentTitle": "none",
+  "allowsBounceVertical": "YES",
+  "pullRefresh": true,
+  "usingComponents": {
+    "search-bar": "mini-antui/es/search-bar/index",
+    "block-list": "/pages/common/components/block-list/block-list",
+    "list":"mini-antui/es/list/index",
+    "list-item":"mini-antui/es/list/list-item/index"
+  }
+}

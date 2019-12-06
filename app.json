@@ -1,16 +1,18 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/product/add",
-    "pages/search/search",
+    "pages/products/add/add",
+    "pages/products/search/search",
+    "pages/products/success/success",
+    "pages/products/failed/failed",
+    "pages/orders/deleted/deleted",
+    "pages/orders/new/new",
     "pages/todos/todos",
     "pages/add-todo/add-todo",
-    "pages/neworder/neworder",
-    "pages/success/success",
-    "pages/failed/failed"
+    "pages/orders/history/history"
   ],
   "window": {
-    "defaultTitle": "线下好店",
+    "defaultTitle": "线下统计",
     "titleBarColor": "#323239"
   },
   "tabBar": {
@@ -22,13 +24,13 @@
         "pagePath": "pages/index/index",
         "icon": "assets/products/icon_API.png",
         "activeIcon": "assets/products/icon_API_HL.png",
-        "name": "选店"
+        "name": "首页"
       },
       {
-        "pagePath": "pages/todos/todos",
+        "pagePath": "pages/orders/history/history",
         "icon": "assets/products/icon_component.png",
         "activeIcon": "assets/products/icon_component_HL.png",
-        "name": "下单"
+        "name": "历史记录"
       }
     ]
   }

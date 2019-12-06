@@ -26,8 +26,9 @@ Page({
       );
     } else {
       this.setData({
+        user: app.userInfo,
         orderId:
-          getShortcode(this.data.user.userId) + "@" + getRandomShortcode()
+          getShortcode(app.userInfo.userId) + "@" + getRandomShortcode()
       });
     }
   },
@@ -53,14 +54,14 @@ Page({
     if(value !==undefined && value !== this.data.orderId)
     {
       my.navigateTo({
-        url: "../neworder/neworder?orderId=" + value
+        url: "../orders/new/new?orderId=" + value
       });
       return;
     }
 
     if (this.data.orderId > 0 || this.data.orderId.length > 0) {
       my.navigateTo({
-        url: "../neworder/neworder?orderId=" + this.data.orderId
+        url: "../orders/new/new?orderId=" + this.data.orderId
       });
     }
   },

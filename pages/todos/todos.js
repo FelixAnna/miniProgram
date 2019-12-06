@@ -20,7 +20,7 @@ Page({
     return {
       title: "线下点餐",
       desc: "成员分别进入也页面提交，一键生成团队订单",
-      path: "pages/search/search?shopId=123"
+      path: "/pages/search/search?shopId=123"
     };
   },
   // 事件处理函数
