@@ -27,8 +27,8 @@
 .am-card {
   display: flex;
   background-color: rgb(255, 255, 255);
-  border-radius: 4px;
-  margin: 6px 10px;
+  border-radius: 0px;
+  margin: 0px;
   -webkit-box-align: center;
   align-items: center;
   height: 68px;
@@ -36,7 +36,7 @@
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
-  padding: 0px 16px;
+  padding: 6px 16px 0px;
 }
 .am-card-footer {
   display: flex;

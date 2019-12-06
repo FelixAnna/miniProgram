@@ -1,1 +1,8 @@
-{}
+{
+  "defaultTitle": "历史记录",
+  "usingComponents": {
+    "pagination": "mini-antui/es/pagination/index",
+    "card": "mini-antui/es/card/index",
+    "swipe-action": "mini-antui/es/swipe-action/index"
+  }
+}

@@ -35,7 +35,10 @@ Page({
     enableRandom: false,
 
     productListText: "",
-    showCopyText: false
+    showCopyText: false,
+
+    itemRight:  [{ type: 'delete', text: '删除' }],
+    swipeIndex: null
   },
   onLoad(e) {
     const orderId = e.orderId;
@@ -136,6 +139,19 @@ Page({
     });
   },
 
+  onRightItemClick(e) {
+    const { type } = e.detail;
+    if (type === 'delete') {
+      const itemId=e.extra;
+      this.deleteOrderItem(itemId);
+    }
+  },
+  onSwipeStart(e) {
+    this.setData({
+      swipeIndex: e.index,
+    });
+  },
+
   hiddenModel() {
     this.setData({
       showProduct: {},
@@ -224,11 +240,14 @@ Page({
     });
   },
   onTapProductDelete(e) {
+    this.deleteOrderItem(this.data.showProduct.orderItemId);
+  },
+  deleteOrderItem(orderItemId){
     my.confirm({
       content: "确定删除当前商品吗？",
       success: res => {
         if (res.confirm) {
-          removeOrderItem(this.data.showProduct.orderItemId)
+          removeOrderItem(orderItemId)
             .then(data => {
               this.getOrder(this.data.orderId);
               const startIndex = this.data.pageSize * (this.data.pageIndex - 1);

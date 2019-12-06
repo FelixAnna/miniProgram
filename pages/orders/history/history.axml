@@ -1,3 +1,33 @@
-<view>
-  New Page
+<view class="page">
+  <view class="order">
+    <view class="order no">我的订单
+    </view>
+  </view>
+  <view class="page-section">
+    <view class="form-row">
+      <view class="form-row-header">订单列表{{user.userId}}</view>
+    </view>
+    <view class="form-line" />
+    <view class="form-row" a:if="{{list.length<=0}}">
+      <text>还没有创建或参与任何订单！</text>
+    </view>
+    <block a:else>
+      <block a:for="{{list}}" a:for-item="order">
+        <swipe-action
+              index="{{index}}"
+              restore="{{swipeIndex === null || swipeIndex !== index}}"
+              right="{{order.state===1 && order.ownerId === user.userId?itemRight:null}}"
+              onRightItemClick="onRightItemClick"
+              onSwipeStart="onSwipeStart"
+              extra="{{order.orderId}}"
+            >
+          <view data-id="{{order.orderId}}" onTap="openDetails">
+            <card thumb="{{order.ownerAvatar}}" title="订单号:{{order.orderId}}" subTitle="共{{order.totalItems}}份，合计：{{order.totalCost}}元" footer="{{order.ownerName}} @ {{order.createdAt}}" />
+          </view>
+        </swipe-action>
+        <view class="form-line" />
+      </block>
+    </block>
+    <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
+  </view>
 </view>

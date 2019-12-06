@@ -8,6 +8,7 @@
     "notice": "mini-antui/es/notice/index",
     "footer": "/components/footer/footer",
     "card": "mini-antui/es/card/index",
-    "am-checkbox": "mini-antui/es/am-checkbox/index"
+    "am-checkbox": "mini-antui/es/am-checkbox/index",
+    "swipe-action": "mini-antui/es/swipe-action/index"
   }
 }

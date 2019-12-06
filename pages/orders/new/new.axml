@@ -48,9 +48,18 @@
         </view>
         <block a:else>
           <block a:for="{{currentPagedList}}" a:for-item="product">
-            <view data-id="{{product.orderItemId}}" onTap="openDetails">
-              <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
-            </view>
+            <swipe-action
+                  index="{{index}}"
+                  restore="{{swipeIndex === null || swipeIndex !== index}}"
+                  right="{{state===1 && product.ownerId === user.userId?itemRight:null}}"
+                  onRightItemClick="onRightItemClick"
+                  onSwipeStart="onSwipeStart"
+                  extra="{{product.orderItemId}}"
+                >
+              <view data-id="{{product.orderItemId}}" onTap="openDetails">
+                <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
+              </view>
+            </swipe-action>
             <view class="form-line" />
           </block>
         </block>

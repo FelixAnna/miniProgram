@@ -5,10 +5,10 @@ Page({
     subTitle: "订单已删除, 15秒后返回首页。",
     messageButton: {
       mainButton: {
-        buttonText: "立即返回"
+        buttonText: "返回首页"
       },
       subButton: {
-        buttonText: "订单列表"
+        buttonText: "历史记录"
       }
     },
     waitSec: 5,

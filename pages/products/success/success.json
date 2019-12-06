@@ -1,5 +1,5 @@
 {
-  "defaultTitle": "下单成功",
+  "defaultTitle": "添加成功",
   "usingComponents": {
     "message": "mini-antui/es/message/index",
     "footer": "/components/footer/footer"
