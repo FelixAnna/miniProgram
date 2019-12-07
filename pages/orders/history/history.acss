@@ -49,6 +49,18 @@
   line-height: 20px;
   color: rgb(153, 153, 153);
 }
+.am-list-line{
+  position:static;
+  -webkit-box-flex:1;
+  flex:1 1 0%;
+  display:flex;
+  -webkit-box-align:center;
+  align-items:center;
+  align-self:stretch;
+  padding-right:15px;
+  min-height:52px;
+  overflow:hidden;
+}
 .placeholder {
   background-color: rgb(99, 99, 249);
   color: rgb(235, 235, 99);

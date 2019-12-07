@@ -41,6 +41,7 @@ Page({
     swipeIndex: null
   },
   onLoad(e) {
+    moment.locale('zh-CN');
     const orderId = e.orderId;
     my.showLoading({
       content: "订单加载中...",
@@ -131,8 +132,7 @@ Page({
     let currentOrderItem = this.data.productList.find(function(element) {
         return element.orderItemId === id;
       });
-    moment.locale('zh-CN');
-    currentOrderItem.formattedCreatedDate=moment(currentOrderItem.createdAt).format("LLLL");
+    currentOrderItem.formattedCreatedDate=moment(currentOrderItem.createdAt).format("lll");
     this.setData({
       showModal: true,
       showProduct: currentOrderItem
@@ -250,17 +250,6 @@ Page({
           removeOrderItem(orderItemId)
             .then(data => {
               this.getOrder(this.data.orderId);
-              const startIndex = this.data.pageSize * (this.data.pageIndex - 1);
-              this.setData({
-                showProduct: {},
-                showModal: false,
-                currentPagedList: this.formatOrderItem(
-                  this.data.productList.slice(
-                    startIndex,
-                    startIndex + this.data.pageSize
-                  )
-                )
-              });
               my.showToast({
                 type: "success",
                 content: "删除成功！",
@@ -309,7 +298,12 @@ Page({
   onReset() {},
 
   loadOrder(order) {
+    const startIndex = this.data.pageSize * (this.data.pageIndex - 1);
     this.setData({
+      showProduct: {},
+      showModal: false,
+      swipeIndex: null,
+
       user: app.userInfo,
 
       orderId: order.orderId,
@@ -317,10 +311,11 @@ Page({
       productList: order.productList,
       state: order.state,
       createdBy: order.createdBy,
-      createdAt: order.createdAt,
+      createdAt: moment(order.createdAt).format("lll"),
 
       currentPagedList: this.formatOrderItem(
-        order.productList.slice(0, this.data.pageSize)
+        order.productList.slice( startIndex,
+                    startIndex + this.data.pageSize)
       ),
       pageCount: Math.ceil(order.productList.length / this.data.pageSize)
     });

@@ -1,33 +1,48 @@
+<import src="/components/header.axml"></import>
 <view class="page">
-  <view class="order">
-    <view class="order no">我的订单
-    </view>
-  </view>
+  <template is="header" data="{{user,title:'我的订单'}}"></template>
   <view class="page-section">
     <view class="form-row">
-      <view class="form-row-header">订单列表{{user.userId}}</view>
+      <view class="form-row-header">订单列表</view>
     </view>
     <view class="form-line" />
     <view class="form-row" a:if="{{list.length<=0}}">
       <text>还没有创建或参与任何订单！</text>
     </view>
-    <block a:else>
+    <list a:else>
       <block a:for="{{list}}" a:for-item="order">
-        <swipe-action
-              index="{{index}}"
-              restore="{{swipeIndex === null || swipeIndex !== index}}"
-              right="{{order.state===1 && order.ownerId === user.userId?itemRight:null}}"
-              onRightItemClick="onRightItemClick"
-              onSwipeStart="onSwipeStart"
-              extra="{{order.orderId}}"
-            >
-          <view data-id="{{order.orderId}}" onTap="openDetails">
-            <card thumb="{{order.ownerAvatar}}" title="订单号:{{order.orderId}}" subTitle="共{{order.totalItems}}份，合计：{{order.totalCost}}元" footer="{{order.ownerName}} @ {{order.createdAt}}" />
+          <swipe-action
+                index="{{index}}"
+                restore="{{swipeIndex === null || swipeIndex !== index}}"
+                right="{{order.state===1 && order.ownerId === user.userId?itemRight:null}}"
+                onRightItemClick="onRightItemClick"
+                onSwipeStart="onSwipeStart"
+                extra="{{order.orderId}}"
+              >
+              <list-item
+                thumb="{{order.ownerAvatar}}"
+                arrow="{{false}}"
+                onClick="openDetails"
+                index="items-multiple-{{index}}"
+                last="{{index === (itemsThumbMultiple.length - 1)}}"
+                key="items-multiple-{{index}}"
+                multipleLine="{{true}}"
+                wrap="{{true}}"
+                data-id="{{order.orderId}}" 
+              >
+                订单号:{{order.orderId}}
+                <view class="am-list-brief">共{{order.totalItems}}份，合计：{{order.totalCost}}元</view>
+                <view a:if="{{order.state === 2}}" slot="extra">
+                  已锁定
+                </view>
+            </list-item>
+          </swipe-action>
+          <view class="form-row-grey" style="padding:0px;">
+            <text style="color:blueviolet;font-size:10px;">{{order.ownerName}} @ {{order.formattedCreatedDate}}</text>
           </view>
-        </swipe-action>
         <view class="form-line" />
       </block>
-    </block>
+    </list>
     <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
   </view>
 </view>

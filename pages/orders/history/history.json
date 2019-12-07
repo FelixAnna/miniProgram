@@ -3,6 +3,8 @@
   "usingComponents": {
     "pagination": "mini-antui/es/pagination/index",
     "card": "mini-antui/es/card/index",
-    "swipe-action": "mini-antui/es/swipe-action/index"
+    "swipe-action": "mini-antui/es/swipe-action/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index"
   }
 }
