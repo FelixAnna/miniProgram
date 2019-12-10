@@ -5,6 +5,7 @@
     "card": "mini-antui/es/card/index",
     "swipe-action": "mini-antui/es/swipe-action/index",
     "list": "mini-antui/es/list/index",
-    "list-item": "mini-antui/es/list/list-item/index"
+    "list-item": "mini-antui/es/list/list-item/index",
+    "calendar": "mini-antui/es/calendar/index"
   }
 }

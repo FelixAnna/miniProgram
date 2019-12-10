@@ -12,6 +12,11 @@ Page({
     list: [],
     user: {},
 
+    startDate:null,
+    endDate:null,
+    displayDateRange: null,
+    showDatePicker: false,
+
     itemRight: [{ type: "delete", text: "删除" }],
     swipeIndex: null,
 
@@ -87,7 +92,7 @@ Page({
   },
 
   getOrders() {
-    return getOrders(this.data.pageIndex, this.data.pageSize)
+    return getOrders(this.data.pageIndex, this.data.pageSize, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
         let orders = data.orders;
         orders.forEach((item, index) => {
@@ -104,6 +109,16 @@ Page({
         });
       })
       .catch(res => {
+        if(res.status === 404){
+          this.setData({
+            swipeIndex: null,
+            user: app.userInfo,
+            pageCount: 0,
+            list: [],
+            pageIndex:1
+          });
+          return;
+        }
         my.confirm({
           title: "抱歉",
           content: "数据加载失败！",
@@ -142,5 +157,17 @@ Page({
         }
       }
     });
-  }
+  },
+  startSetDate(){
+    this.setData({showDatePicker:true})
+  },
+  handleSelect([startDate, endDate]) {
+    this.setData({
+      startDate,
+      endDate,
+      displayDateRange: moment(startDate).format('ll')+' ~ '+moment(endDate).format('ll'),
+      showDatePicker:false
+      });
+      this.onTabPage(this.data.pageIndex);
+  },
 });

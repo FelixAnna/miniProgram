@@ -50,10 +50,10 @@ export const unlockOrder = id => {
   //as not support delete for now
   return request.post({ url: `orders/${id}/unlock` });
 };
-export const getOrders = (page, size) => {
+export const getOrders = (page, size, start, end) => {
   //as not support delete for now
   return request.get({
-    url: `orders/list?page=${page}&size=${size}`
+    url: `orders/list?page=${page}&size=${size}&startDate=${start}&endDate=${end}`
   });
 };
 

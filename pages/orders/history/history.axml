@@ -2,6 +2,16 @@
 <view class="page">
   <template is="header" data="{{user,title:'我的订单'}}"></template>
   <view class="page-section">
+    <view> 
+      <input style="width:86%" onFocus="startSetDate" value="{{displayDateRange}}" placeholder="选择时间" />
+    
+      <calendar
+        type="range"
+        haveYear="{{true}}"
+        onSelect="handleSelect" a:if="{{showDatePicker}}"/>
+    </view>
+  </view>
+  <view class="page-section">
     <view class="form-row">
       <view class="form-row-header">订单列表</view>
     </view>

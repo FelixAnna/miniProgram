@@ -30,10 +30,10 @@
           <text a:if="{{shopId>0}}">
             <text style="color:red">*</text>已指定店铺No： {{shopId}}</text>
           <text a:else>
-            <text style="color:red">*</text>不指定店铺，添加商品时可以随意输入</text>
+            <text style="color:red">*</text>不指定店铺，添加商品时可以自由输入。</text>
         </view>
         <view class="form-row-column-right">
-          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享</button>
+          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18px" color="#fff" /></button>
         </view>
       </view>
     </view>
@@ -51,7 +51,7 @@
             <swipe-action
                   index="{{index}}"
                   restore="{{swipeIndex === null || swipeIndex !== index}}"
-                  right="{{state===1 && product.ownerId === user.userId?itemRight:null}}"
+                  right="{{state===1 && (product.ownerId === user.userId || createdBy === user.userId)?itemRight:null}}"
                   onRightItemClick="onRightItemClick"
                   onSwipeStart="onSwipeStart"
                   extra="{{product.orderItemId}}"
@@ -98,8 +98,8 @@
       <text >{{showProduct.ownerName}} @ {{showProduct.formattedCreatedDate}}</text>
     </view>
   </view>
-  <view slot="footer" a:if="{{state===1 && showProduct.ownerId === user.userId}}">
-    <button type="warn" size="mini" onTap="onTapProductDelete">删除商品</button>
+  <view slot="footer" a:if="{{state===1 && (showProduct.ownerId === user.userId || createdBy === user.userId)}}">
+    <button type="warn" size="mini" onTap="onTapProductDelete"><am-icon type="delete" /></button>
   </view>
 </modal>
 <modal show="{{showCopyText}}" onModalClose="onTapCopy">
