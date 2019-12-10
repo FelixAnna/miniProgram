@@ -37,8 +37,8 @@
                 </view>
             </list-item>
           </swipe-action>
-          <view class="form-row-grey" style="padding:0px;">
-            <text style="color:blueviolet;font-size:10px;">{{order.ownerName}} @ {{order.formattedCreatedDate}}</text>
+          <view class="form-row-grey" style="padding:4px 0px 4px 16px;">
+            <text style="color:#8be;font-size:10px;">{{order.ownerName}} @ {{order.formattedCreatedDate}}</text>
           </view>
         <view class="form-line" />
       </block>
