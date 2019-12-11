@@ -170,10 +170,10 @@ Page({
     this.setData({showDatePicker:true})
   },
   clearDate(){
-    if(startDate === null){
+    if(this.data.startDate === null){
       return;
     }
-    
+
     this.setData({
         startDate:null,
         endDate:null,

@@ -3,9 +3,9 @@
   <template is="header" data="{{user,title:'我的订单'}}"></template>
   <view class="page-section">
     <view> 
-      <view onTap="clearDate" style="margin-left:16rpx;width:75%;display: inline-flex;font-size:15px;">
+      <view onTap="clearDate" style="margin-left:12rpx;width:75%;display: inline-flex;font-size:15px;">
         <text>{{displayDateRange}}</text>
-        <am-icon type="cross" size="18" color="#333" a:if="{{displayDateRange !== '所有时间'}}"/>
+        <am-icon type="cross" size="15" color="#f33" a:if="{{displayDateRange !== '所有时间'}}"/>
       </view>
       <button style="width:20%;display: inline-flex;" size="mini" type="primary" onTap="startSetDate">选择时间</button>
       <calendar
