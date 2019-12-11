@@ -23,7 +23,7 @@ export const getUserInfo = code => {
 
 /******************order managenent *************/
 export const getOrderById = id => {
-  return request.get({ url: `orders?orderId=${id}` });
+  return request.get({ url: `orders?orderId=${encodeURIComponent(id)}` });
 };
 
 export const createOrder = (id, shopId) => {
@@ -38,17 +38,17 @@ export const createOrder = (id, shopId) => {
 
 export const removeOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/remove?orderId=${id}` });
+  return request.post({ url: `orders/remove?orderId=${encodeURIComponent(id)}` });
 };
 
 export const lockOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/${id}/lock` });
+  return request.post({ url: `orders/${encodeURIComponent(id)}/lock` });
 };
 
 export const unlockOrder = id => {
   //as not support delete for now
-  return request.post({ url: `orders/${id}/unlock` });
+  return request.post({ url: `orders/${encodeURIComponent(id)}/unlock` });
 };
 export const getOrders = (page, size, start, end) => {
   //as not support delete for now

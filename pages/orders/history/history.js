@@ -10,11 +10,12 @@ const app = getApp();
 Page({
   data: {
     list: [],
+    displayList: [],
     user: {},
 
     startDate:null,
     endDate:null,
-    displayDateRange: null,
+    displayDateRange: "所有时间",
     showDatePicker: false,
 
     itemRight: [{ type: "delete", text: "删除" }],
@@ -80,33 +81,33 @@ Page({
   },
 
   onTabPage(index) {
-    my.showLoading({
-      content: "列表加载中...",
-      delay: "0"
-    });
+    if(index>=this.data.pageCount) index=this.data.pageCount;
+    if(index === 0) index=1;
     this.setData({
-      pageIndex: index
+      pageIndex: index,
+      pagedList: this.data.displayList.slice((index-1)*this.data.pageSize, index*this.data.pageSize),
     });
-
-    this.getOrders().finally(() => my.hideLoading());
   },
 
   getOrders() {
-    return getOrders(this.data.pageIndex, this.data.pageSize, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
+    return getOrders(this.data.pageIndex, 1000, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
         let orders = data.orders;
         orders.forEach((item, index) => {
           item.formattedCreatedDate = moment(item.createdAt).format("lll");
         });
         const pageCount = Math.ceil(data.totalCount / this.data.pageSize);
+        const pageIndex=this.data.pageIndex > pageCount ? pageCount : this.data.pageIndex;
         this.setData({
           swipeIndex: null,
           user: app.userInfo,
           pageCount: pageCount,
           list: orders,
-          pageIndex:
-            this.data.pageIndex > pageCount ? pageCount : this.data.pageIndex
+          displayList: orders,
+          pageIndex: pageIndex
+            
         });
+        this.onTabPage(pageIndex);
       })
       .catch(res => {
         if(res.status === 404){
@@ -114,11 +115,13 @@ Page({
             swipeIndex: null,
             user: app.userInfo,
             pageCount: 0,
+            
             list: [],
             pageIndex:1
           });
           return;
         }
+        
         my.confirm({
           title: "抱歉",
           content: "数据加载失败！",
@@ -139,6 +142,7 @@ Page({
         this.setData({ list: [] });
       });
   },
+
   deleteOrder(orderId) {
     my.confirm({
       content: "确定删除当前订单吗？",
@@ -146,12 +150,16 @@ Page({
         if (res.confirm) {
           removeOrder(orderId)
             .then(data => {
+              
               my.showLoading({
                 content: "列表加载中...",
                 delay: "0"
               });
-
-              this.getOrders().finally(() => my.hideLoading());
+              this.setData({
+                list: this.data.list.filter(item=> item.orderId!==orderId)
+              });
+              this.refresh();
+              my.hideLoading();
             })
             .catch(res => console.log("删除失败！"));
         }
@@ -161,13 +169,51 @@ Page({
   startSetDate(){
     this.setData({showDatePicker:true})
   },
+  clearDate(){
+    if(startDate === null){
+      return;
+    }
+    
+    this.setData({
+        startDate:null,
+        endDate:null,
+        displayDateRange: "所有时间",
+        showDatePicker:false
+      });
+      this.refresh();
+  },
   handleSelect([startDate, endDate]) {
     this.setData({
-      startDate,
-      endDate,
-      displayDateRange: moment(startDate).format('ll')+' ~ '+moment(endDate).format('ll'),
-      showDatePicker:false
+        startDate,
+        endDate,
+        displayDateRange: moment(startDate).format('ll')+' ~ '+moment(endDate).format('ll'),
+        showDatePicker:false
       });
-      this.onTabPage(this.data.pageIndex);
+
+      this.refresh();
+  },
+
+  refresh(){
+    let displayList = this.data.list;
+    if(this.data.startDate!=null){
+      const start=moment(this.data.startDate).startOf('date');
+      const end=moment(this.data.endDate).startOf('date').add(1,'d');
+
+      displayList = this.data.list
+                    .filter((item) => 
+                      moment(item.createdAt)>= start
+                      && moment(item.createdAt)< end
+                    );
+    }
+    const pageCount = Math.ceil(displayList.length / this.data.pageSize);
+    let pageIndex=this.data.pageIndex > pageCount ? pageCount : this.data.pageIndex;
+
+    this.setData({
+      swipeIndex: null,
+      pageCount: pageCount,
+      displayList,
+      pageIndex: pageIndex
+    });
+    this.onTabPage(pageIndex);
   },
 });

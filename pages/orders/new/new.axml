@@ -99,7 +99,7 @@
     </view>
   </view>
   <view slot="footer" a:if="{{state===1 && (showProduct.ownerId === user.userId || createdBy === user.userId)}}">
-    <button type="warn" size="mini" onTap="onTapProductDelete"><am-icon type="delete" /></button>
+    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="delete" size="18px" color="#fff"/></button>
   </view>
 </modal>
 <modal show="{{showCopyText}}" onModalClose="onTapCopy">
@@ -107,6 +107,6 @@
   <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
   <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
   <view slot="footer">
-    <button type="primary" size="mini" onTap="onTapCopy">去分享</button>
+    <button type="primary" size="mini" onTap="onTapCopy">去粘贴<am-icon type="share" size="18px" color="#fff" /></button>
   </view>
 </modal>

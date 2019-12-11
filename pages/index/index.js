@@ -7,6 +7,7 @@ const app = getApp();
 Page({
   data: {
     user: {},
+    title: "创建订单",
     orderId: undefined,
     enbleRandom: true
   },
@@ -36,9 +37,9 @@ Page({
     if (e.detail.value === true && this.data.user.userId!=undefined) {
       let orderId =
         getShortcode(this.data.user.userId) + "@" + getRandomShortcode();
-      this.setData({ orderId, enbleRandom: true });
+      this.setData({ orderId, enbleRandom: true, title:"创建订单" });
     } else {
-      this.setData({ orderId: "", enbleRandom: false });
+      this.setData({ orderId: "", enbleRandom: false, title:"打开订单" });
     }
   },
   onOrderIdBlur(e) {

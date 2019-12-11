@@ -3,8 +3,11 @@
   <template is="header" data="{{user,title:'我的订单'}}"></template>
   <view class="page-section">
     <view> 
-      <input style="width:86%" onFocus="startSetDate" value="{{displayDateRange}}" placeholder="选择时间" />
-    
+      <view onTap="clearDate" style="margin-left:16rpx;width:75%;display: inline-flex;font-size:15px;">
+        <text>{{displayDateRange}}</text>
+        <am-icon type="cross" size="18" color="#333" a:if="{{displayDateRange !== '所有时间'}}"/>
+      </view>
+      <button style="width:20%;display: inline-flex;" size="mini" type="primary" onTap="startSetDate">选择时间</button>
       <calendar
         type="range"
         haveYear="{{true}}"
@@ -16,11 +19,11 @@
       <view class="form-row-header">订单列表</view>
     </view>
     <view class="form-line" />
-    <view class="form-row" a:if="{{list.length<=0}}">
+    <view class="form-row" a:if="{{displayList.length<=0}}">
       <text>还没有创建或参与任何订单！</text>
     </view>
     <list a:else>
-      <block a:for="{{list}}" a:for-item="order">
+      <block a:for="{{pagedList}}" a:for-item="order">
           <swipe-action
                 index="{{index}}"
                 restore="{{swipeIndex === null || swipeIndex !== index}}"

@@ -1,7 +1,7 @@
 <!-- API-DEMO page/component/form/form.axml -->
 <import src="/components/header.axml"></import>
 <view class="page">
-  <template is="header" data="{{user,title:'打开订单'}}"></template>
+  <template is="header" data="{{user,title}}"></template>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
       <view class="page-section-title">选择模式</view>
