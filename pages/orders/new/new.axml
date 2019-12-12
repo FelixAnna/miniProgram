@@ -2,7 +2,9 @@
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
   <view class="order">
-    <view class="order no">订单序号：{{orderId}}{{state===2?" [已锁定]":""}}
+    <view class="order no">订单序号：{{orderId}}    
+    <am-icon type="success-o" size="24" color="#5d8" a:if="{{state==2}}" />
+    <am-icon type="wait-o" size="24" color="#bbb" a:else />
     </view>
   </view>
   <view a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
@@ -33,7 +35,7 @@
             <text style="color:red">*</text>不指定店铺，添加商品时可以自由输入。</text>
         </view>
         <view class="form-row-column-right">
-          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18px" color="#fff" /></button>
+          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
         </view>
       </view>
     </view>
@@ -67,8 +69,8 @@
         <view class="form-line" />
         <view class="page-section-demo">
           <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
-          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">标记完成</button>
+          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">继续修改</button>
           <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
           <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
         </view>
@@ -99,7 +101,7 @@
     </view>
   </view>
   <view slot="footer" a:if="{{state===1 && (showProduct.ownerId === user.userId || createdBy === user.userId)}}">
-    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="delete" size="18px" color="#fff"/></button>
+    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="delete" size="18" color="#fff"/></button>
   </view>
 </modal>
 <modal show="{{showCopyText}}" onModalClose="onTapCopy">
@@ -107,6 +109,6 @@
   <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
   <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
   <view slot="footer">
-    <button type="primary" size="mini" onTap="onTapCopy">去粘贴<am-icon type="share" size="18px" color="#fff" /></button>
+    <button type="primary" size="mini" onTap="onTapCopy">去粘贴<am-icon type="share" size="18" color="#fff" /></button>
   </view>
 </modal>

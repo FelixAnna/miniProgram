@@ -49,6 +49,17 @@ Page({
     //load order data if exists
     this.getOrders().finally(() => my.hideLoading());
   },
+  onPullDownRefresh() {
+    this.getOrders().finally(() =>   my.stopPullDownRefresh({
+      success(res) {
+         my.showToast({
+          type: 'success',
+          content: '刷新成功',
+          duration: 3000
+        });
+      }
+    }));
+  },
   openDetails(e) {
     const { id } = e.target.dataset;
 
@@ -90,7 +101,7 @@ Page({
   },
 
   getOrders() {
-    return getOrders(this.data.pageIndex, 1000, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
+    return getOrders(1, 1000, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
         let orders = data.orders;
         orders.forEach((item, index) => {

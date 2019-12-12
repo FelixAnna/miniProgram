@@ -1,5 +1,6 @@
 {
   "defaultTitle": "历史记录",
+  "pullRefresh": true,
   "usingComponents": {
     "pagination": "mini-antui/es/pagination/index",
     "card": "mini-antui/es/card/index",

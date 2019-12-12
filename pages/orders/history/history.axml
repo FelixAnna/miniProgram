@@ -46,7 +46,10 @@
                 订单号:{{order.orderId}}
                 <view class="am-list-brief">共{{order.totalItems}}份，合计：{{order.totalCost}}元</view>
                 <view a:if="{{order.state === 2}}" slot="extra">
-                  已锁定
+                  <am-icon type="success-o" size="24" color="#5d8"/>
+                </view>
+                <view a:if="{{order.state === 1}}" slot="extra">
+                  <am-icon type="wait-o" size="24" color="#bbb" />
                 </view>
             </list-item>
           </swipe-action>
