@@ -49,6 +49,11 @@ Page({
     //load order data if exists
     this.getOrders().finally(() => my.hideLoading());
   },
+  onShow(){
+    my.showTabBar({
+        animation: true
+    });
+  },
   onPullDownRefresh() {
     this.getOrders().finally(() =>   my.stopPullDownRefresh({
       success(res) {
