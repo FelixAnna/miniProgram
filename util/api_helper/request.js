@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:59422";
+const baseUrl = "https://bookingoffline2.azurewebsites.net";
 const app = getApp();
 
 export const request = params => {
