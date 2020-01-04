@@ -2,7 +2,7 @@
 Page({
   data: {
     title: "删除成功",
-    subTitle: "订单已删除, 15秒后返回首页。",
+    subTitle: "订单已删除, 5秒后返回首页。",
     messageButton: {
       mainButton: {
         buttonText: "返回首页"

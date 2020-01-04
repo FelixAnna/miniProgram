@@ -69,10 +69,10 @@
         <view class="form-line" />
         <view class="page-section-demo">
           <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">标记完成</button>
-          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">继续修改</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">提交</button>
+          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">撤回</button>
           <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除</button>
         </view>
       </view>
       <view class="form-row" a:else>
@@ -105,7 +105,7 @@
   </view>
 </modal>
 <modal show="{{showCopyText}}" onModalClose="onTapCopy">
-  <view slot="header">全选复制</view>
+  <view slot="header">请全选后复制</view>
   <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
   <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
   <view slot="footer">

@@ -175,14 +175,14 @@ Page({
         this.setData({
           state: 2
         });
-        console.log(`订单已锁定.`);
+        console.log(`订单已提交.`);
       });
     else
       unlockOrder(this.data.orderId).then(res => {
         this.setData({
           state: 1
         });
-        console.log(`订单已解锁.`);
+        console.log(`订单已撤回.`);
       });
   },
   onTapCopy(e) {
@@ -290,8 +290,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "订单分享",
-      desc: "请点击进入购物，完成后一键生成团队订单，并发送给商家。",
+      title: "群订单统计邀请",
+      desc: "请点击进入订单，编辑完成后一键生成统计信息，复制后可以去各种通信工具里分享。",
       path: "/pages/orders/new/new?orderId=" + this.data.orderId
     };
   },

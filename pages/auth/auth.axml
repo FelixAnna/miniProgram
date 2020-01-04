@@ -1,0 +1,23 @@
+<!-- API-DEMO page/component/form/form.axml -->
+<import src="/components/header.axml"></import>
+<view class="page">
+  <template is="header" data="{{user,title}}"></template>
+  <form onSubmit="onSubmit" onReset="onReset">
+    <view class="page-section">
+      <view class="page-section-title">授权须知</view>
+      <view class="form-line"></view>
+      <view class="form-line"></view>
+      <view class="form-row">
+        <view class="form-row-label">授权内容</view>
+        <view class="form-row-content" style="text-align: right">
+          获取您的公开信息：如昵称、头像等。
+        </view>
+      </view>
+    </view>
+    <view class="page-section">
+      <view class="page-section-demo">
+        <button form-type="submit" type="primary">开始授权</button>
+      </view>
+    </view>
+  </form>
+</view>

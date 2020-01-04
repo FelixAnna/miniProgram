@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/auth/auth",
     "pages/index/index",
     "pages/products/add/add",
     "pages/products/search/search",
@@ -10,7 +11,7 @@
     "pages/orders/history/history"
   ],
   "window": {
-    "defaultTitle": "线下统计",
+    "defaultTitle": "群订单统计",
     "titleBarColor": "#323239"
   },
   "tabBar": {

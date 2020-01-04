@@ -2,7 +2,7 @@
 Page({
   data: {
     title: "添加成功",
-    subTitle: "商品已成功加入订单，请等待管理员统一提交。",
+    subTitle: "商品已成功加入订单，请等待管理员提交。",
     messageButton: {
       mainButton: {
         buttonText: "继续添加"
