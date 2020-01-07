@@ -52,6 +52,8 @@ App({
               .catch(res => {
                 reject({});
               });
+          } else {
+            resolve(tokenInfo);
           }
         },
         fail: () => {
