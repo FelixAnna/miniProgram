@@ -12,42 +12,47 @@ App({
           console.info(authcode);
 
           /*******Ensure userInfo got***** */
-          const tokenInfo = my.getStorageSync({
+          let tokenInfo = my.getStorageSync({
             key: "tokenInfo"
           }).data;
 
-          login(authcode.authCode)
-            .then(data => {
-              my.setStorageSync({
-                key: "tokenInfo",
-                data: data
-              });
-            })
-            .catch(res => {
-              reject({});
-            });
+          if(tokenInfo === null){
+            login(authcode.authCode)
+              .then(data => {
+                my.setStorageSync({
+                  key: "tokenInfo",
+                  data: data
+                });
 
-          my.getAuthUserInfo({
-            success: res => {
-              this.userInfo = { ...res, userId: tokenInfo.userId };
-              if (
-                this.userInfo.nickName !== tokenInfo.nickName ||
-                this.userInfo.avatar !== tokenInfo.avatar
-              ) {
-                updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
-                  .then(res => {
-                    console.log("username & avatar updated.");
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
-              }
-              resolve(this.userInfo);
-            },
-            fail: () => {
-              reject({});
-            }
-          });
+                tokenInfo = data;
+
+                my.getAuthUserInfo({
+                  success: res => {
+                    console.info(res);
+                    this.userInfo = { ...res, userId: tokenInfo.userId };
+                    if (
+                      this.userInfo.nickName !== tokenInfo.nickName ||
+                      this.userInfo.avatar !== tokenInfo.avatar
+                    ) {
+                      updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
+                        .then(res => {
+                          console.log("username & avatar updated.");
+                        })
+                        .catch(error => {
+                          console.log(error);
+                        });
+                    }
+                    resolve(this.userInfo);
+                  },
+                  fail: () => {
+                    reject({});
+                  }
+                });
+              })
+              .catch(res => {
+                reject({});
+              });
+          }
         },
         fail: () => {
           reject({});
