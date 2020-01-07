@@ -1,4 +1,6 @@
 import { login, updateUserInfo } from "./util/api_helper";
+import moment from "moment";
+
 App({
   userInfo: null,
 
@@ -15,6 +17,10 @@ App({
           let tokenInfo = my.getStorageSync({
             key: "tokenInfo"
           }).data;
+          if(tokenInfo =!null && moment(tokenInfo.expiresIn).isBefore(moment().utc())){
+            console.log(tokenInfo.expiresIn);
+            tokenInfo =null;
+          }
 
           if(tokenInfo === null){
             login(authcode.authCode)
