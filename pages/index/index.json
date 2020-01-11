@@ -2,6 +2,7 @@
   "defaultTitle": "首页",
   "transparentTitle": "none",
   "usingComponents": {
-    "am-icon": "mini-antui/es/am-icon/index"
+    "am-icon": "mini-antui/es/am-icon/index",
+    "footer": "mini-antui/es/footer/index"
   }
 }

@@ -47,7 +47,7 @@ Page({
     }
 
     //load order data if exists
-    this.getOrders().finally(() => my.hideLoading());
+    this.loadOrders(false, () => my.hideLoading());
   },
   onShow(){
     my.showTabBar({
@@ -55,7 +55,7 @@ Page({
     });
   },
   onPullDownRefresh() {
-    this.getOrders().finally(() =>   my.stopPullDownRefresh({
+    this.loadOrders(true, () => my.stopPullDownRefresh({
       success(res) {
          my.showToast({
           type: 'success',
@@ -105,28 +105,35 @@ Page({
     });
   },
 
-  getOrders() {
+  loadOrders(force, callback) {
+    if(!force) {
+        var data = my.getStorageSync({
+            key: 'history'
+          }).data;
+          if(data!==null){
+            this.renderData(data);
+            callback();
+            return;
+          }
+    }
+
     return getOrders(1, 1000, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
-        let orders = data.orders;
-        orders.forEach((item, index) => {
-          item.formattedCreatedDate = moment(item.createdAt).format("lll");
+        my.setStorage({
+          key: 'history',
+          data: data
         });
-        const pageCount = Math.ceil(data.totalCount / this.data.pageSize);
-        const pageIndex=this.data.pageIndex > pageCount ? pageCount : this.data.pageIndex;
-        this.setData({
-          swipeIndex: null,
-          user: app.userInfo,
-          pageCount: pageCount,
-          list: orders,
-          displayList: orders,
-          pageIndex: pageIndex
-            
-        });
-        this.onTabPage(pageIndex);
+
+        this.renderData(data);
       })
       .catch(res => {
-        if(res.status === 404){
+        this.handleError(res);
+      }).finally(() => {
+          callback();
+      });
+  },
+  handleError(res){
+    if(res.status === 404){
           this.setData({
             swipeIndex: null,
             user: app.userInfo,
@@ -149,14 +156,33 @@ Page({
                 url: "/pages/orders/history/history"
               });
             } else {
-              my.redirectTo({
+              my.switchTab({
                 url: "/pages/index/index"
               });
             }
           }
         });
         this.setData({ list: [] });
-      });
+  },
+  renderData(data)
+  {
+        let orders = data.orders;
+        orders.forEach((item, index) => {
+          item.formattedCreatedDate = moment(item.createdAt).format("lll");
+        });
+
+        const pageCount = Math.ceil(data.totalCount / this.data.pageSize);
+        const pageIndex=this.data.pageIndex > pageCount ? pageCount : this.data.pageIndex;
+        this.setData({
+          swipeIndex: null,
+          user: app.userInfo,
+          pageCount: pageCount,
+          list: orders,
+          displayList: orders,
+          pageIndex: pageIndex
+            
+        });
+        this.onTabPage(pageIndex);
   },
 
   deleteOrder(orderId) {

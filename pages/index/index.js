@@ -1,7 +1,5 @@
 import { getApiStatus, unlockOrder } from "../../util/api_helper";
 import { getShortcode, getRandomShortcode } from "../../util/shortcode";
-// 获取全局 app 实例
-const app = getApp();
 
 // API-DEMO page/component/form/form.js
 Page({
@@ -12,19 +10,16 @@ Page({
     enbleRandom: true
   },
   onLoad() {
+    
+  },
+
+  onShow(){
+    // 获取全局 app 实例
+    const app = getApp();
     if (!app.userInfo) {
-      app.getUserInfo().then(
-        user => {
-          this.setData({
-            user,
-            orderId: getShortcode(user.userId) + "@" + getRandomShortcode()
-          });
-          console.log(user);
-        },
-        () => {
-          // 获取用户信息失败
-        }
-      );
+      my.navigateTo({
+        url: "/pages/auth/auth"
+      });
     } else {
       this.setData({
         user: app.userInfo,
@@ -33,6 +28,7 @@ Page({
       });
     }
   },
+
   tapCreateRandom(e) {
     if (e.detail.value === true && this.data.user.userId!=undefined) {
       let orderId =

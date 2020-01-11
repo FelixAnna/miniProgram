@@ -26,3 +26,6 @@
     </view>
   </form>
 </view>
+<view>
+  <footer copyright="© 2019-2020 Alipay.com. All rights reserved." links="{{[{ text: '历史记录', url: '/pages/orders/history/history' }]}}" />
+</view>
