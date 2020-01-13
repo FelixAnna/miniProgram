@@ -59,7 +59,28 @@ App({
                 reject({});
               });
           } else {
-            resolve(tokenInfo);
+            my.getAuthUserInfo({
+                  success: res => {
+                    console.info(res);
+                    this.userInfo = { ...res, userId: tokenInfo.userId };
+                    if (
+                      this.userInfo.nickName !== tokenInfo.nickName ||
+                      this.userInfo.avatar !== tokenInfo.avatar
+                    ) {
+                      updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
+                        .then(res => {
+                          console.log("username & avatar updated.");
+                        })
+                        .catch(error => {
+                          console.log(error);
+                        });
+                    }
+                    resolve(this.userInfo);
+                  },
+                  fail: () => {
+                    reject({});
+                  }
+                });
           }
         },
         fail: () => {
