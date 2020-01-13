@@ -62,3 +62,4 @@
     <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
   </view>
 </view>
+<footer/>

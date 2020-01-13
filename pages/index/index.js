@@ -24,7 +24,7 @@ Page({
       this.setData({
         user: app.userInfo,
         orderId:
-          getShortcode(app.userInfo.userId) + "@" + getRandomShortcode()
+          getRandomShortcode()
       });
     }
   },
@@ -32,7 +32,7 @@ Page({
   tapCreateRandom(e) {
     if (e.detail.value === true && this.data.user.userId!=undefined) {
       let orderId =
-        getShortcode(this.data.user.userId) + "@" + getRandomShortcode();
+        getRandomShortcode();
       this.setData({ orderId, enbleRandom: true, title:"创建订单" });
     } else {
       this.setData({ orderId: "", enbleRandom: false, title:"打开订单" });
