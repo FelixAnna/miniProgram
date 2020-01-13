@@ -17,7 +17,7 @@ App({
           let tokenInfo = my.getStorageSync({
             key: "tokenInfo"
           }).data;
-          if(tokenInfo =!null && moment(tokenInfo.expiresIn).isBefore(moment().utc())){
+          if(tokenInfo ==!null && moment(tokenInfo.expiresIn).isBefore(moment().utc())){
             console.log(tokenInfo.expiresIn);
             tokenInfo =null;
           }

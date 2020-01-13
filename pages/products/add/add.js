@@ -32,10 +32,10 @@ Page({
   },
   onTitleClick() {
     // 点击标题触发
-    my.alert({
+    /*my.alert({
       title: "ShopId, OrderId",
       content: this.data.shopId + ", " + this.data.orderId
-    });
+    });*/
   },
   onShow() {
     this.getCurrentSelection();
