@@ -294,7 +294,7 @@ Page({
   onShareAppMessage() {
     return {
       title: "群订单统计邀请",
-      desc: "请点击进入订单，编辑完成后一键生成统计信息，复制后可以去各种通信工具里分享。",
+      desc: "请点击本链接以参与编辑，随后一键生成汇总信息，复制后可轻松分享。",
       path: "/pages/orders/new/new?orderId=" + this.data.orderId
     };
   },
