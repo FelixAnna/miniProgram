@@ -170,17 +170,20 @@ Page({
   },
 
   onSubmit(e) {
+    this.setData({lockUnlockClicked:true});
     if (this.data.state === 1)
       lockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 2
+          state: 2,
+          lockUnlockClicked:false
         });
         console.log(`订单已提交.`);
       });
     else
       unlockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 1
+          state: 1,
+          lockUnlockClicked:false
         });
         console.log(`订单已撤回.`);
       });
