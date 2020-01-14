@@ -13,7 +13,8 @@ Page({
     },
     user: {},
     links: [],
-    showDialog: false
+    showDialog: false,
+    submitClicked: false
   },
   onLoad(e) {
     const orderId = e.orderId;
@@ -41,6 +42,7 @@ Page({
     this.getCurrentSelection();
   },
   onSubmit(e) {
+    this.setData({submitClicked: true});
     if (
       e.detail.value.input_name !== undefined &&
       e.detail.value.input_name.length > 0 &&
@@ -87,10 +89,14 @@ Page({
               "&orderId=" +
               this.data.orderId
           });
+        }).finally(res=>{
+          this.setData({
+            submitClicked: false
+          });
         });
     } else {
       this.setData({
-        showDialog: true
+        showDialog: true, submitClicked: false
       });
       return;
     }

@@ -56,7 +56,7 @@
           </view>
           <view slot="operation" class="opt-button" onTap="onDialogTap">知道了</view>
         </tips-dialog>
-        <button form-type="submit" type="primary">提交</button>
+        <button form-type="submit" type="primary" disabled="{{submitClicked}}" loading="{{submitClicked}}" >提交</button>
         <button form-type="reset">重置</button>
       </view>
     </view>

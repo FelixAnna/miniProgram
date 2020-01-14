@@ -7,7 +7,8 @@ Page({
     user: {},
     title: "创建订单",
     orderId: undefined,
-    enbleRandom: true
+    enbleRandom: true,
+    submitClicked: false
   },
   onLoad() {
     
@@ -47,12 +48,14 @@ Page({
     this.setData({ orderId: value });
   },
   onSubmit(e) {
+    this.setData({submitClicked: true});
     const value = e.detail.value.orderId;
     if(value !==undefined && value !== this.data.orderId)
     {
       my.navigateTo({
         url: "../orders/new/new?orderId=" + value
       });
+      this.setData({submitClicked: false});
       return;
     }
 
@@ -61,6 +64,7 @@ Page({
         url: "../orders/new/new?orderId=" + this.data.orderId
       });
     }
+    this.setData({submitClicked: false});
   },
   onReset() {
     this.setData({ orderId: "", enbleRandom: false });

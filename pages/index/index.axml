@@ -21,7 +21,7 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="submit" type="primary">确定</button>
+        <button disabled="{{orderId==='' || orderId===undefined || submitClicked}}" loading="{{submitClicked}}" form-type="submit" type="primary">确定</button>
       </view>
     </view>
   </form>

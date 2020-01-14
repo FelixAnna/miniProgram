@@ -13,7 +13,7 @@
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button form-type="submit" type="primary">同意授权</button>
+        <button form-type="submit" type="primary" disabled="{{submitClicked}}" loading="{{submitClicked}}">同意授权</button>
       </view>
     </view>
   </form>

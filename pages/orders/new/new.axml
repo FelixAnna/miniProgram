@@ -7,7 +7,7 @@
     <am-icon type="wait-o" size="24" color="#bbb" a:else />
     </view>
   </view>
-  <view a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
+  <view a:if="{{ownerName!==null}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
   <view class="order createdby" a:else>准备创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">

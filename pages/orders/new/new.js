@@ -311,6 +311,7 @@ Page({
       productList: order.productList,
       state: order.state,
       createdBy: order.createdBy,
+      ownerName: order.ownerName,
       createdAt: moment(order.createdAt).format("lll"),
 
       currentPagedList: this.formatOrderItem(
