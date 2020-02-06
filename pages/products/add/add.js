@@ -24,11 +24,7 @@ Page({
     this.setData({
       user: app.userInfo,
       orderId,
-      shopId,
-      links: [
-        { text: "首页", url: "../../index/index" },
-        { text: "订单详情", url: "../../orders/new/new?orderId=" + orderId }
-      ]
+      shopId
     });
   },
   onTitleClick() {
@@ -80,6 +76,10 @@ Page({
               "&orderId=" +
               this.data.orderId
           });
+
+          this.setData({
+            submitClicked: false
+          });
         })
         .catch(error => {
           my.redirectTo({
@@ -89,11 +89,18 @@ Page({
               "&orderId=" +
               this.data.orderId
           });
-        }).finally(res=>{
+
           this.setData({
             submitClicked: false
           });
         });
+        //not supported in iphone 11
+        /*.finally(res=>{
+          this.setData({
+            submitClicked: false
+          });
+        });*/
+        
     } else {
       this.setData({
         showDialog: true, submitClicked: false

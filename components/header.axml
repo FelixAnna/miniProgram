@@ -1,6 +1,6 @@
 <template name="header">
   <view class="user">
-    <image class="avatar" src="{{user.avatar || '../../assets/logo.png'}}" background-size="cover"></image>
+    <image class="avatar" src="{{user.avatar || '../../assets/bfonline.png'}}" background-size="cover"></image>
     <view class="nickname">{{title}}</view>
   </view>
 </template>

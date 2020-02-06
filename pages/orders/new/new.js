@@ -9,7 +9,8 @@ import {
 import moment from "moment";
 // 获取全局 app 实例
 const app = getApp();
-
+// 特征检测
+my.canIUse('page.events.onBack');
 // API-DEMO page/component/form/form.js
 Page({
   data: {
@@ -64,7 +65,10 @@ Page({
 
     //load order data if exists
     getOrderById(orderId)
-      .then(data => this.loadOrder(data))
+      .then(data => {
+        this.loadOrder(data); 
+        my.hideLoading();
+      })
       .catch(res => {
         if (res.status === 404) {
           //enable auto create if not exists
@@ -91,14 +95,17 @@ Page({
           });
           this.setData({ orderId });
         }
-      })
-      .finally(() => my.hideLoading());
+        my.hideLoading();
+      });
   },
 
   events: {
-    onBack() {
+    onBack(e){
+      e.preventDefault();
       // 页面返回时触发
-      my.redirectTo({ url: "../../index/index" });
+     my.switchTab({
+        url: "/pages/index/index"
+      });
     }
   },
   tapSkip(e) {

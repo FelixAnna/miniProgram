@@ -125,12 +125,16 @@ Page({
         });
 
         this.renderData(data);
+        callback();
       })
       .catch(res => {
         this.handleError(res);
-      }).finally(() => {
-          callback();
+        callback();
       });
+      //not supported in iphone 11
+      /*.finally(() => {
+          callback();
+      });*/
   },
   handleError(res){
     if(res.status === 404){

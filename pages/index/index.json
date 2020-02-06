@@ -3,6 +3,6 @@
   "transparentTitle": "none",
   "usingComponents": {
     "am-icon": "mini-antui/es/am-icon/index",
-    "footer": "mini-antui/es/footer/index"
+    "footer": "/components/footer/footer"
   }
 }

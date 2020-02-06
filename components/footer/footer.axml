@@ -1,3 +1,7 @@
 <view>
-  <footer copyright="© 2019-2020 Alipay.com. All rights reserved." links="{{links}}" />
+  <view class="hyper-link-text">
+    <button plain="{{true}}" style="border: 0; padding: 0 10px 0 0;" onTap="backHome" size="mini">返回首页</button>
+    <button style="border: 0; padding: 0 0 0 10px;" size="mini" plain="{{true}}" onTap="backHistory">历史记录</button>
+  </view>
+  <footer copyright="© 2019-2020 Alipay.com. All rights reserved."></footer>
 </view>

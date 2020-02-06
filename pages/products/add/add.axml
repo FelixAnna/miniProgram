@@ -60,8 +60,6 @@
         <button form-type="reset">重置</button>
       </view>
     </view>
-    <view>
-      <footer copyright="© 2019-2020 Alipay.com. All rights reserved." links="{{links}}" />
-    </view>
+      <footer/>
   </form>
 </view>
