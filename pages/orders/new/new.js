@@ -177,17 +177,20 @@ Page({
   },
 
   onSubmit(e) {
+    this.setData({lockUnlockClicked:true});
     if (this.data.state === 1)
       lockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 2
+          state: 2,
+          lockUnlockClicked:false
         });
         console.log(`订单已提交.`);
       });
     else
       unlockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 1
+          state: 1,
+          lockUnlockClicked:false
         });
         console.log(`订单已撤回.`);
       });
@@ -298,7 +301,7 @@ Page({
   onShareAppMessage() {
     return {
       title: "群订单统计邀请",
-      desc: "请点击进入订单，编辑完成后一键生成统计信息，复制后可以去各种通信工具里分享。",
+      desc: "请点击本链接以参与编辑，随后一键生成汇总信息，复制后可轻松分享。",
       path: "/pages/orders/new/new?orderId=" + this.data.orderId
     };
   },
