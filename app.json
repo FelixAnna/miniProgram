@@ -13,24 +13,5 @@
   "window": {
     "defaultTitle": "群订单统计",
     "titleBarColor": "#323239"
-  },
-  "tabBar": {
-    "textColor": "#dddddd",
-    "selectedColor": "#49a9ee",
-    "backgroundColor": "#ffffff",
-    "items": [
-      {
-        "pagePath": "pages/index/index",
-        "icon": "assets/icons/add_grey.png",
-        "activeIcon": "assets/icons/add.png",
-        "name": "首页"
-      },
-      {
-        "pagePath": "pages/orders/history/history",
-        "icon": "assets/icons/history_grey.png",
-        "activeIcon": "assets/icons/history.png",
-        "name": "历史记录"
-      }
-    ]
   }
 }

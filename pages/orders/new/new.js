@@ -103,7 +103,7 @@ Page({
     onBack(e){
       e.preventDefault();
       // 页面返回时触发
-     my.switchTab({
+     my.navigateTo({
         url: "/pages/index/index"
       });
     }

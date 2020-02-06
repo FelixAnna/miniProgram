@@ -160,7 +160,7 @@ Page({
                 url: "/pages/orders/history/history"
               });
             } else {
-              my.switchTab({
+              my.navigateTo({
                 url: "/pages/index/index"
               });
             }
