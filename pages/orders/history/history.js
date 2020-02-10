@@ -33,17 +33,13 @@ Page({
     });
     //Ensure user loaded
     if (!app.userInfo) {
-      app.getUserInfo().then(
-        user => {
-          this.setData({
-            user
+      my.redirectTo({
+        url: "/pages/auth/auth?page=history"
+      });
+    }else{
+      this.setData({
+            user: app.userInfo,
           });
-          console.log(user);
-        },
-        () => {
-          // 获取用户信息失败
-        }
-      );
     }
 
     //load order data if exists
@@ -196,7 +192,11 @@ Page({
         if (res.confirm) {
           removeOrder(orderId)
             .then(data => {
-              
+              my.showToast({
+                type: 'success',
+                content: '删除成功',
+                duration: 1000
+              });
               my.showLoading({
                 content: "列表加载中...",
                 delay: "0"
@@ -207,7 +207,14 @@ Page({
               this.refresh();
               my.hideLoading();
             })
-            .catch(res => console.log("删除失败！"));
+            .catch(res => {
+              my.showToast({
+                type: 'fail',
+                content: '删除失败，请下拉刷新后重试！',
+                duration: 1500
+              });
+              console.log("删除失败！")
+            });
         }
       }
     });

@@ -2,7 +2,7 @@
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
   <view class="order">
-    <view class="order no">订单号：{{orderId}}    
+    <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
     <am-icon type="success-o" size="24" color="#5d8" a:if="{{state==2}}" />
     <am-icon type="wait-o" size="24" color="#bbb" a:else />
     </view>

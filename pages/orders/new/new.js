@@ -50,19 +50,14 @@ Page({
     });
     //Ensure user loaded
     if (!app.userInfo) {
-      app.getUserInfo().then(
-        user => {
-          this.setData({
-            user
+      my.redirectTo({
+        url: "/pages/auth/auth?page=order&id="+orderId
+      });
+    }else{
+      this.setData({
+            user: app.userInfo,
           });
-          console.log(user);
-        },
-        () => {
-          // 获取用户信息失败
-        }
-      );
     }
-
     //load order data if exists
     getOrderById(orderId)
       .then(data => {

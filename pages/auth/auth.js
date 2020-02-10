@@ -2,16 +2,24 @@ const app = getApp();
 
 Page({
   data: {
-    submitClicked: false
+    submitClicked: false,
+    page: "index",
+    id: undefined
   },
-  onLoad() {
+  onLoad(e) {
+    if(e.page){
+      this.setData({
+        page: e.page,
+        id: e.id
+      })
+    }
   },
   onShow(){
     // 获取全局 app 实例
     const app2 = getApp();
     if (app2.userInfo) {
       my.redirectTo({
-        url: "/pages/index/index"
+        url: this.getRedirectPage()
       });
     }
   },
@@ -20,8 +28,8 @@ Page({
       app.getUserInfo().then(
         user => {
           console.log(user);
-          my.navigateTo({
-            url: "/pages/index/index"
+          my.redirectTo({
+            url: this.getRedirectPage()
           });
           this.setData({submitClicked: false});
           return;
@@ -32,4 +40,14 @@ Page({
         }
       );
   },
+  getRedirectPage(){
+    if(this.data.page === "order")
+    {
+      return "/pages/orders/new/new?orderId="+this.data.id
+    }else if(this.data.page === "history"){
+      return "/pages/orders/history/history"
+    }else{
+      return "/pages/index/index"
+    }
+  }
 });
