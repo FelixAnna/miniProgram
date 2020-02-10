@@ -6,6 +6,15 @@ Page({
   },
   onLoad() {
   },
+  onShow(){
+    // 获取全局 app 实例
+    const app2 = getApp();
+    if (app2.userInfo) {
+      my.redirectTo({
+        url: "/pages/index/index"
+      });
+    }
+  },
   onSubmit(e) {
       this.setData({submitClicked: true});
       app.getUserInfo().then(

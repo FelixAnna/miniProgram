@@ -110,7 +110,7 @@ Page({
   },
   onReset() {},
   onStartSearch() {
-    my.navigateTo({
+    my.redirectTo({
       url:
         "../search/search?orderId=" +
         this.data.orderId +

@@ -103,7 +103,7 @@ Page({
     onBack(e){
       e.preventDefault();
       // 页面返回时触发
-     my.navigateTo({
+     my.redirectTo({
         url: "/pages/index/index"
       });
     }

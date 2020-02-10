@@ -18,7 +18,7 @@ Page({
     // 获取全局 app 实例
     const app = getApp();
     if (!app.userInfo) {
-      my.navigateTo({
+      my.redirectTo({
         url: "/pages/auth/auth"
       });
     } else {
@@ -52,7 +52,7 @@ Page({
     const value = e.detail.value.orderId;
     if(value !==undefined && value !== this.data.orderId)
     {
-      my.navigateTo({
+      my.redirectTo({
         url: "../orders/new/new?orderId=" + value
       });
       this.setData({submitClicked: false});
@@ -60,7 +60,7 @@ Page({
     }
 
     if (this.data.orderId > 0 || this.data.orderId.length > 0) {
-      my.navigateTo({
+      my.redirectTo({
         url: "../orders/new/new?orderId=" + this.data.orderId
       });
     }

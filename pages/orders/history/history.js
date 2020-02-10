@@ -160,7 +160,7 @@ Page({
                 url: "/pages/orders/history/history"
               });
             } else {
-              my.navigateTo({
+              my.redirectTo({
                 url: "/pages/index/index"
               });
             }
