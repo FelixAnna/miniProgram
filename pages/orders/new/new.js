@@ -98,7 +98,17 @@ Page({
         my.hideLoading();
       });
   },
-
+  onPullDownRefresh() {
+    this.getOrder(this.data.orderId, () => my.stopPullDownRefresh({
+      success(res) {
+         my.showToast({
+          type: 'success',
+          content: '刷新成功',
+          duration: 3000
+        });
+      }
+    }));
+  },
   events: {
     onBack(e){
       e.preventDefault();
@@ -259,12 +269,12 @@ Page({
         if (res.confirm) {
           removeOrderItem(orderItemId)
             .then(data => {
-              this.getOrder(this.data.orderId);
-              my.showToast({
+              this.getOrder(this.data.orderId, ()=>my.showToast({
                 type: "success",
                 content: "删除成功！",
                 duration: 1500
-              });
+              }));
+              
             })
             .catch(res =>
               my.showToast({
@@ -332,10 +342,11 @@ Page({
     });
   },
 
-  getOrder(orderId) {
+  getOrder(orderId, callback) {
     getOrderById(orderId)
       .then(data => {
         this.loadOrder(data);
+        callback();
       })
       .catch(res => {
         my.showToast({

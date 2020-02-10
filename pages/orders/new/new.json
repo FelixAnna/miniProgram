@@ -1,5 +1,6 @@
 {
   "defaultTitle": "订单详情",
+  "pullRefresh": true,
   "usingComponents": {
     "pagination": "mini-antui/es/pagination/index",
     "modal": "mini-antui/es/modal/index",

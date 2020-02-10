@@ -1,11 +1,3 @@
-.form-row-header {
-  width: 100%;
-  font-size: 36rpx;
-  margin-right: 2rpx;
-  text-align: center;
-  color: #0e7fd6;
-}
-
 .form-row-column-left {
   width: 82%;
   text-align: left;
@@ -26,7 +18,7 @@
 }
 .am-card {
   display: flex;
-  background-color: rgb(255, 255, 255);
+  background-color: inherit;
   border-radius: 0px;
   margin: 0px;
   -webkit-box-align: center;

@@ -41,8 +41,8 @@
     </view>
     <view class="page-section">
       <view a:if="{{createdBy!==null}}">
-        <view class="form-row">
-          <view class="form-row-header">商品列表</view>
+        <view class="form-row-header">
+          <view class="form-row-header-content">商品列表</view>
         </view>
         <view class="form-line" />
         <view class="form-row" a:if="{{productList.length<=0}}">
@@ -58,7 +58,7 @@
                   onSwipeStart="onSwipeStart"
                   extra="{{product.orderItemId}}"
                 >
-              <view data-id="{{product.orderItemId}}" onTap="openDetails">
+              <view class="{{index%2==0?'odd-row':'even-row'}}" data-id="{{product.orderItemId}}" onTap="openDetails">
                 <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
               </view>
             </swipe-action>
