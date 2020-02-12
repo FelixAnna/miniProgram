@@ -1,3 +1,10 @@
-.form-row-content{
+.form-row-desc{
+  flex: 1;
   font-size: 25rpx;
+  padding: 10px 20px 18px;
+}
+
+.form-row-title {
+  flex: 1;
+  font-size: 34rpx;
 }

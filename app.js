@@ -32,10 +32,11 @@ App({
 
                 tokenInfo = data;
 
-                my.getAuthUserInfo({
+                my.getOpenUserInfo({
                   success: res => {
                     console.info(res);
-                    this.userInfo = { ...res, userId: tokenInfo.userId };
+                    const response=JSON.parse(res.response).response;
+                    this.userInfo = { ...response, userId: tokenInfo.userId };
                     if (
                       this.userInfo.nickName !== tokenInfo.nickName ||
                       this.userInfo.avatar !== tokenInfo.avatar
@@ -59,10 +60,11 @@ App({
                 reject({});
               });
           } else {
-            my.getAuthUserInfo({
+            my.getOpenUserInfo({
                   success: res => {
                     console.info(res);
-                    this.userInfo = { ...res, userId: tokenInfo.userId };
+                    const response=JSON.parse(res.response).response;
+                    this.userInfo = { ...response, userId: tokenInfo.userId };
                     if (
                       this.userInfo.nickName !== tokenInfo.nickName ||
                       this.userInfo.avatar !== tokenInfo.avatar
