@@ -12,17 +12,14 @@ Page({
           name: 'div',
           children: [{
             type: 'text',
-            text: '本小程序旨在方便群组成员，好友等共同订餐；也可以辅助其它需要汇总和统计的任务。',
-          },{
-            type: 'text',
-            text:'',
+            text: '本小程序旨在方便群组成员，好友等共同订餐，也可以辅助其它需要汇总和统计的任务。',
           }],
         },
         {
           name: 'span',
           children: [{
             type: 'text',
-            text: '用户可以',
+            text: '1. 用户可以',
           }],
         },
         {
@@ -50,7 +47,21 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '给群友或好友后，所有人可以',
+            text: '给群友或好友；',
+          }],
+        },
+        {
+          name: 'div',
+          children: [{
+            type: 'text',
+            text: '',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '2. 所有人都可以',
           }],
         },
         {
@@ -64,7 +75,7 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '并',
+            text: ',并',
           }],
         },
         {
@@ -78,7 +89,21 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '全部编辑完成后，可以',
+            text: '；',
+          }],
+        },
+        {
+          name: 'div',
+          children: [{
+            type: 'text',
+            text: '',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '3. 全部编辑完成后，可以',
           }],
         },
         {
@@ -92,7 +117,21 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '以锁定订单，然后可以',
+            text: '以锁定订单；',
+          }],
+        },
+        {
+          name: 'div',
+          children: [{
+            type: 'text',
+            text: '',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '4. 然后可以',
           }],
         },
         {
@@ -106,7 +145,21 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '，最后',
+            text: '；',
+          }],
+        },
+        {
+          name: 'div',
+          children: [{
+            type: 'text',
+            text: '',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '5. 最后',
           }],
         },
         {

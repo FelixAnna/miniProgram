@@ -19,7 +19,7 @@
       </view>
       <view>
         <view class="form-row-desc">
-          需要获取您的会员基础信息：如昵称、头像等，和您的支付宝会员标识（user_id）才能使用本小程序。
+          本小程序需要获取您的会员基础信息：如昵称、头像等，和您的支付宝会员标识（user_id）。
         </view>
       </view>
     </view>
