@@ -3,13 +3,12 @@
 <view class="page">
   <view class="order">
     <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
-    <am-icon type="success-o" size="24" color="#5d8" a:if="{{state==2}}" />
-    <am-icon type="wait-o" size="24" color="#bbb" a:else />
+    <!--am-icon type="lock_" size="24" color="#5d8" a:if="{{state==2}}" />
+    <am-icon type="edit_" size="24" color="#bbb" a:else /-->
+    <button style="margin: 0px 10px;" type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
     </view>
   </view>
-  <view a:if="{{ownerName!==null}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。
-    <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
-  </view>
+  <view a:if="{{ownerName!==null}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
   <view class="order createdby" a:else>准备创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
@@ -29,6 +28,9 @@
               <view class="order-option">加饭5</view>
               <view class="order-option">加饭6</view>
               <view class="order-option">加饭7</view>
+              <view>
+                <input class="order-option" placeholder="新加" />
+              </view>
             </flex>
           </view>
           <view a:else>
@@ -39,7 +41,14 @@
               <view class="order-option">加饭3加饭3</view>
               <view class="order-option">加饭3加饭3加饭3</view>
               <view class="order-option">加饭6</view>
+              <view>
+                <input-item className="order-option" placeholder="新加" />
+              </view>
             </flex>
+          </view>
+          <view>
+
+            <button size="default" type="primary">保存</button>
           </view>
         </collapse-item>
       </collapse>
@@ -90,6 +99,7 @@
                   onRightItemClick="onRightItemClick"
                   onSwipeStart="onSwipeStart"
                   extra="{{product.orderItemId}}"
+                  borderRadius="{{index <= 2 ? true : false}}"
                 >
               <view class="{{index%2==0?'odd-row':'even-row'}}" data-id="{{product.orderItemId}}" onTap="openDetails">
                 <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
@@ -116,7 +126,10 @@
   </form>
 </view>
 <footer/>
-<modal show="{{showModal}}" onModalClose="hiddenModel" topImage="{{showProduct.ownerAvatar}}">
+<modal show="{{showModal}}" 
+onModalClose="hiddenModel" 
+showClose="{{true}}"
+topImage="{{showProduct.ownerAvatar}}">
   <view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
   <view class="flex-container">
     <flex>
@@ -135,7 +148,7 @@
     </view>
   </view>
   <view slot="footer" a:if="{{state===1 && (showProduct.ownerId === user.userId || createdBy === user.userId)}}">
-    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="delete" size="18" color="#fff"/></button>
+    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="trash" size="18" color="#fff"/></button>
   </view>
 </modal>
 <modal show="{{showCopyText}}" onModalClose="onTapCopy">
