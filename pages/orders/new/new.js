@@ -67,9 +67,9 @@ Page({
       .catch(res => {
         if (res.status === 404) {
           //enable auto create if not exists
-          let shopId = (new Date().getTime() * -1) % 100000000;
-          this.setData({ orderId, shopId });
-          this.createOrder(orderId);
+          //let shopId = (new Date().getTime() * -1) % 100000000;
+          this.setData({ orderId });
+          //this.createOrder(orderId);
         } else {
           my.confirm({
               title: '抱歉',

@@ -7,32 +7,65 @@
     <am-icon type="wait-o" size="24" color="#bbb" a:else />
     </view>
   </view>
-  <view a:if="{{ownerName!==null}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
+  <view a:if="{{ownerName!==null}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。
+    <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
+  </view>
   <view class="order createdby" a:else>准备创建订单</view>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
+      <collapse
+        className="demo-collapse"
+        collapseKey="collapse1"
+        activeKey="{{['item-11']}}"
+        accordion="{{true}}"
+      >
+        <collapse-item header="配置商品选项" itemKey="item-11" collapseKey="collapse1">
+          <view a:if="{{createdBy!==null}}">
+            <flex wrap="wrap">
+              <view class="order-option">加饭1</view>
+              <view class="order-option">加饭2</view>
+              <view class="order-option">加饭3</view>
+              <view class="order-option">加饭4</view>
+              <view class="order-option">加饭5</view>
+              <view class="order-option">加饭6</view>
+              <view class="order-option">加饭7</view>
+            </flex>
+          </view>
+          <view a:else>
+            <flex wrap="wrap">
+              <view class="order-option">加饭1</view>
+              <view class="order-option">加饭3加饭3加饭3加饭3加饭3</view>
+              <view class="order-option">加饭3</view>
+              <view class="order-option">加饭3加饭3</view>
+              <view class="order-option">加饭3加饭3加饭3</view>
+              <view class="order-option">加饭6</view>
+            </flex>
+          </view>
+        </collapse-item>
+      </collapse>
       <block a:if="{{shopId===-1 || shopId === undefined}}">
         <view class="page-section-title">
-          选择店铺
+          配置商品选项
         </view>
         <view class="form-line" />
         <view a:if="{{enableRandom===false}}" class="form-row">
-          <view class="form-row-label">指定店铺</view>
+          <view class="form-row-label">自定义选项</view>
           <view class="form-row-content">
             <input name="shopId" class="input" value="{{shopId}}" onBlur="saveShopId" placeholder="输入店铺No打开" />
           </view>
+          
           <view class="form-row-content" style="text-align: right" onTap="tapSkip">
             <checkbox checked="{{enableRandom}}"/>
-            <text class="checkbox-text">不指定</text>
+            <text class="checkbox-text">默认</text>
           </view>
         </view>
       </block>
       <view class="form-row" a:else>
         <view class="form-row-column-left">
           <text a:if="{{shopId>0}}">
-            <text style="color:red">*</text>已指定店铺No： {{shopId}}</text>
+            <text style="color:red">*</text>已配置商品选项No： {{shopId}}</text>
           <text a:else>
-            <text style="color:red">*</text>不指定店铺，添加商品时可以自由输入。</text>
+            <text style="color:red">*</text>默认商品选项。</text>
         </view>
         <view class="form-row-column-right">
           <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
@@ -73,6 +106,7 @@
           <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">撤回</button>
           <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
           <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除</button>
+
         </view>
       </view>
       <view class="form-row" a:else>

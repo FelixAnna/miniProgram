@@ -100,3 +100,18 @@
   display: inline-grid;
   width: 42%;
 }
+
+.order-option{
+  width: auto;
+  background-color:rgb(205, 235, 239);
+  color: rgb(117, 197, 187);
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  min-width: 68px;
+  margin: 9px 9px 9px 10px;
+  padding: 1px 3px;
+  border: 1px dashed gray;
+  border-radius: 5px;
+  font-size: medium;
+}

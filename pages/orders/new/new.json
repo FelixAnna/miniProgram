@@ -2,15 +2,17 @@
   "defaultTitle": "订单详情",
   "pullRefresh": true,
   "usingComponents": {
-    "pagination": "mini-antui/es/pagination/index",
-    "modal": "mini-antui/es/modal/index",
-    "flex": "mini-antui/es/flex/index",
-    "flex-item": "mini-antui/es/flex/flex-item/index",
-    "notice": "mini-antui/es/notice/index",
+    "pagination": "mini-ali-ui/es/pagination/index",
+    "modal": "mini-ali-ui/es/modal/index",
+    "flex": "mini-ali-ui/es/flex/index",
+    "flex-item": "mini-ali-ui/es/flex/flex-item/index",
+    "notice": "mini-ali-ui/es/notice/index",
     "footer": "/components/footer/footer",
-    "card": "mini-antui/es/card/index",
-    "am-checkbox": "mini-antui/es/am-checkbox/index",
-    "swipe-action": "mini-antui/es/swipe-action/index",
-    "am-icon": "mini-antui/es/am-icon/index"
+    "card": "mini-ali-ui/es/card/index",
+    "am-checkbox": "mini-ali-ui/es/am-checkbox/index",
+    "swipe-action": "mini-ali-ui/es/swipe-action/index",
+    "am-icon": "mini-ali-ui/es/am-icon/index",
+    "collapse": "mini-ali-ui/es/collapse/index",
+    "collapse-item": "mini-ali-ui/es/collapse/collapse-item/index"
   }
 }

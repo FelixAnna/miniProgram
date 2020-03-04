@@ -65,6 +65,7 @@ App({
                     console.info(res);
                     const response=JSON.parse(res.response).response;
                     this.userInfo = { ...response, userId: tokenInfo.userId };
+                    console.info(this.userInfo );
                     if (
                       this.userInfo.nickName !== tokenInfo.nickName ||
                       this.userInfo.avatar !== tokenInfo.avatar
