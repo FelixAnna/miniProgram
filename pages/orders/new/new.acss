@@ -101,6 +101,7 @@
   width: 42%;
 }
 
+.order-option-new,
 .order-option{
   width: auto;
   background-color:rgb(205, 235, 239);
@@ -112,6 +113,35 @@
   margin: 9px 9px 9px 10px;
   padding: 1px 3px;
   border: 1px dashed gray;
+  border-radius: 5px;
+  font-size: medium;
+}
+.order-option:hover{
+  width: auto;
+  background-color:rgb(231, 107, 107);
+  color: rgb(117, 197, 187);
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  min-width: 68px;
+  margin: 9px 9px 9px 10px;
+  padding: 1px 3px;
+  border: 1px dashed gray;
+  border-radius: 5px;
+  font-size: medium;
+}
+
+.order-option-new:hover{
+  width: auto;
+  background-color:rgb(255, 255, 255);
+  color: rgb(117, 197, 187);
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  min-width: 68px;
+  margin: 9px 9px 9px 10px;
+  padding: 1px 3px;
+  border: 2px dashed green;
   border-radius: 5px;
   font-size: medium;
 }

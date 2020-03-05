@@ -19,6 +19,20 @@ Page({
     //order
     shopId: -1,
     orderId: "",
+    avaiableTypes:[
+      {value:"text", name:"任意文字"},
+      {value:"number", name:"数字"},
+      {value:"bool", name:"是/否"},
+      {value:"digit", name:"金额"},
+      {value:"idcard", name:"证件号码"}
+    ],
+    options: [
+      {id: 1, name: '选项1', type:'number', default: '10'},
+      {id: 2, name: '选项2', type:'bool', default: 'false'},
+      {id: 3, name: '选项3', type:'text', default: ''},
+      {id: 4, name: '选项4', type:'digit', default: '9.9'},
+      {id: 5, name: '选项5', type:'idcard', default: '123X'},
+    ],
     productList: [],
     state: 1,
     createdBy: null,
@@ -112,6 +126,81 @@ Page({
         url: "/pages/index/index"
       });
     }
+  },
+  tapOption(e) {
+    const { id } = e.target.dataset;
+    let selectedOption;
+    this.data.options.forEach((op, idx) => {
+        if (op.id == id) {
+          selectedOption = op;
+          return;
+        }
+
+        if(selectedOption !== undefined){
+          return;
+        }
+    });
+    this.setData({
+      selectedOption,
+      showSelectedOption: true});
+  },
+  tapNewOption(e) {
+    let selectedOption={id: -1, name:"", type:"Text", default:""};
+    this.setData({
+      selectedOption,
+      showSelectedOption: true});
+  },
+  onHiddenOption(e){
+    this.setData({showSelectedOption: false});
+  },
+  onUpdateOption(e){
+    const id = this.data.selectedOption.id;
+    const name = e.detail.value.selectedOptionName;
+    const type = e.detail.value.selectedOptionType;
+    const def = e.detail.value.selectedOptionDefault;
+
+    let newOptions=this.data.options;
+    let maxIndex=1;
+    let index;
+    newOptions.forEach((op, idx) => {
+      if (id>0 && op.id == id) {
+        index = idx;
+      }
+
+      if(maxIndex<=op.id){
+        maxIndex=op.id;
+      }
+    });
+
+    if(index>0)
+    {
+      newOptions.splice(index, 1);
+    }
+
+    newOptions.push({id: maxIndex+1,name, type, default: def});
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
+  },
+  onRemoveOption(e){
+    const { id } = e.target.dataset;
+    let index;
+    let newOptions=this.data.options;
+    newOptions.forEach((op, idx) => {
+        if (op.id == id) {
+          index = idx;
+          return;
+        }
+
+        if(index !== undefined){
+          return;
+        }
+    });
+    console.log(index);
+    newOptions.splice(index, 1);
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
   },
   tapSkip(e) {
     let shopId = (new Date().getTime() * -1) % 100000000;

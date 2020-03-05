@@ -21,28 +21,21 @@
         <collapse-item header="配置商品选项" itemKey="item-11" collapseKey="collapse1">
           <view a:if="{{createdBy!==null}}">
             <flex wrap="wrap">
-              <view class="order-option">加饭1</view>
-              <view class="order-option">加饭2</view>
-              <view class="order-option">加饭3</view>
-              <view class="order-option">加饭4</view>
-              <view class="order-option">加饭5</view>
-              <view class="order-option">加饭6</view>
-              <view class="order-option">加饭7</view>
+              <block a:for="{{options}}" a:for-item="option">
+                <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
+              </block>
               <view>
-                <input class="order-option" placeholder="新加" />
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" /></button>
               </view>
             </flex>
           </view>
           <view a:else>
             <flex wrap="wrap">
-              <view class="order-option">加饭1</view>
-              <view class="order-option">加饭3加饭3加饭3加饭3加饭3</view>
-              <view class="order-option">加饭3</view>
-              <view class="order-option">加饭3加饭3</view>
-              <view class="order-option">加饭3加饭3加饭3</view>
-              <view class="order-option">加饭6</view>
+              <block a:for="{{options}}" a:for-item="option">
+                <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
+              </block>
               <view>
-                <input-item className="order-option" placeholder="新加" />
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" /></button>
               </view>
             </flex>
           </view>
@@ -151,11 +144,32 @@ topImage="{{showProduct.ownerAvatar}}">
     <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="trash" size="18" color="#fff"/></button>
   </view>
 </modal>
-<modal show="{{showCopyText}}" onModalClose="onTapCopy">
+<modal show="{{showCopyText}}" showClose="{{true}}" onModalClose="onTapCopy">
   <view slot="header">请全选后复制</view>
   <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
   <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
   <view slot="footer">
     <button type="primary" size="mini" onTap="onTapCopy">去粘贴<am-icon type="share" size="18" color="#fff" /></button>
   </view>
+</modal>
+
+<modal show="{{showSelectedOption}}" showClose="{{true}}" onModalClose="onHiddenOption">
+  <form onSubmit="onUpdateOption" >
+    <view slot="header">名称：
+    <input value="{{selectedOption.name}}" name="selectedOptionName" disabled="{{selectedOption.id>0}}"/>
+    </view>
+    <view slot="header">类型：
+        <radio-group class="radio-group" name="selectedOptionType">
+            <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
+              <radio value="{{item.value}}" checked="{{item.value === selectedOption.type}}"/>
+              <text class="radio-text">{{item.name}}</text>
+            </label>
+          </radio-group>
+    </view>
+    <view slot="header">默认值：<input value="{{selectedOption.default}}" name="selectedOptionDefault"/></view>
+    <view slot="footer">
+      <button type="primary" size="mini" form-type="submit">保存<icon type="success" size="18" color="#fff" /></button>
+      <button type="primary" a:if="{{selectedOption.id>0}}" data-id="{{selectedOption.id}}" onTap="onRemoveOption" style="margin-left:28px;" size="mini">删除<icon type="clear" size="18" color="#fff" /></button>
+    </view>
+  </form>
 </modal>
