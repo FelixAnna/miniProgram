@@ -140,31 +140,39 @@ Page({
           return;
         }
     });
+    console.log(selectedOption);
     this.setData({
       selectedOption,
       showSelectedOption: true});
   },
   tapNewOption(e) {
-    let selectedOption={id: -1, name:"", type:"Text", default:""};
+    const emptyOption= {id: -1, name:"", type:"text", default:""};
     this.setData({
-      selectedOption,
+      selectedOption:emptyOption,
       showSelectedOption: true});
   },
   onHiddenOption(e){
     this.setData({showSelectedOption: false});
   },
-  onUpdateOption(e){
+  onUpsertOption(e){
     const id = this.data.selectedOption.id;
     const name = e.detail.value.selectedOptionName;
     const type = e.detail.value.selectedOptionType;
     const def = e.detail.value.selectedOptionDefault;
 
+    if(name==='' || name ===undefined){
+      return;
+    }
+
     let newOptions=this.data.options;
     let maxIndex=1;
     let index;
+    let opt;
     newOptions.forEach((op, idx) => {
-      if (id>0 && op.id == id) {
+      if (op.name == name) {
+        console.log(name);
         index = idx;
+        opt=op;
       }
 
       if(maxIndex<=op.id){
@@ -172,14 +180,25 @@ Page({
       }
     });
 
-    if(index>0)
+    if(index>=0)
     {
-      newOptions.splice(index, 1);
+      newOptions.splice(index, 1, {id: opt.id, name, type, default: def});
+    }else{
+      newOptions.unshift({id: maxIndex+1,name, type, default: def});
     }
 
-    newOptions.push({id: maxIndex+1,name, type, default: def});
+    var uniqueOptions = [];
+    newOptions.forEach((element, index) => {
+        if(!uniqueOptions.some((other_element, other_index) => {
+          return other_element.name == element.name && index!=other_index;
+        })) {
+          uniqueOptions.push(element);
+        }
+    });
+
     this.setData({
-      options:newOptions,
+      selectedOption:{id: -1, name:"", type:"text", default:""},
+      options:uniqueOptions,
       showSelectedOption: false});
   },
   onRemoveOption(e){

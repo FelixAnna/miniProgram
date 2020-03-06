@@ -7,6 +7,23 @@
   text-align: right;
 }
 
+.modal-row{
+  display:flex;
+  -webkit-box-align:center;
+  padding:0px 0.3rem;
+}
+.modal-column-left {
+  width: 32%;
+  text-align: left;
+}
+.modal-column-right {
+  width: 48%;
+  text-align: left;
+}
+.modal-input{
+  border: 1px solid gray;
+}
+
 .flex-container {
   padding: 10px;
 }

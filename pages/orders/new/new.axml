@@ -25,7 +25,7 @@
                 <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
               </block>
               <view>
-                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" /></button>
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" /></button>
               </view>
             </flex>
           </view>
@@ -35,7 +35,7 @@
                 <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
               </block>
               <view>
-                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" /></button>
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" /></button>
               </view>
             </flex>
           </view>
@@ -154,22 +154,39 @@ topImage="{{showProduct.ownerAvatar}}">
 </modal>
 
 <modal show="{{showSelectedOption}}" showClose="{{true}}" onModalClose="onHiddenOption">
-  <form onSubmit="onUpdateOption" >
-    <view slot="header">名称：
-    <input value="{{selectedOption.name}}" name="selectedOptionName" disabled="{{selectedOption.id>0}}"/>
+  <form onSubmit="onUpsertOption" >
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text style="color:red">*</text><text>名称：</text>
+      </view>
+      <view class="modal-column-right">
+        <input class="modal-input" value="{{selectedOption.name}}" name="selectedOptionName" disabled="{{selectedOption.id>0}}"/>
+      </view>
     </view>
-    <view slot="header">类型：
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text style="color:red">*</text><text>类型：</text>
+      </view>
+      <view class="modal-column-right">
         <radio-group class="radio-group" name="selectedOptionType">
-            <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
-              <radio value="{{item.value}}" checked="{{item.value === selectedOption.type}}"/>
-              <text class="radio-text">{{item.name}}</text>
-            </label>
-          </radio-group>
+          <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
+            <radio value="{{item.value}}" checked="{{item.value === selectedOption.type}}"/>
+            <text class="radio-text">{{item.name}}</text>
+          </label>
+        </radio-group>
+      </view>
     </view>
-    <view slot="header">默认值：<input value="{{selectedOption.default}}" name="selectedOptionDefault"/></view>
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text style="color:red">*</text><text>默认值：</text>
+      </view>
+      <view class="modal-column-right">
+        <input class="modal-input" value="{{selectedOption.default}}" name="selectedOptionDefault"/>
+      </view>
+    </view>
     <view slot="footer">
       <button type="primary" size="mini" form-type="submit">保存<icon type="success" size="18" color="#fff" /></button>
-      <button type="primary" a:if="{{selectedOption.id>0}}" data-id="{{selectedOption.id}}" onTap="onRemoveOption" style="margin-left:28px;" size="mini">删除<icon type="clear" size="18" color="#fff" /></button>
+      <button type="warn" a:if="{{selectedOption.id>0}}" data-id="{{selectedOption.id}}" onTap="onRemoveOption" style="margin-left:28px;" size="mini">删除<icon type="clear" size="18" color="#fff" /></button>
     </view>
   </form>
 </modal>
