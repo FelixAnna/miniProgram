@@ -27,11 +27,11 @@ Page({
       {value:"idcard", name:"证件号码"}
     ],
     options: [
-      {id: 1, name: '选项1', type:'number', default: '10'},
-      {id: 2, name: '选项2', type:'bool', default: 'false'},
-      {id: 3, name: '选项3', type:'text', default: ''},
-      {id: 4, name: '选项4', type:'digit', default: '9.9'},
-      {id: 5, name: '选项5', type:'idcard', default: '123X'},
+      {id: 1, name: '选项1', type:'number', default: '10', order: 1},
+      {id: 2, name: '选项2', type:'bool', default: 'false', order: 2},
+      {id: 3, name: '选项3', type:'text', default: '', order: 3},
+      {id: 4, name: '选项4', type:'digit', default: '9.9', order: 4},
+      {id: 5, name: '选项5', type:'idcard', default: '123X', order: 5},
     ],
     productList: [],
     state: 1,
@@ -127,35 +127,90 @@ Page({
       });
     }
   },
+  optionTypeName(type){
+    const opType= this.data.avaiableTypes.find(element=>element.value===type);
+    if(opType){
+      return opType.name;
+    }
+    return "unknown";
+  },
+  optionTypeValue(name){
+    const opType= this.data.avaiableTypes.find(element=>element.name===name);
+    if(opType){
+      return opType.value;
+    }
+    return "unknown";
+  },
   tapUpOption(e){
     const { id } = e.target.dataset;
-    let selectedIndex;
-    this.data.options.forEach((op, idx) => {
-        if (op.id == id) {
-          selectedIndex = idx;
-          return;
-        }
+    
+    //locate
+    console.log(id);
+    console.log(this.data.options);
+    let currentOptionIndex = this.data.options.findIndex((op) => op.id == id);
+    console.log(currentOptionIndex);
 
-        if(selectedIndex !== undefined){
+    //exception
+    if(currentOptionIndex==0){
+      return;
+    }
+
+    //swap
+    let newOptions=[];
+    this.data.options.forEach((op, idx) => {
+        if (currentOptionIndex-1 === idx) {
+          const curOption=this.data.options[currentOptionIndex];
+          newOptions.push(curOption, op);
+        }else if(currentOptionIndex === idx){
           return;
+        }else{
+          newOptions.push(op);
         }
     });
-    console.log(selectedIndex);
+
+    //re-order
+    newOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
   },
   tapDownOption(e){
     const { id } = e.target.dataset;
-    let selectedIndex;
-    this.data.options.forEach((op, idx) => {
-        if (op.id == id) {
-          selectedIndex = idx;
-          return;
-        }
+    
+    //locate
+    let currentOptionIndex = this.data.options.findIndex((op) => op.id === id);
+    console.log(currentOptionIndex);
 
-        if(selectedIndex !== undefined){
+    //exception
+    if(currentOptionIndex===this.data.options.length-1){
+      return;
+    }
+
+    //swap
+    let newOptions=[];
+    this.data.options.forEach((op, idx) => {
+        if (currentOptionIndex === idx) {
+          const curOption=this.data.options[currentOptionIndex];
+          const nextOption=this.data.options[currentOptionIndex+1];
+          newOptions.push(nextOption,op);
+        }else if(currentOptionIndex+1 === idx){
           return;
+        }else{
+          newOptions.push(op);
         }
     });
-    console.log(selectedIndex);
+
+    //re-order
+    newOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
   },
   tapEditOption(e) {
     const { id } = e.target.dataset;
@@ -171,6 +226,7 @@ Page({
         }
     });
     console.log(selectedOption);
+    selectedOption.typeName=this.optionTypeName(selectedOption.type);
     this.setData({
       selectedOption,
       showSelectedOption: true});
@@ -194,29 +250,19 @@ Page({
       return;
     }
 
+    //upsert element
     let newOptions=this.data.options;
-    let maxIndex=1;
-    let index;
-    let opt;
-    newOptions.forEach((op, idx) => {
-      if (op.name == name) {
-        console.log(name);
-        index = idx;
-        opt=op;
+    if(newOptions.some((other_element) => other_element.name === name)) {
+        const other_element=newOptions.find((other_element) => other_element.name === name);
+        newOptions.splice(other_element.index, 1, {id: other_element.id, name, type, default: def,order:other_element.order});
+      } else {
+        console.log(newOptions);
+        const maxId=newOptions.length<=0?0:newOptions.reduce(( max, cur ) => Math.max( max, cur.id ));
+        newOptions.push({id: maxId+1,name, type, default: def, order: 9999});
       }
 
-      if(maxIndex<=op.id){
-        maxIndex=op.id;
-      }
-    });
-
-    if(index>=0)
-    {
-      newOptions.splice(index, 1, {id: opt.id, name, type, default: def});
-    }else{
-      newOptions.unshift({id: maxIndex+1,name, type, default: def});
-    }
-
+    //remove duplicate
+    console.log(newOptions);
     var uniqueOptions = [];
     newOptions.forEach((element, index) => {
         if(!uniqueOptions.some((other_element, other_index) => {
@@ -226,8 +272,12 @@ Page({
         }
     });
 
+    //re-order
+    uniqueOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
     this.setData({
-      selectedOption:{id: -1, name:"", type:"text", default:""},
       options:uniqueOptions,
       showSelectedOption: false});
   },
@@ -235,18 +285,15 @@ Page({
     const { id } = e.target.dataset;
     let index;
     let newOptions=this.data.options;
+    if(newOptions.some(other_element=>other_element.id===id)){
+      newOptions.splice(other_element.index, 1);
+      console.log(other_element.index);
+    }
+    //re-order
     newOptions.forEach((op, idx) => {
-        if (op.id == id) {
-          index = idx;
-          return;
-        }
-
-        if(index !== undefined){
-          return;
-        }
+        op.order=idx;
     });
-    console.log(index);
-    newOptions.splice(index, 1);
+
     this.setData({
       options:newOptions,
       showSelectedOption: false});

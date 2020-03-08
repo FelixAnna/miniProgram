@@ -34,7 +34,22 @@
               <block a:for="{{options}}" a:for-item="option">
                 <view class="order-option">
                   <view class="order-option-column">{{option.name}}</view>
-                  <view class="order-option-column">{{option.type}}</view>
+                  <view class="order-option-column" a:if="{{option.type==='text'}}">
+                    任意文字
+                  </view>
+                  <view class="order-option-column" a:if="{{option.type==='number'}}">
+                    数字
+                  </view>
+                  <view class="order-option-column" a:if="{{option.type==='bool'}}">
+                    是/否
+                  </view>
+                  <view class="order-option-column" a:if="{{option.type==='digit'}}">
+                    金额
+                  </view>
+                  <view class="order-option-column" a:if="{{option.type==='idcard'}}">
+                    证件号码
+                  </view>
+
                   <view class="order-option-column">{{option.default}}</view>
                   <view class="order-option-column">
                     <button a:if="{{index !== 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption">Up</button>
@@ -44,13 +59,16 @@
                 </view>
               </block>
               <view>
-                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" /></button>
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" />继续添加</button>
+                <button size="mini" type="primary">撤销</button>
+                <button size="mini" type="primary">保存</button>
               </view>
             </flex>
           </view>
           
           <view>
-            <button size="default" type="primary">保存</button>
+            <button size="mini" type="primary">撤销</button>
+            <button size="mini" type="primary">保存</button>
           </view>
         </collapse-item>
       </collapse>
@@ -177,8 +195,8 @@ topImage="{{showProduct.ownerAvatar}}">
         <text style="color:red">*</text><text>类型：</text>
       </view>
       <view class="modal-column-right">
-        <radio-group class="radio-group" name="selectedOptionType">
-          <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
+      <radio-group class="radio-group" name="selectedOptionType" >
+        <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
             <radio value="{{item.value}}" checked="{{item.value === selectedOption.type}}"/>
             <text class="radio-text">{{item.name}}</text>
           </label>
