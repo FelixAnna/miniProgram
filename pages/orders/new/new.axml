@@ -19,28 +19,37 @@
         accordion="{{true}}"
       >
         <collapse-item header="配置商品选项" itemKey="item-11" collapseKey="collapse1">
-          <view a:if="{{createdBy!==null}}">
-            <flex wrap="wrap">
-              <block a:for="{{options}}" a:for-item="option">
-                <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
-              </block>
-              <view>
-                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" /></button>
-              </view>
-            </flex>
+          <!--view a:if="{{createdBy!==null}}">
           </view>
           <view a:else>
+          </view-->
+          <view>
             <flex wrap="wrap">
+              <view class="order-option order-option-header">
+                <view class="order-option-column">名称</view>
+                <view class="order-option-column">类型</view>
+                <view class="order-option-column"> 默认值</view>
+                <view class="order-option-column">操作</view>
+              </view>
               <block a:for="{{options}}" a:for-item="option">
-                <view class="order-option" data-id="{{option.id}}" onTap="tapOption">{{option.name}}{{option.type}}{{option.default}}</view>
+                <view class="order-option">
+                  <view class="order-option-column">{{option.name}}</view>
+                  <view class="order-option-column">{{option.type}}</view>
+                  <view class="order-option-column">{{option.default}}</view>
+                  <view class="order-option-column">
+                    <button a:if="{{index !== 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption">Up</button>
+                    <button a:if="{{index !== options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption">Down</button>
+                    <button class="order-option-edit" size="mini" type="primary" data-id="{{option.id}}" onTap="tapEditOption">编辑</button>
+                  </view>
+                </view>
               </block>
               <view>
                 <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" /></button>
               </view>
             </flex>
           </view>
+          
           <view>
-
             <button size="default" type="primary">保存</button>
           </view>
         </collapse-item>
@@ -178,7 +187,7 @@ topImage="{{showProduct.ownerAvatar}}">
     </view>
     <view slot="header" class="modal-row">
       <view class="modal-column-left">
-        <text style="color:red">*</text><text>默认值：</text>
+        <text>默认值：</text>
       </view>
       <view class="modal-column-right">
         <input class="modal-input" value="{{selectedOption.default}}" name="selectedOptionDefault"/>
