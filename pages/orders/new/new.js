@@ -127,7 +127,37 @@ Page({
       });
     }
   },
-  tapOption(e) {
+  tapUpOption(e){
+    const { id } = e.target.dataset;
+    let selectedIndex;
+    this.data.options.forEach((op, idx) => {
+        if (op.id == id) {
+          selectedIndex = idx;
+          return;
+        }
+
+        if(selectedIndex !== undefined){
+          return;
+        }
+    });
+    console.log(selectedIndex);
+  },
+  tapDownOption(e){
+    const { id } = e.target.dataset;
+    let selectedIndex;
+    this.data.options.forEach((op, idx) => {
+        if (op.id == id) {
+          selectedIndex = idx;
+          return;
+        }
+
+        if(selectedIndex !== undefined){
+          return;
+        }
+    });
+    console.log(selectedIndex);
+  },
+  tapEditOption(e) {
     const { id } = e.target.dataset;
     let selectedOption;
     this.data.options.forEach((op, idx) => {
