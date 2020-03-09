@@ -241,7 +241,6 @@ Page({
     this.setData({showSelectedOption: false});
   },
   onUpsertOption(e){
-    const id = this.data.selectedOption.id;
     const name = e.detail.value.selectedOptionName;
     const type = e.detail.value.selectedOptionType;
     const def = e.detail.value.selectedOptionDefault;
@@ -252,12 +251,13 @@ Page({
 
     //upsert element
     let newOptions=this.data.options;
-    if(newOptions.some((other_element) => other_element.name === name)) {
-        const other_element=newOptions.find((other_element) => other_element.name === name);
-        newOptions.splice(other_element.index, 1, {id: other_element.id, name, type, default: def,order:other_element.order});
+    if(newOptions.some((o) => o.name === name)) {
+        console.log(newOptions);
+        const other_element=newOptions.find((o) => o.name === name);
+        newOptions.splice(other_element.order, 1, {id: other_element.id, name, type, default: def,order:other_element.order});
       } else {
         console.log(newOptions);
-        const maxId=newOptions.length<=0?0:newOptions.reduce(( max, cur ) => Math.max( max, cur.id ));
+        const maxId=newOptions.length<=0?0:newOptions.reduce(( max, cur ) => Math.max( max, cur.id ), 0);
         newOptions.push({id: maxId+1,name, type, default: def, order: 9999});
       }
 
@@ -265,8 +265,8 @@ Page({
     console.log(newOptions);
     var uniqueOptions = [];
     newOptions.forEach((element, index) => {
-        if(!uniqueOptions.some((other_element, other_index) => {
-          return other_element.name == element.name && index!=other_index;
+        if(!uniqueOptions.some((o, oi) => {
+          return o.name == element.name && index!=oi;
         })) {
           uniqueOptions.push(element);
         }
@@ -283,12 +283,12 @@ Page({
   },
   onRemoveOption(e){
     const { id } = e.target.dataset;
-    let index;
     let newOptions=this.data.options;
-    if(newOptions.some(other_element=>other_element.id===id)){
-      newOptions.splice(other_element.index, 1);
-      console.log(other_element.index);
+    if(newOptions.some(o=>o.id===id)){
+      const targetIndex=newOptions.findIndex((o) => o.id === id);
+      newOptions.splice(targetIndex,1);
     }
+    
     //re-order
     newOptions.forEach((op, idx) => {
         op.order=idx;

@@ -52,24 +52,22 @@
 
                   <view class="order-option-column">{{option.default}}</view>
                   <view class="order-option-column">
-                    <button a:if="{{index !== 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption">Up</button>
-                    <button a:if="{{index !== options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption">Down</button>
-                    <button class="order-option-edit" size="mini" type="primary" data-id="{{option.id}}" onTap="tapEditOption">编辑</button>
+                    <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" size="30" /></button>
+                    <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down_" size="30" /></button>
+                    <button class="order-option-edit" size="mini" type="primary" data-id="{{option.id}}" onTap="onRemoveOption"><am-icon type="trash" size="30" /></button>
                   </view>
                 </view>
               </block>
               <view>
-                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add" size="24" color="#333" />继续添加</button>
+                <button class="order-option" size="mini" type="primary" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" />继续添加</button>
+              </view>
+              <view>
                 <button size="mini" type="primary">撤销</button>
                 <button size="mini" type="primary">保存</button>
               </view>
             </flex>
           </view>
           
-          <view>
-            <button size="mini" type="primary">撤销</button>
-            <button size="mini" type="primary">保存</button>
-          </view>
         </collapse-item>
       </collapse>
       <block a:if="{{shopId===-1 || shopId === undefined}}">
@@ -187,7 +185,7 @@ topImage="{{showProduct.ownerAvatar}}">
         <text style="color:red">*</text><text>名称：</text>
       </view>
       <view class="modal-column-right">
-        <input class="modal-input" value="{{selectedOption.name}}" name="selectedOptionName" disabled="{{selectedOption.id>0}}"/>
+        <input class="modal-input" placeholder="请输入名字" name="selectedOptionName" />
       </view>
     </view>
     <view slot="header" class="modal-row">
@@ -197,7 +195,7 @@ topImage="{{showProduct.ownerAvatar}}">
       <view class="modal-column-right">
       <radio-group class="radio-group" name="selectedOptionType" >
         <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
-            <radio value="{{item.value}}" checked="{{item.value === selectedOption.type}}"/>
+            <radio value="{{item.value}}" checked="{{index==0}}"/>
             <text class="radio-text">{{item.name}}</text>
           </label>
         </radio-group>
@@ -208,12 +206,11 @@ topImage="{{showProduct.ownerAvatar}}">
         <text>默认值：</text>
       </view>
       <view class="modal-column-right">
-        <input class="modal-input" value="{{selectedOption.default}}" name="selectedOptionDefault"/>
+        <input class="modal-input" placeholder="请输入默认值" name="selectedOptionDefault"/>
       </view>
     </view>
     <view slot="footer">
       <button type="primary" size="mini" form-type="submit">保存<icon type="success" size="18" color="#fff" /></button>
-      <button type="warn" a:if="{{selectedOption.id>0}}" data-id="{{selectedOption.id}}" onTap="onRemoveOption" style="margin-left:28px;" size="mini">删除<icon type="clear" size="18" color="#fff" /></button>
     </view>
   </form>
 </modal>
