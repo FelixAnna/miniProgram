@@ -12,8 +12,8 @@
     "am-checkbox": "mini-ali-ui/es/am-checkbox/index",
     "swipe-action": "mini-antui/es/swipe-action/index",
     "am-icon": "mini-ali-ui/es/am-icon/index",
-    "collapse": "mini-ali-ui/es/collapse/index",
-    "collapse-item": "mini-ali-ui/es/collapse/collapse-item/index",
+    "collapse": "/components/collapse/index",
+    "collapse-item": "/components/collapse/collapse-item/index",
     "input-item": "mini-ali-ui/es/input-item/index"
   }
 }
