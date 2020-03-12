@@ -26,6 +26,13 @@ Page({
       {value:"digit", name:"金额"},
       {value:"idcard", name:"证件号码"}
     ],
+    savedOptions: [
+      {id: 1, name: '选项1', type:'number', default: '10', order: 1},
+      {id: 2, name: '选项2', type:'bool', default: 'false', order: 2},
+      {id: 3, name: '选项3', type:'text', default: '', order: 3},
+      {id: 4, name: '选项4', type:'digit', default: '9.9', order: 4},
+      {id: 5, name: '选项5', type:'idcard', default: '123X', order: 5},
+    ],
     options: [
       {id: 1, name: '选项1', type:'number', default: '10', order: 1},
       {id: 2, name: '选项2', type:'bool', default: 'false', order: 2},
@@ -127,6 +134,8 @@ Page({
       });
     }
   },
+
+  /*** options related*/
   optionTypeName(type){
     const opType= this.data.avaiableTypes.find(element=>element.value===type);
     if(opType){
@@ -298,6 +307,20 @@ Page({
       options:newOptions,
       showSelectedOption: false});
   },
+  onTapRecoverOptions(){
+    this.setData({
+      options:this.data.savedOptions.map(x=>x),
+      showSelectedOption: false});
+  },
+  onTapSaveOptions(){
+    //save to DB
+
+    //update saved options
+    this.setData({
+      savedOptions: this.data.options.map(x=>x),
+      showSelectedOption: false});
+  },
+  /**options related end */
   tapSkip(e) {
     let shopId = (new Date().getTime() * -1) % 100000000;
     this.setData({ shopId });

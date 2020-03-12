@@ -135,6 +135,7 @@
 .order-option-header{
   border-bottom: 1px dotted grey;
   border-top: 1px dotted grey;
+  background-color:rgb(55, 65, 195);
 }
 .order-option:hover{
   display: flex;
@@ -156,9 +157,29 @@
   width:37%;
   border-right:1px dotted;
 }
-.order-option-edit,
+.order-option-del,
 .order-option-up,
 .order-option-down{
-  margin: 2px;
+  margin: 2px 5px;
   min-width: auto;
+}
+
+.order-option-add{
+  width: 28%;
+  background-color:rgb(205, 235, 239);
+  color: rgb(117, 197, 187);
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  min-width: 68px;
+  /*margin: 9px 9px 9px 10px;
+  padding: 1px 3px;*/
+  border-bottom: 1px dotted grey;
+  font-size: small;
+}
+.order-option-save,
+.order-option-cancel{
+  float: right;
+  margin-right: 10px;
+  padding: 0 26px;
 }
