@@ -24,16 +24,14 @@ Page({
     } else {
       this.setData({
         user: app.userInfo,
-        orderId:
-          getRandomShortcode()
+        orderId: -1
       });
     }
   },
 
   tapCreateRandom(e) {
     if (e.detail.value === true && this.data.user.userId!=undefined) {
-      let orderId =
-        getRandomShortcode();
+      let orderId = -1;
       this.setData({ orderId, enbleRandom: true, title:"创建订单" });
     } else {
       this.setData({ orderId: "", enbleRandom: false, title:"打开订单" });
@@ -59,7 +57,7 @@ Page({
       return;
     }
 
-    if (this.data.orderId > 0 || this.data.orderId.length > 0) {
+    if (this.data.orderId > -2 || this.data.orderId.length > 0) {
       my.redirectTo({
         url: "../orders/new/new?orderId=" + this.data.orderId
       });
