@@ -27,19 +27,15 @@ Page({
       {value:"idcard", name:"证件号码"}
     ],
     savedOptions: [
-      {id: 1, name: '选项1', type:'number', default: '10', order: 1},
-      {id: 2, name: '选项2', type:'bool', default: 'false', order: 2},
-      {id: 3, name: '选项3', type:'text', default: '', order: 3},
-      {id: 4, name: '选项4', type:'digit', default: '9.9', order: 4},
-      {id: 5, name: '选项5', type:'idcard', default: '123X', order: 5},
+      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
+      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
     ],
     options: [
-      {id: 1, name: '选项1', type:'number', default: '10', order: 1},
-      {id: 2, name: '选项2', type:'bool', default: 'false', order: 2},
-      {id: 3, name: '选项3', type:'text', default: '', order: 3},
-      {id: 4, name: '选项4', type:'digit', default: '9.9', order: 4},
-      {id: 5, name: '选项5', type:'idcard', default: '123X', order: 5},
+      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
+      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
     ],
+    selectedOption:"text",
+
     productList: [],
     state: 1,
     createdBy: null,
@@ -65,10 +61,6 @@ Page({
   onLoad(e) {
     moment.locale('zh-CN');
     const orderId = e.orderId;
-    my.showLoading({
-      content: "订单加载中...",
-      delay: "0"
-    });
     //Ensure user loaded
     if (!app.userInfo) {
       my.redirectTo({
@@ -79,19 +71,21 @@ Page({
             user: app.userInfo,
           });
     }
-    //load order data if exists
-    getOrderById(orderId)
-      .then(data => {
-        this.loadOrder(data); 
-        my.hideLoading();
-      })
-      .catch(res => {
-        if (res.status === 404) {
-          //enable auto create if not exists
-          //let shopId = (new Date().getTime() * -1) % 100000000;
-          this.setData({ orderId });
-          //this.createOrder(orderId);
-        } else {
+
+    if(orderId!=-1 && orderId.length>0)
+    {
+      my.showLoading({
+        content: "订单加载中...",
+        delay: "0"
+      });
+    
+      //load order data if exists
+      getOrderById(orderId)
+        .then(data => {
+          this.loadOrder(data); 
+          my.hideLoading();
+        })
+        .catch(res => {
           my.confirm({
               title: '抱歉',
               content: '数据加载失败！',
@@ -109,10 +103,9 @@ Page({
                 }
               }
           });
-          this.setData({ orderId });
-        }
-        my.hideLoading();
-      });
+          my.hideLoading();
+        });
+    }
   },
   onPullDownRefresh() {
     this.getOrder(this.data.orderId, () => my.stopPullDownRefresh({
@@ -252,10 +245,14 @@ Page({
   onUpsertOption(e){
     const name = e.detail.value.selectedOptionName;
     const type = e.detail.value.selectedOptionType;
-    const def = e.detail.value.selectedOptionDefault;
+    let def = e.detail.value.selectedOptionDefault;
 
     if(name==='' || name ===undefined){
       return;
+    }
+
+    if(type==='bool' && def!=true){
+      def=false;
     }
 
     //upsert element
@@ -306,6 +303,10 @@ Page({
     this.setData({
       options:newOptions,
       showSelectedOption: false});
+  },
+  onOptionTypeChange(e) {
+    const selectedOption=e.detail.value;
+    this.setData({selectedOption:selectedOption});
   },
   onTapRecoverOptions(){
     this.setData({

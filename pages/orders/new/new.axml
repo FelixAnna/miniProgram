@@ -49,7 +49,13 @@
                   证件号码
                 </view>
 
-                <view class="order-option-column">{{option.default}}</view>
+                <view class="order-option-column" a:if="{{option.type==='bool'}}">
+                  {{option.default?"是":"否"}}
+                </view>
+                <view class="order-option-column" a:else>
+                  {{option.default}}
+                </view>
+                
                 <view class="order-option-column">
                   <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" size="30" /></button>
                   <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down" size="30" /></button>
@@ -175,9 +181,9 @@ topImage="{{showProduct.ownerAvatar}}">
         <text style="color:red">*</text><text>类型：</text>
       </view>
       <view class="modal-column-right">
-      <radio-group class="radio-group" name="selectedOptionType" >
+      <radio-group class="radio-group" name="selectedOptionType" onChange="onOptionTypeChange" >
         <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
-            <radio value="{{item.value}}" checked="{{index==0}}"/>
+            <radio value="{{item.value}}" checked="{{index===0}}"/>
             <text class="radio-text">{{item.name}}</text>
           </label>
         </radio-group>
@@ -188,7 +194,12 @@ topImage="{{showProduct.ownerAvatar}}">
         <text>默认值：</text>
       </view>
       <view class="modal-column-right">
-        <input class="modal-input" placeholder="请输入默认值" name="selectedOptionDefault"/>
+        <block a:if="{{selectedOption==='bool'}}">
+          <switch name="selectedOptionDefault"/>
+        </block>
+        <block a:else>
+          <input class="modal-input" type="{{selectedOption}}" placeholder="请输入默认值" name="selectedOptionDefault"/>
+        </block>
       </view>
     </view>
     <view slot="footer">
