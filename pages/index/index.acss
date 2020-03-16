@@ -2,3 +2,7 @@
 button + button {
   margin-top: 32rpx;
 }
+
+.input_field{
+  border: 1px burlywood solid
+}

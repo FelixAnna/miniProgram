@@ -26,15 +26,24 @@ export const getOrderById = id => {
   return request.get({ url: `orders?orderId=${encodeURIComponent(id)}` });
 };
 
-export const createOrder = (id, shopId) => {
+export const createOrder = (options) => {
   return request.post({
     url: `orders`,
     data: {
-      orderId: id,
-      shopId: shopId
+      options
     }
   });
 };
+
+export const updateOrderOptions = (id, options) => {
+  return request.post({
+    url: `orders/${id}/options`,
+    data: {
+      options
+    }
+  });
+};
+
 
 export const removeOrder = id => {
   //as not support delete for now

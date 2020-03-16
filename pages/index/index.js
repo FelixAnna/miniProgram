@@ -6,7 +6,6 @@ Page({
   data: {
     user: {},
     title: "创建订单",
-    orderId: undefined,
     enbleRandom: true,
     submitClicked: false
   },
@@ -24,47 +23,35 @@ Page({
     } else {
       this.setData({
         user: app.userInfo,
-        orderId: -1
       });
     }
   },
 
   tapCreateRandom(e) {
-    if (e.detail.value === true && this.data.user.userId!=undefined) {
-      let orderId = -1;
-      this.setData({ orderId, enbleRandom: true, title:"创建订单" });
+    if (e.detail.value === true ) {
+      this.setData({ enbleRandom: true, title:"创建订单" });
     } else {
-      this.setData({ orderId: "", enbleRandom: false, title:"打开订单" });
+      this.setData({ enbleRandom: false, title:"打开订单" });
     }
-  },
-  onOrderIdBlur(e) {
-    const value = e.detail.value;
-    if (value === undefined || value.length === 0) {
-      this.setData({ orderId: "" });
-      return;
-    }
-    this.setData({ orderId: value });
   },
   onSubmit(e) {
     this.setData({submitClicked: true});
     const value = e.detail.value.orderId;
-    if(value !==undefined && value !== this.data.orderId)
+    if(this.data.enbleRandom)
     {
       my.redirectTo({
-        url: "../orders/new/new?orderId=" + value
+        url: "../orders/new/new"
       });
-      this.setData({submitClicked: false});
-      return;
+    }else{
+      if (value === undefined || value.length === 0) {
+        console.log("Invalid input");
+      }else{
+          my.redirectTo({
+          url: "../orders/new/new?orderId=" + value
+        });
+      }
     }
 
-    if (this.data.orderId > -2 || this.data.orderId.length > 0) {
-      my.redirectTo({
-        url: "../orders/new/new?orderId=" + this.data.orderId
-      });
-    }
     this.setData({submitClicked: false});
-  },
-  onReset() {
-    this.setData({ orderId: "", enbleRandom: false });
   }
 });
