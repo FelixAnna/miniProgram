@@ -15,13 +15,13 @@
       </view>
       <view a:if="{{enbleRandom===false}}" class="form-row">
         <view class="form-row-content">
-          <input name="orderId" class="input" value="{{orderId}}" onBlur="onOrderIdBlur" placeholder="请输入订单号"></input>
+          <input name="orderId" class="input" placeholder="请输入订单号"></input>
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button disabled="{{orderId==='' || orderId===undefined || submitClicked}}" loading="{{submitClicked}}" form-type="submit" type="primary">确定</button>
+        <button disabled="{{submitClicked}}" loading="{{submitClicked}}" form-type="submit" type="primary">确定</button>
       </view>
     </view>
   </form>

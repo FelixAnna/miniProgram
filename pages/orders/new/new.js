@@ -1,5 +1,6 @@
 import {
   createOrder,
+  updateOrderOptions,
   getOrderById,
   removeOrder,
   lockOrder,
@@ -17,8 +18,7 @@ Page({
     user: {},
 
     //order
-    shopId: -1,
-    orderId: "",
+    orderId: undefined,
     avaiableTypes:[
       {value:"text", name:"任意文字"},
       {value:"number", name:"数字"},
@@ -69,10 +69,11 @@ Page({
     }else{
       this.setData({
             user: app.userInfo,
+            orderId
           });
     }
 
-    if(orderId!=-1 && orderId.length>0)
+    if(orderId)
     {
       my.showLoading({
         content: "订单加载中...",
@@ -129,6 +130,14 @@ Page({
   },
 
   /*** options related*/
+  onOptionPanelChange(e){
+    console.log('collapse change', e);
+    if(e[0]=='optg1'){
+      this.setData({showOptions:true})
+    }else{
+      this.setData({showOptions:false})
+    }
+  },
   optionTypeName(type){
     const opType= this.data.avaiableTypes.find(element=>element.value===type);
     if(opType){
@@ -314,29 +323,21 @@ Page({
       showSelectedOption: false});
   },
   onTapSaveOptions(){
-    //save to DB
+    const newOpts=this.data.options.map(x=>x);
+    if(this.data.orderId){
+      //update options in DB
+      this.updateOrderOptions(this.data.orderId, newOpts)
+    }else{
+      //new order with options in DB
+      this.createOrder(newOpts)
+    }
 
     //update saved options
     this.setData({
-      savedOptions: this.data.options.map(x=>x),
+      savedOptions: newOpts,
       showSelectedOption: false});
   },
   /**options related end */
-  tapSkip(e) {
-    let shopId = (new Date().getTime() * -1) % 100000000;
-    this.setData({ shopId });
-    this.createOrder(this.data.orderId, shopId);
-  },
-  saveShopId(e) {
-    // 修改全局数据
-    const shopId = e.detail.value;
-    if (shopId === "" || shopId === undefined || shopId == -1) {
-      return;
-    }
-
-    this.setData({ shopId });
-    this.createOrder(this.data.orderId, shopId);
-  },
 
   onTabPage(index) {
     const startIndex = this.data.pageSize * (index - 1);
@@ -384,9 +385,7 @@ Page({
     my.navigateTo({
       url:
         "../../products/add/add?orderId=" +
-        this.data.orderId +
-        "&shopId=" +
-        this.data.shopId
+        this.data.orderId
     });
   },
 
@@ -531,7 +530,6 @@ Page({
       user: app.userInfo,
 
       orderId: order.orderId,
-      shopId: order.shopId,
       productList: order.productList,
       state: order.state,
       createdBy: order.createdBy,
@@ -561,8 +559,22 @@ Page({
       });
   },
 
-  createOrder(orderId) {
-    createOrder(orderId, this.data.shopId)
+  updateOrderOptions(orderId, opts) {
+    updateOrderOptions(orderId, opts)
+      .then(data => {
+        console.log("update options success")
+      })
+      .catch(res => {
+        my.showToast({
+          type: "fail",
+          content: res,
+          duration: 1500
+        });
+      });
+  },
+
+  createOrder(opts) {
+    createOrder(opts)
       .then(data => {
         data.productList = data.productList || [];
         this.loadOrder(data);

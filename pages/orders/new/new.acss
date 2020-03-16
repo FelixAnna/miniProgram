@@ -150,11 +150,11 @@
   font-size: small;
 }
 .order-option-column{
-  width:21%;
+  width:18%;
   border-right:1px dotted;
 }
 .order-option-column:last-child{
-  width:37%;
+  width:45%;
   border-right:1px dotted;
 }
 .order-option-del,

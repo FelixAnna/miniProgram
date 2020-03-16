@@ -1,28 +1,27 @@
 <!-- API-DEMO page/component/form/form.axml -->
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
-  <view class="order">
-    <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
-    <!--am-icon type="lock_" size="24" color="#5d8" a:if="{{state==2}}" />
-    <am-icon type="edit_" size="24" color="#bbb" a:else /-->
-    <button style="margin: 0px 10px;" type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
+  <block a:if="{{orderId}}" >
+    <view class="order">
+      <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
+      <!--am-icon type="lock_" size="24" color="#5d8" a:if="{{state==2}}" />
+      <am-icon type="edit_" size="24" color="#bbb" a:else /-->
+      <button style="margin: 0px 10px;" type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
+      </view>
     </view>
-  </view>
-  <view a:if="{{ownerName!==null && ownerName.length>0}}" class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
-  <view class="order createdby" a:else>准备创建订单</view>
+    <view class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
+  </block>
+  <block a:else>
+    <view class="order" ><view class="order no">准备创建订单...</view></view>
+  </block>
   <form onSubmit="onSubmit" onReset="onReset">
     <view class="page-section">
       <collapse
         className="demo-collapse"
-        collapseKey="collapse1"
-        activeKey="{{['item-11']}}"
-        accordion="{{true}}"
+        activeKey="{{orderId?null:['optg1']}}"
+        onChange="onOptionPanelChange"
       >
-        <collapse-item header="配置商品选项" itemKey="item-11" collapseKey="collapse1">
-          <!--view a:if="{{createdBy!==null}}">
-          </view>
-          <view a:else>
-          </view-->
+        <collapse-item header="配置商品选项" itemKey="optg1">
           <view>
             <view class="order-option order-option-header">
               <view class="order-option-column">名称</view>
@@ -66,7 +65,7 @@
           </view>
         </collapse-item>
       </collapse>
-      <block a:if="{{shopId===-1 || shopId === undefined}}">
+      <block a:if="{{showOptions}}">
         <view class="form-line" />
         <view class="form-line" />
         <view>
@@ -77,18 +76,15 @@
       </block>
       <view class="form-row" a:else>
         <view class="form-row-column-left">
-          <text a:if="{{shopId>0}}">
-            <text style="color:red">*</text>已配置商品选项No： {{shopId}}</text>
-          <text a:else>
-            <text style="color:red">*</text>默认商品选项。</text>
+          <text><text style="color:red">*</text>商品选项Something。。。</text>
         </view>
         <view class="form-row-column-right">
-          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
+          <button type="primary" a:if="{{orderId}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
         </view>
       </view>
     </view>
     <view class="page-section">
-      <view a:if="{{createdBy!==null}}">
+      <view a:if="{{orderId}}">
         <view class="form-row-header">
           <view class="form-row-header-content">商品列表</view>
         </view>
@@ -117,16 +113,16 @@
         <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
         <view class="form-line" />
         <view class="page-section-demo">
-          <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">提交</button>
-          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">撤回</button>
-          <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除</button>
+          <button type="primary" a:if="{{state===1}}" onTap="onTapAppendMore">添加商品</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">提交</button>
+          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">撤回</button>
+          <button class="secondaryButton" a:if="{{state!==1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId}}" type="warn" onTap="onTapDelete">删除</button>
 
         </view>
       </view>
       <view class="form-row" a:else>
-        <text>请选择店铺以创建订单！</text>
+        <text>请保存商品选项以创建订单！</text>
       </view>
     </view>
   </form>
