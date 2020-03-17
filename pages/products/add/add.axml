@@ -12,9 +12,9 @@
         <view class="form-row-content">
           <input name="input_name" class="input" value="{{selection.name}}" placeholder="请输入名称" />
         </view>
-        <view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch">
+        <!--view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch">
           <icon type="search" size="35"/>
-        </view>
+        </view-->
       </view>
       <view class="form-line" />
       <view class="form-row">

@@ -21,7 +21,7 @@
         activeKey="{{orderId?null:['optg1']}}"
         onChange="onOptionPanelChange"
       >
-        <collapse-item header="配置商品选项" itemKey="optg1">
+        <collapse-item header="{{showOptions?`配置商品选项`:(`已配置`+options.length+`个选项`)}}" itemKey="optg1">
           <view>
             <view class="order-option order-option-header">
               <view class="order-option-column">名称</view>
@@ -74,14 +74,6 @@
           <button class="order-option-save" size="mini" type="primary" onTap="onTapSaveOptions">保存</button>
         </view>
       </block>
-      <view class="form-row" a:else>
-        <view class="form-row-column-left">
-          <text><text style="color:red">*</text>商品选项Something。。。</text>
-        </view>
-        <view class="form-row-column-right">
-          <button type="primary" a:if="{{orderId}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
-        </view>
-      </view>
     </view>
     <view class="page-section">
       <view a:if="{{orderId}}">
@@ -137,7 +129,7 @@ topImage="{{showProduct.ownerAvatar}}">
     <flex>
       <block a:for="{{showProduct.options}}" a:for-item="option">
         <flex-item a:if="{{option.value}}">
-          <view class="placeholder inline small">{{option.name}}</view></flex-item>
+          <view class="placeholder inline small">{{option.value===true?option.name:`${option.name}:${option.value}`}}</view></flex-item>
       </block>
     </flex>
     <view class="form-line" />
