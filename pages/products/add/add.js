@@ -18,21 +18,12 @@ Page({
   },
   onLoad(e) {
     const orderId = e.orderId;
-    const shopId = parseInt(e.shopId);
 
     this.getCurrentSelection();
     this.setData({
       user: app.userInfo,
-      orderId,
-      shopId
+      orderId
     });
-  },
-  onTitleClick() {
-    // 点击标题触发
-    /*my.alert({
-      title: "ShopId, OrderId",
-      content: this.data.shopId + ", " + this.data.orderId
-    });*/
   },
   onShow() {
     this.getCurrentSelection();
@@ -71,9 +62,7 @@ Page({
 
           my.redirectTo({
             url:
-              "../success/success?shopId=" +
-              this.data.shopId +
-              "&orderId=" +
+              "../success/success?orderId=" +
               this.data.orderId
           });
 
@@ -84,9 +73,7 @@ Page({
         .catch(error => {
           my.redirectTo({
             url:
-              "../failed/failed?shopId=" +
-              this.data.shopId +
-              "&orderId=" +
+              "../failed/failed?orderId=" +
               this.data.orderId
           });
 
@@ -113,9 +100,7 @@ Page({
     my.redirectTo({
       url:
         "../search/search?orderId=" +
-        this.data.orderId +
-        "&shopId=" +
-        this.data.shopId
+        this.data.orderId
     });
   },
   onDialogTap() {

@@ -2,10 +2,8 @@ Page({
   data: {},
   onLoad(e) {
     const orderId = e.orderId;
-    const shopId = parseInt(e.shopId);
     this.setData({
-      orderId,
-      shopId
+      orderId
     });
   },
   backHome() {
@@ -14,9 +12,7 @@ Page({
   backOrder() {
     my.redirectTo({
       url:
-        "../../orders/new/new?shopId=" +
-        this.data.shopId +
-        "&orderId=" +
+        "../../orders/new/new?orderId=" +
         this.data.orderId
     });
   }

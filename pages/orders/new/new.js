@@ -131,7 +131,6 @@ Page({
 
   /*** options related*/
   onOptionPanelChange(e){
-    console.log('collapse change', e);
     if(e[0]=='optg1'){
       this.setData({showOptions:true})
     }else{
@@ -156,10 +155,7 @@ Page({
     const { id } = e.target.dataset;
     
     //locate
-    console.log(id);
-    console.log(this.data.options);
     let currentOptionIndex = this.data.options.findIndex((op) => op.id == id);
-    console.log(currentOptionIndex);
 
     //exception
     if(currentOptionIndex==0){
@@ -193,7 +189,6 @@ Page({
     
     //locate
     let currentOptionIndex = this.data.options.findIndex((op) => op.id === id);
-    console.log(currentOptionIndex);
 
     //exception
     if(currentOptionIndex===this.data.options.length-1){
@@ -236,7 +231,6 @@ Page({
           return;
         }
     });
-    console.log(selectedOption);
     selectedOption.typeName=this.optionTypeName(selectedOption.type);
     this.setData({
       selectedOption,
@@ -267,17 +261,14 @@ Page({
     //upsert element
     let newOptions=this.data.options;
     if(newOptions.some((o) => o.name === name)) {
-        console.log(newOptions);
         const other_element=newOptions.find((o) => o.name === name);
         newOptions.splice(other_element.order, 1, {id: other_element.id, name, type, default: def,order:other_element.order});
       } else {
-        console.log(newOptions);
         const maxId=newOptions.length<=0?0:newOptions.reduce(( max, cur ) => Math.max( max, cur.id ), 0);
         newOptions.push({id: maxId+1,name, type, default: def, order: 9999});
       }
 
     //remove duplicate
-    console.log(newOptions);
     var uniqueOptions = [];
     newOptions.forEach((element, index) => {
         if(!uniqueOptions.some((o, oi) => {
@@ -368,6 +359,7 @@ Page({
       this.deleteOrderItem(itemId);
     }
   },
+
   onSwipeStart(e) {
     this.setData({
       swipeIndex: e.index,
@@ -384,8 +376,7 @@ Page({
   onTapAppendMore(e) {
     my.navigateTo({
       url:
-        "../../products/add/add?orderId=" +
-        this.data.orderId
+        "../../products/add/add?orderId="+this.data.orderId
     });
   },
 
@@ -412,47 +403,30 @@ Page({
     let productListText = "";
     let options = [];
 
-    let riceCount = 0;
-    let spiceCount = 0;
-
     let summaryPrice = 0;
     this.data.productList.forEach((item, index) => {
-      item.options.forEach((op, idx) => {
-        if (!op.value) {
-          return;
-        }
-        if (options[op.name] === undefined) {
-          options[op.name] = 1;
-        } else {
-          options[op.name] += 1;
-        }
-      });
-      spiceCount += item.spice ? 1 : 0;
-      riceCount += item.rice ? 1 : 0;
+      let optionsSummary= item.options.filter(op=>op.value)
+        .map(op => {
+            if(op.value === true) {
+              return op.name;
+            } else {
+              return `${op.name}:${op.value}`;
+            }
+          })
+        .reduce((op, current) => `${current} ${op}`,'');
 
       summaryPrice += parseFloat(item.price);
-      const productText = `${item.name} ${item.price} ${
-        item.remark ? "[备注：" + item.remark + "]" : ""
-      }`;
-      if (index === 0) {
-        productListText += `${productText}`;
-      } else {
-        productListText += `\n${productText}`;
-      }
+
+      const productText = `${item.name} ${item.price} `
+      +`${optionsSummary ? optionsSummary : ""} `
+      +`${item.remark ? "[备注：" + item.remark + "]" : ""}`;
+
+      productListText += `${productText}\n`;
     });
-    productListText += `\n`;
-    options.forEach((op, idx) => {
-      productListText += options[op] > 0 ? `${op}*${options[op]}\t` : "";
-    });
-    var sortKeys = Object.keys(options).sort();
-    for (var key in sortKeys) {
-      productListText +=
-        options[sortKeys[key]] > 0
-          ? `${sortKeys[key]}*${options[sortKeys[key]]}\t`
-          : "";
-    }
+    
     productListText += summaryPrice > 0 ? `\n合计：${summaryPrice}元` : "";
 
+    //仅支持企业账号
     my.setClipboard({
       text: productListText
     });
@@ -518,7 +492,6 @@ Page({
       path: "/pages/orders/new/new?orderId=" + this.data.orderId
     };
   },
-  onReset() {},
 
   loadOrder(order) {
     const startIndex = this.data.pageSize * (this.data.pageIndex - 1);
@@ -587,11 +560,18 @@ Page({
         });
       });
   },
+
   formatOrderItem(productList) {
     productList.forEach(item => {
       let validOptions = item.options
         .filter(op => op.value)
-        .map(op => op.name)
+        .map(op => {
+            if(op.value === true) {
+              return op.name;
+            } else {
+              return `${op.name}:${op.value}`;
+            }
+          })
         .reduce((op, current) => `${current} ${op}`,'');
       if (item.remark) {
         validOptions += `\t备注：${item.remark}`;

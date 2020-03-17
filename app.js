@@ -31,60 +31,40 @@ App({
                 });
 
                 tokenInfo = data;
-
-                my.getOpenUserInfo({
-                  success: res => {
-                    console.info(res);
-                    const response=JSON.parse(res.response).response;
-                    this.userInfo = { ...response, userId: tokenInfo.userId };
-                    if (
-                      this.userInfo.nickName !== tokenInfo.nickName ||
-                      this.userInfo.avatar !== tokenInfo.avatar
-                    ) {
-                      updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
-                        .then(res => {
-                          console.log("username & avatar updated.");
-                        })
-                        .catch(error => {
-                          console.log(error);
-                        });
-                    }
-                    resolve(this.userInfo);
-                  },
-                  fail: () => {
-                    reject({});
-                  }
-                });
               })
               .catch(res => {
                 reject({});
               });
-          } else {
-            my.getOpenUserInfo({
-                  success: res => {
-                    console.info(res);
-                    const response=JSON.parse(res.response).response;
-                    this.userInfo = { ...response, userId: tokenInfo.userId };
-                    console.info(this.userInfo );
-                    if (
-                      this.userInfo.nickName !== tokenInfo.nickName ||
-                      this.userInfo.avatar !== tokenInfo.avatar
-                    ) {
-                      updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
-                        .then(res => {
-                          console.log("username & avatar updated.");
-                        })
-                        .catch(error => {
-                          console.log(error);
-                        });
-                    }
-                    resolve(this.userInfo);
-                  },
-                  fail: () => {
-                    reject({});
-                  }
-                });
           }
+
+          //Get user info and update db
+          my.getOpenUserInfo({
+            success: res => {
+              console.info(res);
+              const response=JSON.parse(res.response).response;
+              this.userInfo = { ...response, userId: tokenInfo.userId };
+              if (
+                this.userInfo.avatar!=undefined &&
+                this.userInfo.nickName!=undefined &&
+                (
+                  this.userInfo.nickName !== tokenInfo.nickName ||
+                  this.userInfo.avatar !== tokenInfo.avatar
+                )
+              ) {
+                updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
+                .then(res => {
+                  console.log("username & avatar updated.");
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+              }
+              resolve(this.userInfo);
+            },
+            fail: () => {
+              reject({});
+            }
+          });
         },
         fail: () => {
           reject({});

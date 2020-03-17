@@ -11,24 +11,19 @@ Page({
         buttonText: "查看订单"
       }
     },
-    orderId: "",
-    shopId: -1
+    orderId: ""
   },
   onLoad(e) {
     const orderId = e.orderId;
-    const shopId = parseInt(e.shopId);
     this.setData({
-      orderId,
-      shopId
+      orderId
     });
   },
 
   buyAgain() {
     my.redirectTo({
       url:
-        "../../products/add/add?shopId=" +
-        this.data.shopId +
-        "&orderId=" +
+        "../../products/add/add?orderId=" +
         this.data.orderId, // 需要跳转的应用内非 tabBar 的目标页面路径 ,路径后可以带参数。参数规则如下：路径与参数之间使用
       success: res => {}
     });
