@@ -509,6 +509,9 @@ Page({
       ownerName: order.ownerName,
       createdAt: moment(order.createdAt).format("lll"),
 
+      options: order.options.map(x=>x),
+      savedOptions: order.options.map(x=>x),
+
       currentPagedList: this.formatOrderItem(
         order.productList.slice( startIndex,
                     startIndex + this.data.pageSize)
