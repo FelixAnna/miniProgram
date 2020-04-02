@@ -8,7 +8,7 @@
       <view class="form-line"></view>
       <view class="form-line"></view>
       <view class="form-row">
-        <view class="form-row-label">{{enbleRandom?"自动创建":"手动打开"}}</view>
+        <view class="form-row-label">{{enbleRandom?"新建订单":"打开订单"}}</view>
         <view class="form-row-content" style="text-align: right">
           <switch onChange="tapCreateRandom" checked="{{enbleRandom}}"></switch>
         </view>
