@@ -66,7 +66,7 @@ Page({
 
     my.confirm({
       title: "跳转确认",
-      content: `确定要打开订单:${id}吗？`,
+      content: `要打开订单号为 12345${id} 的订单吗？`,
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       success: result => {
@@ -192,6 +192,9 @@ Page({
         if (res.confirm) {
           removeOrder(orderId)
             .then(data => {
+              my.removeStorageSync({
+                key:  `options-${orderId}`
+              });
               my.showToast({
                 type: 'success',
                 content: '删除成功',

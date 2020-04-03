@@ -27,12 +27,12 @@ Page({
       {value:"idcard", name:"证件号码"}
     ],
     savedOptions: [
-      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
-      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
+      {id: 1, name: '加饭', type:'bool', default: "false", order: 1},
+      {id: 2, name: '加辣', type:'bool', default: "false", order: 2}
     ],
     options: [
-      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
-      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
+      {id: 1, name: '加饭', type:'bool', default: "false", order: 1},
+      {id: 2, name: '加辣', type:'bool', default: "false", order: 2}
     ],
     selectedOption:"text",
 
@@ -255,7 +255,9 @@ Page({
     }
 
     if(type==='bool' && def!=true){
-      def=false;
+      def="false";
+    }else if(type==='bool' ){
+      def="true";
     }
 
     //upsert element
@@ -310,8 +312,7 @@ Page({
   },
   onTapRecoverOptions(){
     this.setData({
-      options:this.data.savedOptions.map(x=>x),
-      showSelectedOption: false});
+      options:this.data.savedOptions.map(x=>x)});
   },
   onTapSaveOptions(){
     const newOpts=this.data.options.map(x=>x);
@@ -322,11 +323,6 @@ Page({
       //new order with options in DB
       this.createOrder(newOpts)
     }
-
-    //update saved options
-    this.setData({
-      savedOptions: newOpts,
-      showSelectedOption: false});
   },
   /**options related end */
 
@@ -470,9 +466,14 @@ Page({
       success: res => {
         if (res.confirm) {
           removeOrder(this.data.orderId)
-            .then(data =>  my.redirectTo({
-                  url: "../deleted/deleted"
-                }))
+            .then(data =>  {
+              my.removeStorageSync({
+                key:  `options-${this.data.orderId}`
+              });
+              my.redirectTo({
+                url: "../deleted/deleted"
+              });
+            })
             .catch(res => console.log("删除失败！"));
         }
       }
@@ -518,6 +519,11 @@ Page({
       ),
       pageCount: Math.ceil(order.productList.length / this.data.pageSize)
     });
+
+    my.setStorageSync({
+      key: `options-${order.orderId}`,
+      data: order.options.map(x=>x)
+    });
   },
 
   getOrder(orderId, callback) {
@@ -538,6 +544,7 @@ Page({
   updateOrderOptions(orderId, opts) {
     updateOrderOptions(orderId, opts)
       .then(data => {
+        this.loadOrder(data);
         console.log("update options success")
       })
       .catch(res => {
