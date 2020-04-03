@@ -28,24 +28,26 @@
     </view>
     <view class="page-section">
       <view class="page-section-title">选填</view>
+
+      <block a:for="{{options}}" a:for-item="op">
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">加饭</view>
+        <view class="form-row-label">{{op.name}}</view>
         <view class="form-row-content" style="text-align: right">
-          <switch name="sw_rice" />
+          <block a:if="{{op.type=='bool'}}">
+            <switch name="op_{{op.id}}" checked="{{op.default=='true'}}" />
+          </block>
+          <block a:else>
+            <input name="op_{{op.id}}" value="{{op.default}}" type="{{op.type}}" />
+          </block>
         </view>
       </view>
-      <view class="form-line" />
-      <view class="form-row">
-        <view class="form-row-label">加辣</view>
-        <view class="form-row-content" style="text-align: right">
-          <switch name="sw_spice" />
-        </view>
-      </view>
+      </block>
       <view class="form-line" />
       <view class="page-section-demo">
         <textarea name="remark" auto-height placeholder="请输入您的其它特殊要求" />
       </view>
+
     </view>
     <view class="page-section">
       <view class="page-section-demo">

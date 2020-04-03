@@ -30,13 +30,27 @@ App({
                   data: data
                 });
 
-                tokenInfo = data;
+                this.updateUser(data)
+                .then(resolve(this.userInfo))
+                .catch(res=> reject({}));
               })
               .catch(res => {
                 reject({});
               });
+          }else{
+            this.updateUser(tokenInfo)
+                .then(resolve(this.userInfo))
+                .catch(res=> reject({}));
           }
-
+        },
+        fail: () => {
+          reject({});
+        }
+      });
+    });
+  },
+  updateUser(tokenInfo) {
+    return new Promise((resolve, reject) => {
           //Get user info and update db
           my.getOpenUserInfo({
             success: res => {
@@ -65,11 +79,6 @@ App({
               reject({});
             }
           });
-        },
-        fail: () => {
-          reject({});
-        }
-      });
     });
   },
   onLaunch(options) {

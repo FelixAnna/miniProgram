@@ -49,7 +49,7 @@
                 </view>
 
                 <view class="order-option-column" a:if="{{option.type==='bool'}}">
-                  {{option.default?"是":"否"}}
+                  {{option.default=="true"?"是":"否"}}
                 </view>
                 <view class="order-option-column" a:else>
                   {{option.default}}
@@ -70,8 +70,8 @@
         <view class="form-line" />
         <view>
           <button class="order-option-add" size="mini" type="default" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" />继续添加</button>
-          <button class="order-option-cancel" size="mini" type="primary" onTap="onTapRecoverOptions">撤销</button>
           <button class="order-option-save" size="mini" type="primary" onTap="onTapSaveOptions">保存</button>
+          <button class="order-option-cancel" size="mini" type="default" onTap="onTapRecoverOptions">撤销</button>
         </view>
       </block>
     </view>

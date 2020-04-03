@@ -6,60 +6,55 @@ const app = getApp();
 // API-DEMO page/component/form/form.js
 Page({
   data: {
-    selection: {
-      name: "",
-      prices: [],
-      id: -1
-    },
+    options:[
+      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
+      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
+    ],
     user: {},
-    links: [],
     showDialog: false,
     submitClicked: false
   },
   onLoad(e) {
     const orderId = e.orderId;
 
-    this.getCurrentSelection();
+    this.getCurrentOptions();
     this.setData({
       user: app.userInfo,
       orderId
     });
   },
   onShow() {
-    this.getCurrentSelection();
+    this.getCurrentOptions();
   },
   onSubmit(e) {
     this.setData({submitClicked: true});
     if (
-      e.detail.value.input_name !== undefined &&
-      e.detail.value.input_name.length > 0 &&
-      e.detail.value.input_price !== undefined &&
+      e.detail.value.input_name &&
       e.detail.value.input_price > 0
     ) {
+      const optionField=[];
+      console.log(e.detail.value);
+      Object.keys(e.detail.value).map(key => {
+        if(!key.startsWith("op_")){
+          return;
+        }
+
+        const opId=parseInt(key.substr(3));
+        let op=this.data.options.find(x=>x.id == opId);
+        
+        optionField.push({name: op.name, value: e.detail.value[key]});
+      });
+      
       const newOrderItem = {
         orderId: this.data.orderId,
-        productId: this.data.selection.id,
         name: e.detail.value.input_name,
         price: e.detail.value.input_price,
         remark: e.detail.value.remark,
-        options: [
-          {
-            name: "加饭",
-            value: e.detail.value.sw_rice
-          },
-          {
-            name: "加辣",
-            value: e.detail.value.sw_spice
-          }
-        ]
+        options: optionField
       };
 
       addOrderItem(newOrderItem)
         .then(res => {
-          my.removeStorageSync({
-            key: "selection" // 缓存数据的key
-          });
-
           my.redirectTo({
             url:
               "../success/success?orderId=" +
@@ -96,26 +91,18 @@ Page({
     }
   },
   onReset() {},
-  onStartSearch() {
-    my.redirectTo({
-      url:
-        "../search/search?orderId=" +
-        this.data.orderId
-    });
-  },
   onDialogTap() {
     this.setData({
       showDialog: false
     });
   },
-  getCurrentSelection() {
-    let selection = my.getStorageSync({ key: "selection" }).data || {
-      name: "",
-      prices: [],
-      id: -1
-    };
+  getCurrentOptions() {
+    let options = my.getStorageSync({ key: `options-${this.data.orderId}` }).data || [
+      {id: 1, name: '加饭', type:'bool', default: false, order: 1},
+      {id: 2, name: '加辣', type:'bool', default: false, order: 2}
+    ];
     this.setData({
-      selection
+      options
     });
   }
 });
