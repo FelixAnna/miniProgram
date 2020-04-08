@@ -6,7 +6,7 @@
       <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
       <!--am-icon type="lock_" size="24" color="#5d8" a:if="{{state==2}}" />
       <am-icon type="edit_" size="24" color="#bbb" a:else /-->
-      <button style="margin: 0px 10px;" type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
+      <button style="margin: 0px 10px;" type="primary" a:if="{{orderId>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
       </view>
     </view>
     <view class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
@@ -18,7 +18,7 @@
     <view class="page-section">
       <collapse
         className="demo-collapse"
-        activeKey="{{orderId?null:['optg1']}}"
+        activeKey="{{orderId>0?null:['optg1']}}"
         onChange="onOptionPanelChange"
       >
         <collapse-item header="{{showOptions?`配置商品选项`:(`已配置`+options.length+`个选项`)}}" itemKey="optg1">
@@ -27,7 +27,9 @@
               <view class="order-option-column">名称</view>
               <view class="order-option-column">类型</view>
               <view class="order-option-column"> 默认值</view>
-              <view class="order-option-column">操作</view>
+              <block a:if="{{state===1 && (createdBy===null || createdBy === user.userId)}}">
+                <view class="order-option-column">操作</view>
+              </block>
             </view>
             <block a:for="{{options}}" a:for-item="option">
               <view class="order-option">
@@ -55,7 +57,7 @@
                   {{option.default}}
                 </view>
                 
-                <view class="order-option-column">
+                <view a:if="{{state===1 && (createdBy===null || createdBy === user.userId)}}" class="order-option-column">
                   <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" size="30" /></button>
                   <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down" size="30" /></button>
                   <button class="order-option-del" size="mini" type="warn" data-id="{{option.id}}" onTap="onRemoveOption"><am-icon type="trash" size="30" /></button>
@@ -65,12 +67,12 @@
           </view>
         </collapse-item>
       </collapse>
-      <block a:if="{{showOptions}}">
+      <block a:if="{{showOptions && state===1 && (createdBy===null || createdBy === user.userId)}}">
         <view class="form-line" />
         <view class="form-line" />
         <view>
           <button class="order-option-add" size="mini" type="default" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" />继续添加</button>
-          <button class="order-option-save" size="mini" type="primary" onTap="onTapSaveOptions">保存</button>
+          <button class="order-option-save" size="mini" type="primary" onTap="onTapSaveOptions" disabled="{{saveOptionClicked}}" loading="{{saveOptionClicked}}">保存</button>
           <button class="order-option-cancel" size="mini" type="default" onTap="onTapRecoverOptions">撤销</button>
         </view>
       </block>
@@ -126,14 +128,28 @@ showClose="{{true}}"
 topImage="{{showProduct.ownerAvatar}}">
   <view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
   <view class="flex-container">
-    <flex>
+    <flex wrap="wrap">
       <block a:for="{{showProduct.options}}" a:for-item="option">
-        <flex-item a:if="{{option.value}}">
-          <view class="placeholder inline small">{{option.value===true?option.name:`${option.name}:${option.value}`}}</view></flex-item>
+        <block a:if="{{option.value==='true'}}">
+          <flex-item>
+            <view class="placeholder inline small">{{option.name}}</view>
+          </flex-item>
+        </block>
       </block>
     </flex>
+
     <view class="form-line" />
-    <view a:if="{{showProduct.remark}}" class="form-row">
+    <block a:for="{{showProduct.options}}" a:for-item="option">
+      <block a:if="{{option.value !== 'false' && option.value !== 'true' && option.value}}">
+        <view class="modal-row">
+          <view class="modal-column-left">{{option.name}}:</view>
+          <view class="modal-column-right">{{option.value}}</view>
+        </view>
+      </block>
+    </block>
+
+    <view class="form-line" />
+    <view a:if="{{showProduct.remark}}" class="modal-row">
       <text style="color:blueviolet;">{{showProduct.remark}}</text>
     </view>
     <view class="form-line" />

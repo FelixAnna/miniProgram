@@ -40,7 +40,6 @@
   margin: 0px;
   -webkit-box-align: center;
   align-items: center;
-  height: 68px;
   min-height: 64px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -53,11 +52,20 @@
   -webkit-box-align: center;
   align-items: center;
   border-top: 0px solid rgb(238, 238, 238);
-  padding: 10px 0px;
+  padding: 0px;
   font-size: 10px;
   line-height: 20px;
   color: rgb(153, 153, 153);
 }
+
+am-card-body{
+  display:flex;
+  -webkit-box-align:center;
+  align-items:center;
+  width:100%;
+  padding:8px 0px;
+}
+
 .placeholder {
   background-color: rgb(99, 99, 249);
   color: rgb(235, 235, 99);
@@ -68,13 +76,21 @@
 }
 
 .placeholder.inline {
-  width: 80px;
+  width: auto;
   margin: 9px 9px 9px 0;
 }
 
 .placeholder.small {
   height: 20px;
   line-height: 20px;
+}
+
+.am-flexbox-item{
+  box-sizing:border-box;
+  -webkit-box-flex:1;
+  flex:1 1 0%;
+  min-width:auto !important;
+  margin-left:8px;
 }
 
 .order {
@@ -149,12 +165,14 @@
   border-bottom: 1px dotted grey;
   font-size: small;
 }
-.order-option-column{
-  width:18%;
+.order-option-column:nth-child(1),
+.order-option-column:nth-child(2),
+.order-option-column:nth-child(3){
+  width:33%;
   border-right:1px dotted;
 }
-.order-option-column:last-child{
-  width:45%;
+.order-option-column:nth-child(4){
+  width:49% !important;
   border-right:1px dotted;
 }
 .order-option-del,

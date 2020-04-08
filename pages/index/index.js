@@ -10,7 +10,6 @@ Page({
     submitClicked: false
   },
   onLoad() {
-    
   },
 
   onShow(){

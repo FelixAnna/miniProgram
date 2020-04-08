@@ -6,7 +6,9 @@ App({
 
   getUserInfo() {
     return new Promise((resolve, reject) => {
-      if (this.userInfo) resolve(this.userInfo);
+      if (this.userInfo) {
+        return resolve(this.userInfo);
+      }
 
       my.getAuthCode({
         scopes: ["auth_user"],
@@ -15,7 +17,7 @@ App({
 
           /*******Ensure userInfo got***** */
           let tokenInfo = my.getStorageSync({
-            key: "tokenInfo"
+            key: "botoken"
           }).data;
           if(tokenInfo ==!null && moment(tokenInfo.expiresIn).isBefore(moment().utc())){
             console.log(tokenInfo.expiresIn);
@@ -26,20 +28,23 @@ App({
             login(authcode.authCode)
               .then(data => {
                 my.setStorageSync({
-                  key: "tokenInfo",
+                  key: "botoken",
                   data: data
                 });
-
                 this.updateUser(data)
-                .then(resolve(this.userInfo))
-                .catch(res=> reject({}));
+                  .then(()=>{
+                    return resolve(this.userInfo)
+                  })
+                  .catch(res=> reject({}));
               })
               .catch(res => {
                 reject({});
               });
           }else{
             this.updateUser(tokenInfo)
-                .then(resolve(this.userInfo))
+                .then(()=>{
+                return resolve(this.userInfo);
+                })
                 .catch(res=> reject({}));
           }
         },

@@ -15,7 +15,7 @@
       </view>
       <view a:if="{{enbleRandom===false}}" class="form-row">
         <view class="form-row-content">
-          <input name="orderId" class="input" placeholder="请输入订单号"></input>
+          <input name="orderId" class="input" type="number" placeholder="请输入订单号"></input>
         </view>
       </view>
     </view>

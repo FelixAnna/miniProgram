@@ -87,6 +87,17 @@ Page({
           my.hideLoading();
         })
         .catch(res => {
+          if(res.status === 401){
+            my.removeStorageSync({
+              key: 'botoken'
+            });
+            app.userInfo=null;
+            my.redirectTo({
+              url: "/pages/auth/auth"
+            });
+            return;
+          }
+
           my.confirm({
               title: '抱歉',
               content: '数据加载失败！',
@@ -315,6 +326,7 @@ Page({
       options:this.data.savedOptions.map(x=>x)});
   },
   onTapSaveOptions(){
+    this.setData({saveOptionClicked:true});
     const newOpts=this.data.options.map(x=>x);
     if(this.data.orderId){
       //update options in DB
@@ -401,9 +413,11 @@ Page({
 
     let summaryPrice = 0;
     this.data.productList.forEach((item, index) => {
-      let optionsSummary= item.options.filter(op=>op.value)
+      let optionsSummary= item.options
+        .filter(op => op.value!=="false")
+        .sort(op=>op.value==="true")
         .map(op => {
-            if(op.value === true) {
+            if(op.value === "true") {
               return op.name;
             } else {
               return `${op.name}:${op.value}`;
@@ -513,6 +527,8 @@ Page({
       options: order.options.map(x=>x),
       savedOptions: order.options.map(x=>x),
 
+      saveOptionClicked: false,
+
       currentPagedList: this.formatOrderItem(
         order.productList.slice( startIndex,
                     startIndex + this.data.pageSize)
@@ -574,11 +590,12 @@ Page({
   formatOrderItem(productList) {
     productList.forEach(item => {
       let validOptions = item.options
-        .filter(op => op.value)
+        .filter(op => op.value!=="false")
+        .sort(op=>op.value==="true")
         .map(op => {
-            if(op.value === true) {
+            if(op.value === "true") {
               return op.name;
-            } else {
+            }else {
               return `${op.name}:${op.value}`;
             }
           })
