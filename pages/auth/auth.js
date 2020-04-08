@@ -207,6 +207,13 @@ Page({
   onShow(){
     // 获取全局 app 实例
     const app2 = getApp();
+    let tokenInfo = my.getStorageSync({
+      key: 'botoken'
+    }).data;
+    if(!tokenInfo){
+      return;
+    }
+
     if (app2.userInfo) {
       my.redirectTo({
         url: this.getRedirectPage()
@@ -217,7 +224,9 @@ Page({
       this.setData({submitClicked: true});
       app.getUserInfo().then(
         user => {
+          console.log("start")
           console.log(user);
+          console.log("end")
           my.redirectTo({
             url: this.getRedirectPage()
           });

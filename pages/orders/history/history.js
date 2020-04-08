@@ -66,7 +66,7 @@ Page({
 
     my.confirm({
       title: "跳转确认",
-      content: `要打开订单号为 12345${id} 的订单吗？`,
+      content: `要打开订单号为 ${id} 的订单吗？`,
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       success: result => {
@@ -104,7 +104,7 @@ Page({
   loadOrders(force, callback) {
     if(!force) {
         var data = my.getStorageSync({
-            key: 'history'
+            key: 'bohistory'
           }).data;
           if(data!==null){
             this.renderData(data);
@@ -116,7 +116,7 @@ Page({
     return getOrders(1, 300, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
         my.setStorage({
-          key: 'history',
+          key: 'bohistory',
           data: data
         });
 
@@ -134,35 +134,46 @@ Page({
   },
   handleError(res){
     if(res.status === 404){
-          this.setData({
-            swipeIndex: null,
-            user: app.userInfo,
-            pageCount: 0,
-            
-            list: [],
-            pageIndex:1
-          });
-          return;
-        }
+      this.setData({
+        swipeIndex: null,
+        user: app.userInfo,
+        pageCount: 0,
         
-        my.confirm({
-          title: "抱歉",
-          content: "数据加载失败！",
-          confirmButtonText: "重新加载",
-          cancelButtonText: "返回首页",
-          success: result => {
-            if (result.confirm) {
-              my.reLaunch({
-                url: "/pages/orders/history/history"
-              });
-            } else {
-              my.redirectTo({
-                url: "/pages/index/index"
-              });
-            }
-          }
-        });
-        this.setData({ list: [] });
+        list: [],
+        pageIndex:1
+      });
+      return;
+    }
+
+    if(res.status === 401){
+      my.removeStorageSync({
+        key: 'botoken'
+      });
+      app.userInfo=null;
+      my.redirectTo({
+        url: "/pages/auth/auth"
+      });
+      return;
+    }
+        
+    my.confirm({
+      title: "抱歉",
+      content: "数据加载失败！",
+      confirmButtonText: "重新加载",
+      cancelButtonText: "返回首页",
+      success: result => {
+        if (result.confirm) {
+          my.reLaunch({
+            url: "/pages/orders/history/history"
+          });
+        } else {
+          my.redirectTo({
+            url: "/pages/index/index"
+          });
+        }
+      }
+    });
+    this.setData({ list: [] });
   },
   renderData(data)
   {

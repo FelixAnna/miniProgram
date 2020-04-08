@@ -5,7 +5,7 @@ export const request = params => {
   const { url, method, data, dataType, headers, complete } = params;
   const requestUrl = `${baseUrl}/${url}`;
   const tokenInfo = my.getStorageSync({
-    key: "tokenInfo" // 缓存数据的key
+    key: "botoken" // 缓存数据的key
   }).data;
   const accesstoken = `Bearer ${encodeURIComponent(
     tokenInfo == undefined ? "" : tokenInfo.token
