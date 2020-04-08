@@ -1,4 +1,4 @@
-const baseUrl = "https://bookingoffline-test.azurewebsites.net";
+const baseUrl = "https://bo-test2.azurewebsites.net";
 const app = getApp();
 
 export const request = params => {

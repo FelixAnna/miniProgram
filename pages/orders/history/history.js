@@ -43,7 +43,7 @@ Page({
     }
 
     //load order data if exists
-    this.loadOrders(false, () => my.hideLoading());
+    this.loadOrders(true, () => my.hideLoading());
   },
   onShow(){
     my.showTabBar({
