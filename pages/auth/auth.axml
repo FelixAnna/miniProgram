@@ -2,7 +2,7 @@
 <import src="/components/header.axml"></import>
 <view class="page">
   <template is="header" data="{{user,title}}"></template>
-  <form onSubmit="onSubmit" onReset="onReset">
+  <form>
     <view class="page-section">
       <view class="form-row">
         <view class="form-row-title">服务内容</view>

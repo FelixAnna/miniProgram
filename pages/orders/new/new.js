@@ -92,6 +92,7 @@ Page({
               key: 'botoken'
             });
             app.userInfo=null;
+            my.hideLoading();
             my.redirectTo({
               url: "/pages/auth/auth"
             });

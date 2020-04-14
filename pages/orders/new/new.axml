@@ -14,7 +14,7 @@
   <block a:else>
     <view class="order" ><view class="order no">准备创建订单...</view></view>
   </block>
-  <form onSubmit="onSubmit" onReset="onReset">
+  <form onSubmit="onSubmit" >
     <view class="page-section">
       <collapse
         className="demo-collapse"
@@ -58,9 +58,9 @@
                 </view>
                 
                 <view a:if="{{state===1 && (createdBy===null || createdBy === user.userId)}}" class="order-option-column">
-                  <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" size="30" /></button>
-                  <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down" size="30" /></button>
-                  <button class="order-option-del" size="mini" type="warn" data-id="{{option.id}}" onTap="onRemoveOption"><am-icon type="trash" size="30" /></button>
+                  <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" /></button>
+                  <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down" /></button>
+                  <button class="order-option-del" size="mini" type="warn" data-id="{{option.id}}" onTap="onRemoveOption"><am-icon type="trash" /></button>
                 </view>
               </view>
             </block>
@@ -177,7 +177,7 @@ topImage="{{showProduct.ownerAvatar}}">
         <text style="color:red">*</text><text>名称：</text>
       </view>
       <view class="modal-column-right">
-        <input class="modal-input" placeholder="请输入名字" name="selectedOptionName" />
+        <input class="modal-input" maxlength="12" placeholder="请输入名字" name="selectedOptionName" />
       </view>
     </view>
     <view slot="header" class="modal-row">
@@ -202,7 +202,7 @@ topImage="{{showProduct.ownerAvatar}}">
           <switch name="selectedOptionDefault"/>
         </block>
         <block a:else>
-          <input class="modal-input" type="{{selectedOption}}" placeholder="请输入默认值" name="selectedOptionDefault"/>
+          <input class="modal-input"  maxlength="18"  type="{{selectedOption}}" placeholder="请输入默认值" name="selectedOptionDefault"/>
         </block>
       </view>
     </view>

@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/products/add/add",
-    "pages/products/search/search",
     "pages/products/success/success",
     "pages/products/failed/failed",
     "pages/orders/deleted/deleted",
