@@ -61,7 +61,49 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '2. 所有人都可以',
+            text: '2. 可以为订单',
+          }],
+        },
+        {
+          name: 'strong',
+          children: [{
+            type: 'text',
+            text: '配置自定义选项',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '，也可以使用',
+          }],
+        },
+        {
+          name: 'strong',
+          children: [{
+            type: 'text',
+            text: '默认配置',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '；',
+          }],
+        },
+        {
+          name: 'div',
+          children: [{
+            type: 'text',
+            text: '',
+          }],
+        },
+        {
+          name: 'span',
+          children: [{
+            type: 'text',
+            text: '3. 所有人都可以',
           }],
         },
         {
@@ -103,7 +145,7 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '3. 全部编辑完成后，可以',
+            text: '4. 全部编辑完成后，可以',
           }],
         },
         {
@@ -131,7 +173,7 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '4. 然后可以',
+            text: '5. 然后可以',
           }],
         },
         {
@@ -159,7 +201,7 @@ Page({
           name: 'span',
           children: [{
             type: 'text',
-            text: '5. 最后',
+            text: '6. 最后',
           }],
         },
         {

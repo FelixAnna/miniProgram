@@ -10,7 +10,7 @@
         <view class="form-row-label">
           <text style="color:red">*</text>名称</view>
         <view class="form-row-content">
-          <input name="input_name" class="input" value="{{selection.name}}" placeholder="请输入名称" />
+          <input name="input_name" maxlength="12" class="input" value="{{selection.name}}" placeholder="请输入名称" />
         </view>
         <!--view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch">
           <icon type="search" size="35"/>
@@ -22,7 +22,7 @@
           <text style="color:red">*</text>价格</view>
         <view class="form-row-content">
           <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="number" placeholder="可选价格： {{selection.prices}}" />
-          <input name="input_price" class="input" type="digit" placeholder="请输入价格" a:else />
+          <input name="input_price" maxlength="18" class="input" type="digit" placeholder="请输入价格" a:else />
         </view>
       </view>
     </view>
@@ -38,7 +38,7 @@
             <switch name="op_{{op.id}}" checked="{{op.default=='true'}}" />
           </block>
           <block a:else>
-            <input name="op_{{op.id}}" value="{{op.default}}" type="{{op.type}}" />
+            <input name="op_{{op.id}}" maxlength="18" value="{{op.default}}" type="{{op.type}}" />
           </block>
         </view>
       </view>

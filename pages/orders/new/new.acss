@@ -170,6 +170,7 @@ am-card-body{
 .order-option-column:nth-child(3){
   width:33%;
   border-right:1px dotted;
+  overflow-x:hidden;
 }
 .order-option-column:nth-child(4){
   width:49% !important;
