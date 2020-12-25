@@ -1,4 +1,4 @@
-const baseUrl = "https://bo-test2.azurewebsites.net";
+const baseUrl = "https://bo-app-apm.azure-api.net";
 const app = getApp();
 
 export const request = params => {
