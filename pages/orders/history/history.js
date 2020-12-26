@@ -113,7 +113,7 @@ Page({
           }
     }
 
-    return getOrders(1, 300, moment(this.data.startDate).format("YYYY-MM-DD"), moment(this.data.endDate).format("YYYY-MM-DD"))
+    return getOrders(1, 300, this.data.startDate==null?"":moment(this.data.startDate).format("YYYY-MM-DD"), this.data.endDate==null?"":moment(this.data.endDate).format("YYYY-MM-DD"))
       .then(data => {
         my.setStorage({
           key: 'bohistory',
