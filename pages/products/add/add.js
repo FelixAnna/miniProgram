@@ -27,6 +27,10 @@ Page({
     this.getCurrentOptions();
   },
   onSubmit(e) {
+    if(this.data.submitClicked === true){
+      return;
+    }
+    
     this.setData({submitClicked: true});
     if (
       e.detail.value.input_name &&

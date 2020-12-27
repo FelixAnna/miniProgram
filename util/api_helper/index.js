@@ -1,8 +1,6 @@
 import { request } from "./request";
 
 
-const restricted_headers = {"Ocp-Apim-Subscription-Key": "##"};
-const unrestricted_headers = {"Ocp-Apim-Subscription-Key": "##"};
 /**************Test Api************** */
 export const getApiStatus = () => {
   return request.get({ 
@@ -65,6 +63,17 @@ export const removeOrder = id => {
   });
 };
 
+export const getOrders = (page, size, start, end) => {
+  //as not support delete for now
+  let url=`bo-app-order/orders?page=${page}&size=${size}`;
+  if(start) url+=`&startDate=${start}`
+  if(end) url+=`&endDate=${end}`
+  return request.get({    
+    url
+  });
+};
+
+
 export const lockOrder = id => {
   return request.post({ 
     url: `bo-app-order/orders/${encodeURIComponent(id)}/lock`
@@ -75,15 +84,6 @@ export const unlockOrder = id => {
   //as not support delete for now
   return request.post({ 
     url: `bo-app-order/orders/${encodeURIComponent(id)}/unlock`
-  });
-};
-export const getOrders = (page, size, start, end) => {
-  //as not support delete for now
-  let url=`bo-app-order/orders?page=${page}&size=${size}`;
-  if(start) url+=`&startDate=${start}`
-  if(end) url+=`&endDate=${end}`
-  return request.get({    
-    url
   });
 };
 
