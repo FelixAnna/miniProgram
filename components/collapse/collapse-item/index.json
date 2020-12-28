@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "am-icon": "mini-ali-ui/es/am-icon/index"
+  }
+}

@@ -74,6 +74,13 @@ button {
   background-color: #00a854;
 }
 
+.form-tab-header {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  height: 88rpx;
+  align-items: center;
+}
 .form-row {
   display: flex;
   align-items: center;
@@ -81,7 +88,21 @@ button {
   height: 88rpx;
   align-items: center;
 }
-
+.form-row-header {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  height: 88rpx;
+  align-items: center;
+  background-color: lightskyblue;
+}
+.form-row-header-content {
+  width:100%;
+  font-size:0.36rem;
+  margin-right:0.02rem;
+  text-align:center;
+  color:#fff;
+}
 
 .form-row-grey{
   display: flex;
@@ -161,4 +182,12 @@ button {
 
 .icon-desc {
   margin-top: 10px;
+}
+
+.odd-row{
+  background-color:rgba(249, 249, 249, 1) !important;
+}
+
+.even-row{
+  background-color:  aliceblue !important;
 }

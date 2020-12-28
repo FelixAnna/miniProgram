@@ -1,1 +1,14 @@
-{}
+{
+  "defaultTitle": "历史记录",
+  "pullRefresh": true,
+  "usingComponents": {
+    "pagination": "mini-antui/es/pagination/index",
+    "card": "mini-antui/es/card/index",
+    "swipe-action": "mini-antui/es/swipe-action/index",
+    "list": "mini-antui/es/list/index",
+    "list-item": "mini-antui/es/list/list-item/index",
+    "calendar": "mini-antui/es/calendar/index",
+    "am-icon": "mini-antui/es/am-icon/index",
+    "footer": "/components/footer/footer"
+  }
+}

@@ -1,4 +1,4 @@
-const source = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const source = "0123456789abcdefghijklmnopqrstuvwxyzUVWXYZ";
 const sourceLen = source.length;
 
 export const getShortcode = number => {

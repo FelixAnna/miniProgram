@@ -2,13 +2,13 @@
 Page({
   data: {
     title: "删除成功",
-    subTitle: "订单已删除, 15秒后返回首页。",
+    subTitle: "订单已删除, 5秒后返回首页。",
     messageButton: {
       mainButton: {
-        buttonText: "立即返回"
+        buttonText: "返回首页"
       },
       subButton: {
-        buttonText: "订单列表"
+        buttonText: "历史记录"
       }
     },
     waitSec: 5,
@@ -47,8 +47,7 @@ Page({
       backEvent: ()=>{}
     });
     my.redirectTo({
-      url:
-        "/pages/orders/history/history", // 需要跳转的应用内非 tabBar 的目标页面路径 ,路径后可以带参数。参数规则如下：路径与参数之间使用
+      url: "/pages/orders/history/history",
       success: res => { }
     });
   }

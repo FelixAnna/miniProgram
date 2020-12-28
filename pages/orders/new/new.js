@@ -1,5 +1,6 @@
 import {
   createOrder,
+  updateOrderOptions,
   getOrderById,
   removeOrder,
   lockOrder,
@@ -9,15 +10,32 @@ import {
 import moment from "moment";
 // 获取全局 app 实例
 const app = getApp();
-
+// 特征检测
+my.canIUse('page.events.onBack');
 // API-DEMO page/component/form/form.js
 Page({
   data: {
     user: {},
 
     //order
-    shopId: -1,
-    orderId: "",
+    orderId: undefined,
+    avaiableTypes:[
+      {value:"text", name:"任意文字"},
+      {value:"number", name:"数字"},
+      {value:"bool", name:"是/否"},
+      {value:"digit", name:"金额"},
+      {value:"idcard", name:"证件号码"}
+    ],
+    savedOptions: [
+      {id: 1, name: '加饭', type:'bool', default: "false", order: 1},
+      {id: 2, name: '加辣', type:'bool', default: "false", order: 2}
+    ],
+    options: [
+      {id: 1, name: '加饭', type:'bool', default: "false", order: 1},
+      {id: 2, name: '加辣', type:'bool', default: "false", order: 2}
+    ],
+    selectedOption:"text",
+
     productList: [],
     state: 1,
     createdBy: null,
@@ -35,39 +53,52 @@ Page({
     enableRandom: false,
 
     productListText: "",
-    showCopyText: false
+    showCopyText: false,
+
+    itemRight:  [{ type: 'delete', text: '删除' }],
+    swipeIndex: null
   },
   onLoad(e) {
+    moment.locale('zh-CN');
     const orderId = e.orderId;
-    my.showLoading({
-      content: "订单加载中...",
-      delay: "0"
-    });
     //Ensure user loaded
     if (!app.userInfo) {
-      app.getUserInfo().then(
-        user => {
-          this.setData({
-            user
+      my.redirectTo({
+        url: "/pages/auth/auth?page=order&id="+orderId
+      });
+    }else{
+      this.setData({
+            user: app.userInfo,
+            orderId
           });
-          console.log(user);
-        },
-        () => {
-          // 获取用户信息失败
-        }
-      );
     }
 
-    //load order data if exists
-    getOrderById(orderId)
-      .then(data => this.loadOrder(data))
-      .catch(res => {
-        if (res.status === 404) {
-          //enable auto create if not exists
-          let shopId = (new Date().getTime() * -1) % 100000000;
-          this.setData({ orderId, shopId });
-          this.createOrder(orderId);
-        } else {
+    if(orderId)
+    {
+      my.showLoading({
+        content: "订单加载中...",
+        delay: "0"
+      });
+    
+      //load order data if exists
+      getOrderById(orderId)
+        .then(data => {
+          this.loadOrder(data); 
+          my.hideLoading();
+        })
+        .catch(res => {
+          if(res.status === 401){
+            my.removeStorageSync({
+              key: 'botoken'
+            });
+            app.userInfo=null;
+            my.hideLoading();
+            my.redirectTo({
+              url: "/pages/auth/auth"
+            });
+            return;
+          }
+
           my.confirm({
               title: '抱歉',
               content: '数据加载失败！',
@@ -85,33 +116,228 @@ Page({
                 }
               }
           });
-          this.setData({ orderId });
-        }
-      })
-      .finally(() => my.hideLoading());
-  },
-
-  events: {
-    onBack() {
-      // 页面返回时触发
-      my.redirectTo({ url: "../../index/index" });
+          my.hideLoading();
+        });
     }
   },
-  tapSkip(e) {
-    let shopId = (new Date().getTime() * -1) % 100000000;
-    this.setData({ shopId });
-    this.createOrder(this.data.orderId, shopId);
+  onPullDownRefresh() {
+    this.getOrder(this.data.orderId, () => my.stopPullDownRefresh({
+      success(res) {
+         my.showToast({
+          type: 'success',
+          content: '刷新成功',
+          duration: 3000
+        });
+      }
+    }));
   },
-  saveShopId(e) {
-    // 修改全局数据
-    const shopId = e.detail.value;
-    if (shopId === "" || shopId === undefined || shopId == -1) {
+  events: {
+    onBack(e){
+      e.preventDefault();
+      // 页面返回时触发
+     my.redirectTo({
+        url: "/pages/index/index"
+      });
+    }
+  },
+
+  /*** options related*/
+  onOptionPanelChange(e){
+    if(e[0]=='optg1'){
+      this.setData({showOptions:true})
+    }else{
+      this.setData({showOptions:false})
+    }
+  },
+  optionTypeName(type){
+    const opType= this.data.avaiableTypes.find(element=>element.value===type);
+    if(opType){
+      return opType.name;
+    }
+    return "unknown";
+  },
+  optionTypeValue(name){
+    const opType= this.data.avaiableTypes.find(element=>element.name===name);
+    if(opType){
+      return opType.value;
+    }
+    return "unknown";
+  },
+  tapUpOption(e){
+    const { id } = e.target.dataset;
+    
+    //locate
+    let currentOptionIndex = this.data.options.findIndex((op) => op.id == id);
+
+    //exception
+    if(currentOptionIndex==0){
       return;
     }
 
-    this.setData({ shopId });
-    this.createOrder(this.data.orderId, shopId);
+    //swap
+    let newOptions=[];
+    this.data.options.forEach((op, idx) => {
+        if (currentOptionIndex-1 === idx) {
+          const curOption=this.data.options[currentOptionIndex];
+          newOptions.push(curOption, op);
+        }else if(currentOptionIndex === idx){
+          return;
+        }else{
+          newOptions.push(op);
+        }
+    });
+
+    //re-order
+    newOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
   },
+  tapDownOption(e){
+    const { id } = e.target.dataset;
+    
+    //locate
+    let currentOptionIndex = this.data.options.findIndex((op) => op.id === id);
+
+    //exception
+    if(currentOptionIndex===this.data.options.length-1){
+      return;
+    }
+
+    //swap
+    let newOptions=[];
+    this.data.options.forEach((op, idx) => {
+        if (currentOptionIndex === idx) {
+          const curOption=this.data.options[currentOptionIndex];
+          const nextOption=this.data.options[currentOptionIndex+1];
+          newOptions.push(nextOption,op);
+        }else if(currentOptionIndex+1 === idx){
+          return;
+        }else{
+          newOptions.push(op);
+        }
+    });
+
+    //re-order
+    newOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
+  },
+  tapEditOption(e) {
+    const { id } = e.target.dataset;
+    let selectedOption;
+    this.data.options.forEach((op, idx) => {
+        if (op.id == id) {
+          selectedOption = op;
+          return;
+        }
+
+        if(selectedOption !== undefined){
+          return;
+        }
+    });
+    selectedOption.typeName=this.optionTypeName(selectedOption.type);
+    this.setData({
+      selectedOption,
+      showSelectedOption: true});
+  },
+  tapNewOption(e) {
+    const emptyOption= {id: -1, name:"", type:"text", default:""};
+    this.setData({
+      selectedOption:emptyOption,
+      showSelectedOption: true});
+  },
+  onHiddenOption(e){
+    this.setData({showSelectedOption: false});
+  },
+  onUpsertOption(e){
+    const name = e.detail.value.selectedOptionName;
+    const type = e.detail.value.selectedOptionType;
+    let def = e.detail.value.selectedOptionDefault;
+
+    if(name==='' || name ===undefined){
+      return;
+    }
+
+    if(type==='bool' && def!=true){
+      def="false";
+    }else if(type==='bool' ){
+      def="true";
+    }
+
+    //upsert element
+    let newOptions=this.data.options;
+    if(newOptions.some((o) => o.name === name)) {
+        const other_element=newOptions.find((o) => o.name === name);
+        newOptions.splice(other_element.order, 1, {id: other_element.id, name, type, default: def,order:other_element.order});
+      } else {
+        const maxId=newOptions.length<=0?0:newOptions.reduce(( max, cur ) => Math.max( max, cur.id ), 0);
+        newOptions.push({id: maxId+1,name, type, default: def, order: 9999});
+      }
+
+    //remove duplicate
+    var uniqueOptions = [];
+    newOptions.forEach((element, index) => {
+        if(!uniqueOptions.some((o, oi) => {
+          return o.name == element.name && index!=oi;
+        })) {
+          uniqueOptions.push(element);
+        }
+    });
+
+    //re-order
+    uniqueOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:uniqueOptions,
+      showSelectedOption: false});
+  },
+  onRemoveOption(e){
+    const { id } = e.target.dataset;
+    let newOptions=this.data.options;
+    if(newOptions.some(o=>o.id===id)){
+      const targetIndex=newOptions.findIndex((o) => o.id === id);
+      newOptions.splice(targetIndex,1);
+    }
+    
+    //re-order
+    newOptions.forEach((op, idx) => {
+        op.order=idx;
+    });
+
+    this.setData({
+      options:newOptions,
+      showSelectedOption: false});
+  },
+  onOptionTypeChange(e) {
+    const selectedOption=e.detail.value;
+    this.setData({selectedOption:selectedOption});
+  },
+  onTapRecoverOptions(){
+    this.setData({
+      options:this.data.savedOptions.map(x=>x)});
+  },
+  onTapSaveOptions(){
+    this.setData({saveOptionClicked:true});
+    const newOpts=this.data.options.map(x=>x);
+    if(this.data.orderId){
+      //update options in DB
+      this.updateOrderOptions(this.data.orderId, newOpts)
+    }else{
+      //new order with options in DB
+      this.createOrder(newOpts)
+    }
+  },
+  /**options related end */
 
   onTabPage(index) {
     const startIndex = this.data.pageSize * (index - 1);
@@ -128,11 +354,24 @@ Page({
     let currentOrderItem = this.data.productList.find(function(element) {
         return element.orderItemId === id;
       });
-    moment.locale('zh-CN');
-    currentOrderItem.formattedCreatedDate=moment(currentOrderItem.createdAt).format("LLLL");
+    currentOrderItem.formattedCreatedDate=moment(currentOrderItem.createdAt).format("lll");
     this.setData({
       showModal: true,
       showProduct: currentOrderItem
+    });
+  },
+
+  onRightItemClick(e) {
+    const { type } = e.detail;
+    if (type === 'delete') {
+      const itemId=e.extra;
+      this.deleteOrderItem(itemId);
+    }
+  },
+
+  onSwipeStart(e) {
+    this.setData({
+      swipeIndex: e.index,
     });
   },
 
@@ -146,74 +385,59 @@ Page({
   onTapAppendMore(e) {
     my.navigateTo({
       url:
-        "../../products/add/add?orderId=" +
-        this.data.orderId +
-        "&shopId=" +
-        this.data.shopId
+        "../../products/add/add?orderId="+this.data.orderId
     });
   },
 
   onSubmit(e) {
+    this.setData({lockUnlockClicked:true});
     if (this.data.state === 1)
       lockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 2
+          state: 2,
+          lockUnlockClicked:false
         });
-        console.log(`订单已锁定.`);
+        console.log(`订单已提交.`);
       });
     else
       unlockOrder(this.data.orderId).then(res => {
         this.setData({
-          state: 1
+          state: 1,
+          lockUnlockClicked:false
         });
-        console.log(`订单已解锁.`);
+        console.log(`订单已撤回.`);
       });
   },
   onTapCopy(e) {
     let productListText = "";
     let options = [];
 
-    let riceCount = 0;
-    let spiceCount = 0;
-
     let summaryPrice = 0;
     this.data.productList.forEach((item, index) => {
-      item.options.forEach((op, idx) => {
-        if (!op.value) {
-          return;
-        }
-        if (options[op.name] === undefined) {
-          options[op.name] = 1;
-        } else {
-          options[op.name] += 1;
-        }
-      });
-      spiceCount += item.spice ? 1 : 0;
-      riceCount += item.rice ? 1 : 0;
+      let optionsSummary= item.options
+        .filter(op => op.value!=="false")
+        .sort(op=>op.value==="true")
+        .map(op => {
+            if(op.value === "true") {
+              return op.name;
+            } else {
+              return `${op.name}:${op.value}`;
+            }
+          })
+        .reduce((op, current) => `${current} ${op}`,'');
 
       summaryPrice += parseFloat(item.price);
-      const productText = `${item.name} ${item.price} ${
-        item.remark ? "[备注：" + item.remark + "]" : ""
-      }`;
-      if (index === 0) {
-        productListText += `${productText}`;
-      } else {
-        productListText += `\n${productText}`;
-      }
+
+      const productText = `${item.name} ${item.price} `
+      +`${optionsSummary ? optionsSummary : ""} `
+      +`${item.remark ? "[备注：" + item.remark + "]" : ""}`;
+
+      productListText += `${productText}\n`;
     });
-    productListText += `\n`;
-    options.forEach((op, idx) => {
-      productListText += options[op] > 0 ? `${op}*${options[op]}\t` : "";
-    });
-    var sortKeys = Object.keys(options).sort();
-    for (var key in sortKeys) {
-      productListText +=
-        options[sortKeys[key]] > 0
-          ? `${sortKeys[key]}*${options[sortKeys[key]]}\t`
-          : "";
-    }
+    
     productListText += summaryPrice > 0 ? `\n合计：${summaryPrice}元` : "";
 
+    //仅支持企业账号
     my.setClipboard({
       text: productListText
     });
@@ -224,29 +448,21 @@ Page({
     });
   },
   onTapProductDelete(e) {
+    this.deleteOrderItem(this.data.showProduct.orderItemId);
+  },
+  deleteOrderItem(orderItemId){
     my.confirm({
       content: "确定删除当前商品吗？",
       success: res => {
         if (res.confirm) {
-          removeOrderItem(this.data.showProduct.orderItemId)
+          removeOrderItem(orderItemId)
             .then(data => {
-              this.getOrder(this.data.orderId);
-              const startIndex = this.data.pageSize * (this.data.pageIndex - 1);
-              this.setData({
-                showProduct: {},
-                showModal: false,
-                currentPagedList: this.formatOrderItem(
-                  this.data.productList.slice(
-                    startIndex,
-                    startIndex + this.data.pageSize
-                  )
-                )
-              });
-              my.showToast({
+              this.getOrder(this.data.orderId, ()=>my.showToast({
                 type: "success",
                 content: "删除成功！",
                 duration: 1500
-              });
+              }));
+              
             })
             .catch(res =>
               my.showToast({
@@ -265,9 +481,14 @@ Page({
       success: res => {
         if (res.confirm) {
           removeOrder(this.data.orderId)
-            .then(data =>  my.redirectTo({
-                  url: "../deleted/deleted"
-                }))
+            .then(data =>  {
+              my.removeStorageSync({
+                key:  `options-${this.data.orderId}`
+              });
+              my.redirectTo({
+                url: "../deleted/deleted"
+              });
+            })
             .catch(res => console.log("删除失败！"));
         }
       }
@@ -282,35 +503,51 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "订单分享",
-      desc: "请点击进入购物，完成后一键生成团队订单，并发送给商家。",
+      title: "群订单统计邀请",
+      desc: "请点击本链接以参与编辑，随后一键生成汇总信息，复制后可轻松分享。",
       path: "/pages/orders/new/new?orderId=" + this.data.orderId
     };
   },
-  onReset() {},
 
   loadOrder(order) {
+    const startIndex = this.data.pageSize * (this.data.pageIndex - 1);
     this.setData({
+      showProduct: {},
+      showModal: false,
+      swipeIndex: null,
+
       user: app.userInfo,
 
       orderId: order.orderId,
-      shopId: order.shopId,
       productList: order.productList,
       state: order.state,
       createdBy: order.createdBy,
-      createdAt: order.createdAt,
+      ownerName: order.ownerName,
+      createdAt: moment(order.createdAt).format("lll"),
+
+      options: order.options.map(x=>x),
+      savedOptions: order.options.map(x=>x),
+
+      saveOptionClicked: false,
 
       currentPagedList: this.formatOrderItem(
-        order.productList.slice(0, this.data.pageSize)
+        order.productList.slice( startIndex,
+                    startIndex + this.data.pageSize)
       ),
       pageCount: Math.ceil(order.productList.length / this.data.pageSize)
     });
+
+    my.setStorageSync({
+      key: `options-${order.orderId}`,
+      data: order.options.map(x=>x)
+    });
   },
 
-  getOrder(orderId) {
+  getOrder(orderId, callback) {
     getOrderById(orderId)
       .then(data => {
         this.loadOrder(data);
+        callback();
       })
       .catch(res => {
         my.showToast({
@@ -321,8 +558,23 @@ Page({
       });
   },
 
-  createOrder(orderId) {
-    createOrder(orderId, this.data.shopId)
+  updateOrderOptions(orderId, opts) {
+    updateOrderOptions(orderId, opts)
+      .then(data => {
+        this.loadOrder(data);
+        console.log("update options success")
+      })
+      .catch(res => {
+        my.showToast({
+          type: "fail",
+          content: res,
+          duration: 1500
+        });
+      });
+  },
+
+  createOrder(opts) {
+    createOrder(opts)
       .then(data => {
         data.productList = data.productList || [];
         this.loadOrder(data);
@@ -335,11 +587,19 @@ Page({
         });
       });
   },
+
   formatOrderItem(productList) {
     productList.forEach(item => {
       let validOptions = item.options
-        .filter(op => op.value)
-        .map(op => op.name)
+        .filter(op => op.value!=="false")
+        .sort(op=>op.value==="true")
+        .map(op => {
+            if(op.value === "true") {
+              return op.name;
+            }else {
+              return `${op.name}:${op.value}`;
+            }
+          })
         .reduce((op, current) => `${current} ${op}`,'');
       if (item.remark) {
         validOptions += `\t备注：${item.remark}`;

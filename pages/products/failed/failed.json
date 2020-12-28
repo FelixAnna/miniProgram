@@ -1,5 +1,5 @@
 {
-  "defaultTitle": "异常反馈",
+  "defaultTitle": "添加失败",
   "usingComponents": {
     "page-result": "mini-antui/es/page-result/index",
     "footer": "/components/footer/footer"

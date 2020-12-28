@@ -1,46 +1,82 @@
 import { login, updateUserInfo } from "./util/api_helper";
+import moment from "moment";
+
 App({
   userInfo: null,
 
   getUserInfo() {
     return new Promise((resolve, reject) => {
-      if (this.userInfo) resolve(this.userInfo);
+      if (this.userInfo) {
+        return resolve(this.userInfo);
+      }
 
       my.getAuthCode({
-        scopes: ["auth_user"],
+        scopes: ['auth_base'],
         success: authcode => {
           console.info(authcode);
 
           /*******Ensure userInfo got***** */
-          const tokenInfo = my.getStorageSync({
-            key: "tokenInfo"
+          let tokenInfo = my.getStorageSync({
+            key: "botoken"
           }).data;
+          if(tokenInfo ==!null && moment(tokenInfo.expiresIn).isBefore(moment().utc())){
+            console.log(tokenInfo.expiresIn);
+            tokenInfo =null;
+          }
 
-          login(authcode.authCode)
-            .then(data => {
-              my.setStorageSync({
-                key: "tokenInfo",
-                data: data
+          if(tokenInfo === null){
+            login(authcode.authCode)
+              .then(data => {
+                my.setStorageSync({
+                  key: "botoken",
+                  data: data
+                });
+                this.updateUser(data)
+                  .then(()=>{
+                    return resolve(this.userInfo)
+                  })
+                  .catch(res=> reject({}));
+              })
+              .catch(res => {
+                reject({});
               });
-            })
-            .catch(res => {
-              reject({});
-            });
-
-          my.getAuthUserInfo({
+          }else{
+            this.updateUser(tokenInfo)
+                .then(()=>{
+                return resolve(this.userInfo);
+                })
+                .catch(res=> reject({}));
+          }
+        },
+        fail: () => {
+          reject({});
+        }
+      });
+    });
+  },
+  updateUser(tokenInfo) {
+    return new Promise((resolve, reject) => {
+          //Get user info and update db
+          my.getOpenUserInfo({
             success: res => {
-              this.userInfo = { ...res, userId: tokenInfo.userId };
+              console.info(res);
+              const response=JSON.parse(res.response).response;
+              this.userInfo = { ...response, userId: tokenInfo.userId };
               if (
-                this.userInfo.nickName !== tokenInfo.nickName ||
-                this.userInfo.avatar !== tokenInfo.avatar
+                this.userInfo.avatar!=undefined &&
+                this.userInfo.nickName!=undefined &&
+                (
+                  this.userInfo.nickName !== tokenInfo.nickName ||
+                  this.userInfo.avatar !== tokenInfo.avatar
+                )
               ) {
                 updateUserInfo(this.userInfo.nickName, this.userInfo.avatar)
-                  .then(res => {
-                    console.log("username & avatar updated.");
-                  })
-                  .catch(error => {
-                    console.log(error);
-                  });
+                .then(res => {
+                  console.log("username & avatar updated.");
+                })
+                .catch(error => {
+                  console.log(error);
+                });
               }
               resolve(this.userInfo);
             },
@@ -48,11 +84,6 @@ App({
               reject({});
             }
           });
-        },
-        fail: () => {
-          reject({});
-        }
-      });
     });
   },
   onLaunch(options) {

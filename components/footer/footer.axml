@@ -1,3 +1,10 @@
 <view>
-  <footer copyright="© 2019-2020 Alipay.com. All rights reserved." links="{{links}}" />
+  <view class="hyper-link-text">
+    <button a:if="{{current_page!==undefined && current_page.indexOf('add')>0}}" plain="{{true}}" style="border: 0; padding: 0 10px 0 0;" onTap="backOrder" size="mini">返回订单</button>
+    <block a:else>
+      <button a:if="{{current_page!==undefined && current_page.indexOf('deleted')<0 && current_page.indexOf('index')<0}}" plain="{{true}}" style="border: 0; padding: 0 10px 0 0;" onTap="backHome" size="mini">返回首页</button>
+      <button a:if="{{current_page!==undefined && current_page.indexOf('deleted')<0 && current_page.indexOf('history')<0}}" style="border: 0; padding: 0 0 0 10px;" size="mini" plain="{{true}}" onTap="backHistory">历史记录</button>
+    </block>
+  </view>
+  <footer copyright="© 2019-2020 Alipay.com. All rights reserved."></footer>
 </view>

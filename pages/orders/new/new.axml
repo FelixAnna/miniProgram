@@ -1,46 +1,86 @@
 <!-- API-DEMO page/component/form/form.axml -->
 <notice enableMarquee="{{true}}" marqueeProps="{{loop: true, leading: 500, trailing: 800, fps: 40 }}" mode="closable" onClick="closeNoticeClick" show="{{cleanShow}}">订单已删除！</notice>
 <view class="page">
-  <view class="order">
-    <view class="order no">订单No：{{orderId}}{{state===2?" [已锁定]":""}}
-    </view>
-  </view>
-  <view a:if="{{createdBy!==null}}" class="order createdby">由 {{createdBy}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建</view>
-  <view class="order createdby" a:else>准备创建订单</view>
-  <form onSubmit="onSubmit" onReset="onReset">
-    <view class="page-section">
-      <block a:if="{{shopId===-1 || shopId === undefined}}">
-        <view class="page-section-title">
-          选择店铺
-        </view>
-        <view class="form-line" />
-        <view a:if="{{enableRandom===false}}" class="form-row">
-          <view class="form-row-label">指定店铺</view>
-          <view class="form-row-content">
-            <input name="shopId" class="input" value="{{shopId}}" onBlur="saveShopId" placeholder="输入店铺No打开" />
-          </view>
-          <view class="form-row-content" style="text-align: right" onTap="tapSkip">
-            <checkbox checked="{{enableRandom}}"/>
-            <text class="checkbox-text">不指定</text>
-          </view>
-        </view>
-      </block>
-      <view class="form-row" a:else>
-        <view class="form-row-column-left">
-          <text a:if="{{shopId>0}}">
-            <text style="color:red">*</text>已指定店铺No： {{shopId}}</text>
-          <text a:else>
-            <text style="color:red">*</text>已选择不指定店铺，添加商品时可以随意输入</text>
-        </view>
-        <view class="form-row-column-right">
-          <button type="primary" a:if="{{orderId!==undefined && orderId.length>0}}" open-type="share" size="mini">分享</button>
-        </view>
+  <block a:if="{{orderId}}" >
+    <view class="order">
+      <view class="order no">订单号：<text selectable="{{true}}">{{orderId}}</text>    
+      <!--am-icon type="lock_" size="24" color="#5d8" a:if="{{state==2}}" />
+      <am-icon type="edit_" size="24" color="#bbb" a:else /-->
+      <button style="margin: 0px 10px;" type="primary" a:if="{{orderId>0}}" open-type="share" size="mini">分享<am-icon type="share" size="18" color="#fff" /></button>
       </view>
     </view>
+    <view class="order createdby">由 {{ownerName}} 于 {{createdAt.toLocaleString('zh-CN', {  dateStyle : 'full', timeStyle : 'full' })}} 创建。</view>
+  </block>
+  <block a:else>
+    <view class="order" ><view class="order no">准备创建订单...</view></view>
+  </block>
+  <form onSubmit="onSubmit" >
     <view class="page-section">
-      <view a:if="{{createdBy!==null}}">
-        <view class="form-row">
-          <view class="form-row-header">商品列表</view>
+      <collapse
+        className="demo-collapse"
+        activeKey="{{orderId>0?null:['optg1']}}"
+        onChange="onOptionPanelChange"
+      >
+        <collapse-item header="{{showOptions?`配置商品选项`:(`已配置`+options.length+`个选项`)}}" itemKey="optg1">
+          <view>
+            <view class="order-option order-option-header">
+              <view class="order-option-column">名称</view>
+              <view class="order-option-column">类型</view>
+              <view class="order-option-column"> 默认值</view>
+              <block a:if="{{state===1 && (createdBy===null || createdBy === user.userId)}}">
+                <view class="order-option-column">操作</view>
+              </block>
+            </view>
+            <block a:for="{{options}}" a:for-item="option">
+              <view class="order-option">
+                <view class="order-option-column">{{option.name}}</view>
+                <view class="order-option-column" a:if="{{option.type==='text'}}">
+                  任意文字
+                </view>
+                <view class="order-option-column" a:if="{{option.type==='number'}}">
+                  数字
+                </view>
+                <view class="order-option-column" a:if="{{option.type==='bool'}}">
+                  是/否
+                </view>
+                <view class="order-option-column" a:if="{{option.type==='digit'}}">
+                  金额
+                </view>
+                <view class="order-option-column" a:if="{{option.type==='idcard'}}">
+                  证件号码
+                </view>
+
+                <view class="order-option-column" a:if="{{option.type==='bool'}}">
+                  {{option.default=="true"?"是":"否"}}
+                </view>
+                <view class="order-option-column" a:else>
+                  {{option.default}}
+                </view>
+                
+                <view a:if="{{state===1 && (createdBy===null || createdBy === user.userId)}}" class="order-option-column">
+                  <button disabled="{{index === 0}}" class="order-option-up" size="mini" type="primary" data-id="{{option.id}}" onTap="tapUpOption"><am-icon type="up" /></button>
+                  <button disabled="{{index === options.length-1}}" class="order-option-down" size="mini" type="primary" data-id="{{option.id}}" onTap="tapDownOption"><am-icon type="down" /></button>
+                  <button class="order-option-del" size="mini" type="warn" data-id="{{option.id}}" onTap="onRemoveOption"><am-icon type="trash" /></button>
+                </view>
+              </view>
+            </block>
+          </view>
+        </collapse-item>
+      </collapse>
+      <block a:if="{{showOptions && state===1 && (createdBy===null || createdBy === user.userId)}}">
+        <view class="form-line" />
+        <view class="form-line" />
+        <view>
+          <button class="order-option-add" size="mini" type="default" onTap="tapNewOption"><am-icon type="add-square" size="24" color="#333" />继续添加</button>
+          <button class="order-option-save" size="mini" type="primary" onTap="onTapSaveOptions" disabled="{{saveOptionClicked}}" loading="{{saveOptionClicked}}">保存</button>
+          <button class="order-option-cancel" size="mini" type="default" onTap="onTapRecoverOptions">撤销</button>
+        </view>
+      </block>
+    </view>
+    <view class="page-section">
+      <view a:if="{{orderId}}">
+        <view class="form-row-header">
+          <view class="form-row-header-content">商品列表</view>
         </view>
         <view class="form-line" />
         <view class="form-row" a:if="{{productList.length<=0}}">
@@ -48,40 +88,68 @@
         </view>
         <block a:else>
           <block a:for="{{currentPagedList}}" a:for-item="product">
-            <view data-id="{{product.orderItemId}}" onTap="openDetails">
-              <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
-            </view>
+            <swipe-action
+                  index="{{index}}"
+                  restore="{{swipeIndex === null || swipeIndex !== index}}"
+                  right="{{state===1 && (product.ownerId === user.userId || createdBy === user.userId)?itemRight:null}}"
+                  onRightItemClick="onRightItemClick"
+                  onSwipeStart="onSwipeStart"
+                  extra="{{product.orderItemId}}"
+                  borderRadius="{{index <= 2 ? true : false}}"
+                >
+              <view class="{{index%2==0?'odd-row':'even-row'}}" data-id="{{product.orderItemId}}" onTap="openDetails">
+                <card thumb="{{product.ownerAvatar}}" title="{{product.name}}*{{product.price}}元*1份" subTitle="{{product.ownerName}} " footer="{{product.validOptions}}" />
+              </view>
+            </swipe-action>
             <view class="form-line" />
           </block>
         </block>
         <pagination onChange="onTabPage" total="{{pageCount}}" current="{{pageIndex}}"/>
         <view class="form-line" />
         <view class="page-section-demo">
-          <button type="primary" a:if="{{state===1 && shopId!=-1}}" onTap="onTapAppendMore">添加商品</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">锁定</button>
-          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId && shopId!=-1}}" form-type="submit" type="primary">解锁</button>
-          <button class="secondaryButton" a:if="{{state!==1 && shopId!=-1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
-          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId && shopId!=-1}}" type="warn" onTap="onTapDelete">删除订单</button>
+          <button type="primary" a:if="{{state===1}}" onTap="onTapAppendMore">添加商品</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">提交</button>
+          <button class="secondaryButton" a:if="{{state!==1 && createdBy === user.userId}}" form-type="submit" type="primary" disabled="{{lockUnlockClicked}}" loading="{{lockUnlockClicked}}">撤回</button>
+          <button class="secondaryButton" a:if="{{state!==1 && productList.length>0}}" type="primary" onTap="onTapCopy">复制</button>
+          <button class="secondaryButton" a:if="{{state===1 && createdBy === user.userId}}" type="warn" onTap="onTapDelete">删除</button>
+
         </view>
       </view>
       <view class="form-row" a:else>
-        <text>请选择店铺以创建订单！</text>
+        <text>请保存商品选项以创建订单！</text>
       </view>
     </view>
   </form>
 </view>
 <footer/>
-<modal show="{{showModal}}" onModalClose="hiddenModel" topImage="{{showProduct.ownerAvatar}}">
+<modal show="{{showModal}}" 
+onModalClose="hiddenModel" 
+showClose="{{true}}"
+topImage="{{showProduct.ownerAvatar}}">
   <view slot="header">{{showProduct.name}}*{{showProduct.price}}元*1份</view>
   <view class="flex-container">
-    <flex>
+    <flex wrap="wrap">
       <block a:for="{{showProduct.options}}" a:for-item="option">
-        <flex-item a:if="{{option.value}}">
-          <view class="placeholder inline small">{{option.name}}</view></flex-item>
+        <block a:if="{{option.value==='true'}}">
+          <flex-item>
+            <view class="placeholder inline small">{{option.name}}</view>
+          </flex-item>
+        </block>
       </block>
     </flex>
+
     <view class="form-line" />
-    <view a:if="{{showProduct.remark}}" class="form-row">
+    <block a:for="{{showProduct.options}}" a:for-item="option">
+      <block a:if="{{option.value !== 'false' && option.value !== 'true' && option.value}}">
+        <view class="modal-row">
+          <view class="modal-column-left">{{option.name}}:</view>
+          <view class="modal-column-right">{{option.value}}</view>
+        </view>
+      </block>
+    </block>
+
+    <view class="form-line" />
+    <view a:if="{{showProduct.remark}}" class="modal-row">
       <text style="color:blueviolet;">{{showProduct.remark}}</text>
     </view>
     <view class="form-line" />
@@ -89,15 +157,57 @@
       <text >{{showProduct.ownerName}} @ {{showProduct.formattedCreatedDate}}</text>
     </view>
   </view>
-  <view slot="footer" a:if="{{state===1 && showProduct.ownerId === user.userId}}">
-    <button type="warn" size="mini" onTap="onTapProductDelete">删除商品</button>
+  <view slot="footer" a:if="{{state===1 && (showProduct.ownerId === user.userId || createdBy === user.userId)}}">
+    <button type="warn" size="mini" onTap="onTapProductDelete">删除<am-icon type="trash" size="18" color="#fff"/></button>
   </view>
 </modal>
-<modal show="{{showCopyText}}" onModalClose="onTapCopy">
-  <view slot="header">全选复制</view>
+<modal show="{{showCopyText}}" showClose="{{true}}" onModalClose="onTapCopy">
+  <view slot="header">请全选后复制</view>
   <view style="height: 2rpx; background-color: #ddd;margin:16rpx -40rpx" />
   <textarea disabled="true" maxlength="-1" show-count="{{false}}" class="txtClipboard" auto-height focus="{{showCopyText}}" value="{{productListText}}" />
   <view slot="footer">
-    <button type="primary" size="mini" onTap="onTapCopy">去分享</button>
+    <button type="primary" size="mini" onTap="onTapCopy">去粘贴<am-icon type="share" size="18" color="#fff" /></button>
   </view>
+</modal>
+
+<modal show="{{showSelectedOption}}" showClose="{{true}}" onModalClose="onHiddenOption">
+  <form onSubmit="onUpsertOption" >
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text style="color:red">*</text><text>名称：</text>
+      </view>
+      <view class="modal-column-right">
+        <input class="modal-input" maxlength="12" placeholder="请输入名字" name="selectedOptionName" />
+      </view>
+    </view>
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text style="color:red">*</text><text>类型：</text>
+      </view>
+      <view class="modal-column-right">
+      <radio-group class="radio-group" name="selectedOptionType" onChange="onOptionTypeChange" >
+        <label class="radio" a:for="{{avaiableTypes}}" key="label-{{index}}">
+            <radio value="{{item.value}}" checked="{{index===0}}"/>
+            <text class="radio-text">{{item.name}}</text>
+          </label>
+        </radio-group>
+      </view>
+    </view>
+    <view slot="header" class="modal-row">
+      <view class="modal-column-left">
+        <text>默认值：</text>
+      </view>
+      <view class="modal-column-right">
+        <block a:if="{{selectedOption==='bool'}}">
+          <switch name="selectedOptionDefault"/>
+        </block>
+        <block a:else>
+          <input class="modal-input"  maxlength="18"  type="{{selectedOption}}" placeholder="请输入默认值" name="selectedOptionDefault"/>
+        </block>
+      </view>
+    </view>
+    <view slot="footer">
+      <button type="primary" size="mini" form-type="submit">保存<icon type="success" size="18" color="#fff" /></button>
+    </view>
+  </form>
 </modal>

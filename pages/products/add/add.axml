@@ -10,11 +10,11 @@
         <view class="form-row-label">
           <text style="color:red">*</text>名称</view>
         <view class="form-row-content">
-          <input name="input_name" class="input" value="{{selection.name}}" placeholder="请输入名称" />
+          <input name="input_name" maxlength="12" class="input" value="{{selection.name}}" placeholder="请输入名称" />
         </view>
-        <view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch">
+        <!--view a:if="{{shopId>0}}" class="form-row-action" onTap="onStartSearch">
           <icon type="search" size="35"/>
-        </view>
+        </view-->
       </view>
       <view class="form-line" />
       <view class="form-row">
@@ -22,30 +22,32 @@
           <text style="color:red">*</text>价格</view>
         <view class="form-row-content">
           <input a:if="{{selection.prices!==undefined && selection.prices.length>0}}" name="input_price" class="input" type="number" placeholder="可选价格： {{selection.prices}}" />
-          <input name="input_price" class="input" type="digit" placeholder="请输入价格" a:else />
+          <input name="input_price" maxlength="18" class="input" type="digit" placeholder="请输入价格" a:else />
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-title">选填</view>
+
+      <block a:for="{{options}}" a:for-item="op">
       <view class="form-line" />
       <view class="form-row">
-        <view class="form-row-label">加饭</view>
+        <view class="form-row-label">{{op.name}}</view>
         <view class="form-row-content" style="text-align: right">
-          <switch name="sw_rice" />
+          <block a:if="{{op.type=='bool'}}">
+            <switch name="op_{{op.id}}" checked="{{op.default=='true'}}" />
+          </block>
+          <block a:else>
+            <input name="op_{{op.id}}" maxlength="18" value="{{op.default}}" type="{{op.type}}" />
+          </block>
         </view>
       </view>
-      <view class="form-line" />
-      <view class="form-row">
-        <view class="form-row-label">加辣</view>
-        <view class="form-row-content" style="text-align: right">
-          <switch name="sw_spice" />
-        </view>
-      </view>
+      </block>
       <view class="form-line" />
       <view class="page-section-demo">
         <textarea name="remark" auto-height placeholder="请输入您的其它特殊要求" />
       </view>
+
     </view>
     <view class="page-section">
       <view class="page-section-demo">
@@ -56,12 +58,10 @@
           </view>
           <view slot="operation" class="opt-button" onTap="onDialogTap">知道了</view>
         </tips-dialog>
-        <button form-type="submit" type="primary">提交</button>
+        <button form-type="submit" type="primary" disabled="{{submitClicked}}" loading="{{submitClicked}}" >提交</button>
         <button form-type="reset">重置</button>
       </view>
     </view>
-    <view>
-      <footer copyright="© 2019-2020 Alipay.com. All rights reserved." links="{{links}}" />
-    </view>
+      <footer/>
   </form>
 </view>

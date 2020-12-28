@@ -1,0 +1,12 @@
+.form-row-desc{
+  flex: 1;
+  font-size: 25rpx;
+  padding: 10px 20px 18px;
+  border-top: 1px dotted rgb(51, 153, 221);
+}
+
+.form-row-title {
+  flex: 1;
+  font-size: 34rpx;
+  font-weight: bolder;
+}

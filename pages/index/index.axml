@@ -1,30 +1,29 @@
 <!-- API-DEMO page/component/form/form.axml -->
-<import src="/components/header.axml"/>
+<import src="/components/header.axml"></import>
 <view class="page">
-  <template is="header" data="{{user,title:'订单选择'}}"></template>
-  <form onSubmit="onSubmit" onReset="onReset">
+  <template is="header" data="{{user,title}}"></template>
+  <form onSubmit="onSubmit">
     <view class="page-section">
-      <view class="page-section-title">
-        选择模式
-      </view>
-      <view class="form-line" />
-      <view class="form-line" />
+      <view class="page-section-title">选择模式</view>
+      <view class="form-line"></view>
+      <view class="form-line"></view>
       <view class="form-row">
-        <view class="form-row-label">{{enbleRandom?"自动生成":"手动输入"}}</view>
+        <view class="form-row-label">{{enbleRandom?"新建订单":"打开订单"}}</view>
         <view class="form-row-content" style="text-align: right">
-          <switch onChange="tapCreateRandom" checked="{{enbleRandom}}" />
+          <switch onChange="tapCreateRandom" checked="{{enbleRandom}}"></switch>
         </view>
       </view>
       <view a:if="{{enbleRandom===false}}" class="form-row">
         <view class="form-row-content">
-          <input name="orderId" class="input" value="{{orderId}}" onBlur="onOrderIdBlur" placeholder="请输入订单号" />
+          <input name="orderId" class="input" type="number" placeholder="请输入订单号"></input>
         </view>
       </view>
     </view>
     <view class="page-section">
       <view class="page-section-demo">
-        <button disabled="{{orderId==='' || orderId===undefined}}" form-type="submit" type="primary">打开订单</button>
+        <button disabled="{{submitClicked}}" loading="{{submitClicked}}" form-type="submit" type="primary">确定</button>
       </view>
     </view>
   </form>
 </view>
+<footer/>
