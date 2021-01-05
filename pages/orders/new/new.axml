@@ -198,7 +198,7 @@ topImage="{{showProduct.ownerAvatar}}">
         <text>默认值：</text>
       </view>
       <view class="modal-column-right">
-        <block a:if="{{selectedOption==='bool'}}">
+        <block a:if="{{selectedOptionFlag==='bool'}}">
           <switch name="selectedOptionDefault"/>
         </block>
         <block a:else>

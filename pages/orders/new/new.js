@@ -34,7 +34,7 @@ Page({
       {id: 1, name: '加饭', type:'bool', default: "false", order: 1},
       {id: 2, name: '加辣', type:'bool', default: "false", order: 2}
     ],
-    selectedOption:"text",
+    selectedOptionFlag:"text",
 
     productList: [],
     state: 1,
@@ -299,6 +299,7 @@ Page({
 
     this.setData({
       options:uniqueOptions,
+      selectedOptionFlag: type,
       showSelectedOption: false});
   },
   onRemoveOption(e){
@@ -320,7 +321,7 @@ Page({
   },
   onOptionTypeChange(e) {
     const selectedOption=e.detail.value;
-    this.setData({selectedOption:selectedOption});
+    this.setData({selectedOptionFlag:selectedOption});
   },
   onTapRecoverOptions(){
     this.setData({

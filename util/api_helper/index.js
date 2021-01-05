@@ -4,7 +4,7 @@ import { request } from "./request";
 /**************Test Api************** */
 export const getApiStatus = () => {
   return request.get({ 
-    url: "bo-app-test/test/running", 
+    url: "test/running", 
     open: true
   });
 };
@@ -12,34 +12,34 @@ export const getApiStatus = () => {
 /*********Login & user mangenent***************/
 export const login = code => {
   return request.post({ 
-    url: `bo-app-auth/auth/alipay/login?code=${code}`, 
+    url: `auth/alipay/login?code=${code}`, 
     open: true
   });
 };
 
 export const updateUserInfo = (nickName, photo) => {
   return request.post({
-    url: `bo-app-user/users/alipay?name=${encodeURIComponent(
+    url: `users/alipay?name=${encodeURIComponent(
       nickName
     )}&photo=${encodeURIComponent(photo)}`
   });
 };
 export const getUserInfo = code => {
   return request.get({ 
-    url: `bo-app-user/users/alipay/info`
+    url: `users/alipay/info`
   });
 };
 
 /******************order managenent *************/
 export const getOrderById = id => {
   return request.get({ 
-    url: `bo-app-order/orders/${encodeURIComponent(id)}`
+    url: `orders/${encodeURIComponent(id)}`
   });
 };
 
 export const createOrder = (options) => {
   return request.post({
-    url: `bo-app-order/orders`,
+    url: `orders`,
     data: {
       options
     }
@@ -48,7 +48,7 @@ export const createOrder = (options) => {
 
 export const updateOrderOptions = (id, options) => {
   return request.post({
-    url: `bo-app-order/orders/${id}`,
+    url: `orders/${id}`,
     data: {
       options
     }
@@ -59,13 +59,13 @@ export const updateOrderOptions = (id, options) => {
 export const removeOrder = id => {
   //as not support delete for now
   return request.delete({ 
-    url: `bo-app-order/orders/${encodeURIComponent(id)}`
+    url: `orders/${encodeURIComponent(id)}`
   });
 };
 
 export const getOrders = (page, size, start, end) => {
   //as not support delete for now
-  let url=`bo-app-order/orders?page=${page}&size=${size}`;
+  let url=`orders?page=${page}&size=${size}`;
   if(start) url+=`&startDate=${start}`
   if(end) url+=`&endDate=${end}`
   return request.get({    
@@ -76,21 +76,21 @@ export const getOrders = (page, size, start, end) => {
 
 export const lockOrder = id => {
   return request.post({ 
-    url: `bo-app-order/orders/${encodeURIComponent(id)}/lock`
+    url: `orders/${encodeURIComponent(id)}/lock`
   });
 };
 
 export const unlockOrder = id => {
   //as not support delete for now
   return request.post({ 
-    url: `bo-app-order/orders/${encodeURIComponent(id)}/unlock`
+    url: `orders/${encodeURIComponent(id)}/unlock`
   });
 };
 
 /******************order's product managenent *************/
 export const addOrderItem = data => {
   return request.post({ 
-    url: `bo-app-order/order-items`, 
+    url: `order-items`, 
     data: data
   });
 };
@@ -98,6 +98,6 @@ export const addOrderItem = data => {
 export const removeOrderItem = id => {
   //as not support delete for now
   return request.delete({ 
-    url: `bo-app-order/order-items/${id}`
+    url: `order-items/${id}`
   });
 };

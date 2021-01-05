@@ -1,9 +1,9 @@
-const baseUrl = "https://bo-app-apm.azure-api.net";
+const baseUrl = "https://bo-app-api.azurewebsites.net";
 const app = getApp();
 
 const apim_header_key = "Ocp-Apim-Subscription-Key";
-const apim_header_value_restricted = "##";
-const apim_header_value_open = "##";
+const apim_header_value_restricted = "6834f3f9fd104027b18281c76eb806d6";
+const apim_header_value_open = "619db91697ef4711b9eb3addff802a49";
 
 export const request = params => {
   const { url, method, data, dataType, headers, complete, open } = params;
